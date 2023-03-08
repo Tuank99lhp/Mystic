@@ -61,7 +61,11 @@
   "trueMSG": "True",
   "useSystemColor": "Use System Color (Android 12 New Feature)",
   "userLikedSongs": "User liked songs",
-  "userPlaylists": "User playlists",
+  "userPlaylists": "Danh sách nhạc",
   "yourFavoriteSongsHere": "Your favorite songs here",
-  "youtubePlaylistID": "Youtube playlist ID"
+  "youtubePlaylistID": "Youtube playlist ID",
+  "ok": "OK",
+  "exitConfirm": "Press Back Again to Exit App",
+  "download": "Downloads",
+  "favorites": "Favorites"
 }
