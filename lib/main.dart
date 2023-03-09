@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mystic/screens/home_page.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:mystic/screens/more_page.dart';
 import 'package:mystic/screens/root_page.dart';
-import 'package:mystic/screens/search_page.dart';
-import 'package:mystic/screens/user_playlists_page.dart';
 import 'package:mystic/style/app_colors.dart';
 import 'package:mystic/style/app_themes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 void main() async {
   await initialisation();

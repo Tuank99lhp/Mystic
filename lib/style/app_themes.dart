@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mystic/style/app_colors.dart';
-import 'package:mystic/style/app_themes.dart';
-import 'package:mystic/screens/root_page.dart';
 import 'package:hive/hive.dart';
 
 Color primaryColor =

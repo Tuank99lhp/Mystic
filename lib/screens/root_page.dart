@@ -3,18 +3,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:mystic/screens/more_page.dart';
 import 'package:mystic/screens/search_page.dart';
 import 'package:mystic/screens/user_playlists_page.dart';
-import 'package:mystic/screens/setup_page.dart';
-import 'package:mystic/screens/player.dart';
-import 'package:mystic/services/audio_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:mystic/widgets/custom_physics.dart';
-import 'package:mystic/widgets/miniplayer.dart';
 import 'package:mystic/widgets/snackbar.dart';
-import 'package:on_audio_query/on_audio_query.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mystic/style/app_themes.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Mystic extends StatefulWidget {
@@ -89,13 +81,13 @@ class AppState extends State<Mystic> {
                         _selectedIndex.value = index;
                       },
                       controller: _pageController,
-                      children: [
+                      children: const [
                     HomePage(),
                     SearchPage(),
                     UserPlaylistsPage(),
                     MorePage(),
                   ])),
-              SizedBox()
+              const SizedBox()
             ],
           ),
         ),

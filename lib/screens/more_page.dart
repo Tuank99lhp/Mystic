@@ -8,6 +8,8 @@ final useSystemColor = ValueNotifier<bool>(
 );
 
 class MorePage extends StatefulWidget {
+  const MorePage({super.key});
+
   @override
   State<MorePage> createState() => _MorePageState();
 }

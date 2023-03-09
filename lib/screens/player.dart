@@ -11,6 +11,6 @@ class AudioApp extends StatefulWidget {
 class AudioAppState extends State<AudioApp> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }
