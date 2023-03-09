@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mystic/style/app_themes.dart';
+
 MaterialColor getPrimarySwatch(Color color) {
   return MaterialColor(color.value, {
     50: Color.fromRGBO(

@@ -3,8 +3,9 @@ import 'package:mystic/style/app_colors.dart';
 import 'package:mystic/style/app_themes.dart';
 import 'package:mystic/screens/root_page.dart';
 import 'package:hive/hive.dart';
+
 Color primaryColor =
-Color(Hive.box('settings').get('accentColor', defaultValue: 0xFFF08080));
+    Color(Hive.box('settings').get('accentColor', defaultValue: 0xFFF08080));
 
 MaterialColor primarySwatch = getPrimarySwatch(primaryColor);
 

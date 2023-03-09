@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class MiniPlayer extends StatefulWidget {
   @override
   State<MiniPlayer> createState() => _MiniPlayerState();

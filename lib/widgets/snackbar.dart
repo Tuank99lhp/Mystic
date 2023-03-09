@@ -4,12 +4,12 @@ import 'package:logging/logging.dart';
 
 class ShowSnackBar {
   void showSnackBar(
-      BuildContext context,
-      String title, {
-        SnackBarAction? action,
-        Duration duration = const Duration(seconds: 1),
-        bool noAction = false,
-      }) {
+    BuildContext context,
+    String title, {
+    SnackBarAction? action,
+    Duration duration = const Duration(seconds: 1),
+    bool noAction = false,
+  }) {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -24,11 +24,11 @@ class ShowSnackBar {
           action: noAction
               ? null
               : action ??
-              SnackBarAction(
-                textColor: Theme.of(context).colorScheme.secondary,
-                label: AppLocalizations.of(context)!.ok,
-                onPressed: () {},
-              ),
+                  SnackBarAction(
+                    textColor: Theme.of(context).colorScheme.secondary,
+                    label: AppLocalizations.of(context)!.ok,
+                    onPressed: () {},
+                  ),
         ),
       );
     } catch (e) {

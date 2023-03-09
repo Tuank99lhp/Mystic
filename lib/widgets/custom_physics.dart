@@ -10,10 +10,10 @@ class CustomPhysics extends ScrollPhysics {
 
   @override
   SpringDescription get spring => const SpringDescription(
-    mass: 150,
-    stiffness: 100,
-    damping: 1,
-  );
+        mass: 150,
+        stiffness: 100,
+        damping: 1,
+      );
 }
 
 class PagingScrollPhysics extends ScrollPhysics {
@@ -38,10 +38,10 @@ class PagingScrollPhysics extends ScrollPhysics {
   }
 
   double _getTargetPixels(
-      ScrollMetrics position,
-      Tolerance tolerance,
-      double velocity,
-      ) {
+    ScrollMetrics position,
+    Tolerance tolerance,
+    double velocity,
+  ) {
     double page = _getPage(position);
     if (velocity < -tolerance.velocity) {
       page -= 0.5;
@@ -53,9 +53,9 @@ class PagingScrollPhysics extends ScrollPhysics {
 
   @override
   Simulation? createBallisticSimulation(
-      ScrollMetrics position,
-      double velocity,
-      ) {
+    ScrollMetrics position,
+    double velocity,
+  ) {
     if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
         (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
