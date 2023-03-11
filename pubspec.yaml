@@ -33,12 +33,22 @@ dependencies:
   dynamic_color: ^1.6.2
   hive: ^2.2.3
   intl: ^0.17.0
+  audio_session: ^0.1.13
   salomon_bottom_bar: ^3.3.1
+  get_it: ^7.2.0
+  audio_service: ^0.18.9
   logging: ^1.1.1
+  dart_des: ^1.0.2
   hive_flutter: ^1.1.0
   fluentui_system_icons: ^1.1.190
+  rxdart: ^0.27.7
+  path_provider: ^2.0.12
   flutter_displaymode: ^0.5.0
   just_audio: ^0.9.31
+  share_plus: ^6.3.0
+  url_launcher: ^6.1.8
+  permission_handler: ^10.2.0
+  http: ^0.13.5
   just_audio_background: ^0.0.1-beta.9
   on_audio_query: ^2.6.2
   flutter:

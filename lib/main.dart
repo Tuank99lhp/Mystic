@@ -1,7 +1,12 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mystic/screens/more_page.dart';
+import 'package:mystic/screens/player.dart';
 import 'package:mystic/screens/root_page.dart';
 import 'package:mystic/style/app_colors.dart';
 import 'package:mystic/style/app_themes.dart';
@@ -9,17 +14,38 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'screens/local_music.dart';
+import 'services/audio_service.dart';
+
 void main() async {
   await initialisation();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
+Future<void> startService() async {
+  final AudioPlayerHandler audioHandler = await AudioService.init(
+    builder: () => AudioPlayerHandlerImpl(),
+    config: const AudioServiceConfig(
+      androidNotificationChannelId: 'com.hynduf.mystic.channel.audio',
+      androidNotificationChannelName: 'mystic',
+    ),
+  );
+  GetIt.I.registerSingleton<AudioPlayerHandler>(audioHandler);
+  // GetIt.I.registerSingleton<MyTheme>(MyTheme());
+}
+
 Future<void> initialisation() async {
   await Hive.initFlutter();
   await Hive.openBox('settings');
+  await Hive.openBox('ytlinkcache');
+  await Hive.openBox('downloads');
   await Hive.openBox('user');
   await Hive.openBox('cache');
+  if (Platform.isAndroid) {
+    setOptimalDisplayMode();
+  }
+  await startService();
 
   // await FlutterDisplayMode.setHighRefreshRate();
 
@@ -66,6 +92,26 @@ Future<void> initialisation() async {
   // } catch (e) {
   //   debugPrint('error while initializing Flutter Downloader plugin $e');
   // }
+}
+
+Future<void> setOptimalDisplayMode() async {
+  await FlutterDisplayMode.setHighRefreshRate();
+  // final List<DisplayMode> supported = await FlutterDisplayMode.supported;
+  // final DisplayMode active = await FlutterDisplayMode.active;
+
+  // final List<DisplayMode> sameResolution = supported
+  //     .where(
+  //       (DisplayMode m) => m.width == active.width && m.height == active.height,
+  //     )
+  //     .toList()
+  //   ..sort(
+  //     (DisplayMode a, DisplayMode b) => b.refreshRate.compareTo(a.refreshRate),
+  //   );
+
+  // final DisplayMode mostOptimalMode =
+  //     sameResolution.isNotEmpty ? sameResolution.first : active;
+
+  // await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
 }
 
 ThemeMode themeMode = ThemeMode.system;
@@ -250,7 +296,7 @@ class _MyAppState extends State<MyApp> {
             '/about': (context) => const Placeholder(),
             '/downloads': (context) => const Placeholder(),
             '/favorites': (context) => const Placeholder(),
-            '/local': (context) => const Placeholder(),
+            '/local': (context) => const LocalMusic(),
             '/settings': (context) => const Placeholder(),
           },
           navigatorKey: _navigatorKey,
