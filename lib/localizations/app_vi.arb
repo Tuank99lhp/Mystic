@@ -14,6 +14,7 @@
   "backupedSuccess": "Backuped Successfully",
   "backupedSuccessfully": "Backuped Successfully",
   "cacheMsg": "Cache cleared",
+  "cantFind": "Can't find",
   "chooseBackupDir": "Choose Backup Directory",
   "chooseDownloadDir": "Choose Download Directory",
   "chooseRestoreDir": "Choose Restore File Directory",
@@ -98,5 +99,10 @@
   "empty": "Empty",
   "songs": "Songs",
   "shuffle": "Shuffle",
-  "removedFrom": "Removed from"
+  "removedFrom": "Removed from",
+  "searchYt": "Search Youtube",
+  "searchText": "Search Text",
+  "trendingSearch": "Trending Search",
+  "viewAll": "View all",
+  "song": "song"
 }

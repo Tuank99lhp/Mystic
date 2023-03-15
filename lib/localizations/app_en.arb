@@ -14,6 +14,7 @@
   "backupedSuccess": "Backuped Successfully",
   "backupedSuccessfully": "Backuped Successfully",
   "cacheMsg": "Cache cleared",
+  "cantFind": "Can't find",
   "chooseBackupDir": "Choose Backup Directory",
   "chooseDownloadDir": "Choose Download Directory",
   "chooseRestoreDir": "Choose Restore File Directory",
@@ -50,6 +51,7 @@
   "restoredSuccess": "Restored Successfully",
   "search": "Search",
   "searchHistoryMsg": "Search history cleared",
+  "searchYt": "? Search on Youtube",
   "settingChangedAndRestartMsg": "Setting changed, please restart the app",
   "settingChangedMsg": "Setting changed",
   "settings": "Settings",
@@ -98,5 +100,9 @@
   "empty": "Empty",
   "songs": "Songs",
   "shuffle": "Shuffle",
-  "removedFrom": "Removed from"
+  "removedFrom": "Removed from",
+  "searchText": "Search Text",
+  "trendingSearch": "Trending Search",
+  "viewAll": "View all",
+  "song": "song"
 }

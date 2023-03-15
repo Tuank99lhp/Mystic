@@ -16,9 +16,7 @@ final lyrics = ValueNotifier<String>('null');
 Future<List> fetchSongList(String searchQuery) async {
   final List listYoutubeSearch = await youtube.search.search(searchQuery);
   final List listSongbyQuery = [
-    for(final song in listYoutubeSearch) {
-      returnSongLayout(0, song)
-    }
+    for (final song in listYoutubeSearch) {returnSongLayout(0, song)}
   ];
   return listSongbyQuery;
 }
@@ -57,7 +55,7 @@ Future<List> getSearchSuggestions(String query) async {
       link,
       headers: {
         'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; rv:96.0) Gecko/20100101 Firefox/96.0'
+            'Mozilla/5.0 (Windows NT 10.0; rv:96.0) Gecko/20100101 Firefox/96.0'
       },
     );
     if (response.statusCode != 200) {
@@ -70,5 +68,3 @@ Future<List> getSearchSuggestions(String query) async {
     return [];
   }
 }
-
-

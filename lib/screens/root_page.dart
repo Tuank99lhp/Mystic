@@ -83,7 +83,11 @@ class AppState extends State<Mystic> {
                       controller: _pageController,
                       children: [
                     HomePage(),
-                    SearchPage(),
+                    SearchPage(
+                      query: '',
+                      fromHome: true,
+                      autofocus: true,
+                    ),
                     UserPlaylistsPage(),
                     MorePage(),
                   ])),
