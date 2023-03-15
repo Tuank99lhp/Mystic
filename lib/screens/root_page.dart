@@ -81,7 +81,7 @@ class AppState extends State<Mystic> {
                         _selectedIndex.value = index;
                       },
                       controller: _pageController,
-                      children: const [
+                      children: [
                     HomePage(),
                     SearchPage(),
                     UserPlaylistsPage(),

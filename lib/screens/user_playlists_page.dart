@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class UserPlaylistsPage extends StatefulWidget {
-  const UserPlaylistsPage({super.key});
+import '../widgets/song_bar.dart';
 
+class UserPlaylistsPage extends StatefulWidget {
   @override
   State<UserPlaylistsPage> createState() => _UserPlaylistsPageState();
 }
@@ -10,6 +10,18 @@ class UserPlaylistsPage extends StatefulWidget {
 class _UserPlaylistsPageState extends State<UserPlaylistsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            contentPadding: const EdgeInsets.only(
+              bottom: 10,
+            ),
+            leading: SongBar(),
+          );
+        },
+        itemCount: 50,
+      ),
+    );
   }
 }
