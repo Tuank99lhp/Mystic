@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -120,11 +119,11 @@ class OfflineAudioQuery {
     int quality = 100,
     ArtworkFormat format = ArtworkFormat.JPEG,
   }) async {
-    final File file = File('$tempPath/$fileName.jpg');
+    final file = File('$tempPath/$fileName.jpg');
 
     if (!await file.exists()) {
       await file.create();
-      final Uint8List? image = await audioQuery.queryArtwork(
+      final image = await audioQuery.queryArtwork(
         id,
         type,
         format: format,

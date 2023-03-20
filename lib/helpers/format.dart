@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dart_des/dart_des.dart';
 import 'package:hive/hive.dart';
@@ -11,12 +10,12 @@ import 'package:mystic/helpers/image_resolution_modifier.dart';
 // ignore: avoid_classes_with_only_static_members
 class FormatResponse {
   static String decode(String input) {
-    const String key = '38346591';
-    final DES desECB = DES(key: key.codeUnits);
+    const key = '38346591';
+    final desECB = DES(key: key.codeUnits);
 
-    final Uint8List encrypted = base64.decode(input);
-    final List<int> decrypted = desECB.decrypt(encrypted);
-    final String decoded = utf8
+    final encrypted = base64.decode(input);
+    final decrypted = desECB.decrypt(encrypted);
+    final decoded = utf8
         .decode(decrypted)
         .replaceAll(RegExp(r'\.mp4.*'), '.mp4')
         .replaceAll(RegExp(r'\.m4a.*'), '.m4a');
@@ -27,8 +26,8 @@ class FormatResponse {
     List responseList,
     String type,
   ) async {
-    final List searchedList = [];
-    for (int i = 0; i < responseList.length; i++) {
+    final searchedList = [];
+    for (var i = 0; i < responseList.length; i++) {
       Map? response;
       switch (type) {
         case 'song':
@@ -61,7 +60,7 @@ class FormatResponse {
     //   return cachedSong;
     // }
     try {
-      final List artistNames = [];
+      final artistNames = [];
       if (response['more_info']?['artistMap']?['primary_artists'] == null ||
           response['more_info']?['artistMap']?['primary_artists'].length == 0) {
         if (response['more_info']?['artistMap']?['featured_artists'] == null ||
@@ -128,16 +127,14 @@ class FormatResponse {
 
   static Future<Map> formatSingleAlbumSongResponse(Map response) async {
     try {
-      final List artistNames = [];
+      final artistNames = [];
       if (response['primary_artists'] == null ||
           response['primary_artists'].toString().trim() == '') {
         if (response['featured_artists'] == null ||
             response['featured_artists'].toString().trim() == '') {
           if (response['singers'] == null ||
               response['singer'].toString().trim() == '') {
-            response['singers'].toString().split(', ').forEach((element) {
-              artistNames.add(element);
-            });
+            response['singers'].toString().split(', ').forEach(artistNames.add);
           } else {
             artistNames.add('Unknown');
           }
@@ -145,14 +142,13 @@ class FormatResponse {
           response['featured_artists']
               .toString()
               .split(', ')
-              .forEach((element) {
-            artistNames.add(element);
-          });
+              .forEach(artistNames.add);
         }
       } else {
-        response['primary_artists'].toString().split(', ').forEach((element) {
-          artistNames.add(element);
-        });
+        response['primary_artists']
+            .toString()
+            .split(', ')
+            .forEach(artistNames.add);
       }
 
       return {
@@ -195,8 +191,8 @@ class FormatResponse {
     List responseList,
     String type,
   ) async {
-    final List<Map> searchedAlbumList = [];
-    for (int i = 0; i < responseList.length; i++) {
+    final searchedAlbumList = <Map>[];
+    for (var i = 0; i < responseList.length; i++) {
       Map? response;
       switch (type) {
         case 'album':
@@ -337,9 +333,9 @@ class FormatResponse {
   }
 
   static Future<List> formatArtistTopAlbumsResponse(List responseList) async {
-    final List result = [];
-    for (int i = 0; i < responseList.length; i++) {
-      final Map response =
+    final result = [];
+    for (var i = 0; i < responseList.length; i++) {
+      final response =
           await formatSingleArtistTopAlbumSongResponse(responseList[i] as Map);
       if (response.containsKey('Error')) {
         Logger.root.severe(
@@ -356,7 +352,7 @@ class FormatResponse {
     Map response,
   ) async {
     try {
-      final List artistNames = [];
+      final artistNames = [];
       if (response['more_info']?['artistMap']?['primary_artists'] == null ||
           response['more_info']['artistMap']['primary_artists'].length == 0) {
         if (response['more_info']?['artistMap']?['featured_artists'] == null ||
@@ -411,9 +407,9 @@ class FormatResponse {
   }
 
   static Future<List> formatSimilarArtistsResponse(List responseList) async {
-    final List result = [];
-    for (int i = 0; i < responseList.length; i++) {
-      final Map response =
+    final result = [];
+    for (var i = 0; i < responseList.length; i++) {
+      final response =
           await formatSingleSimilarArtistResponse(responseList[i] as Map);
       if (response.containsKey('Error')) {
         Logger.root.severe(
@@ -475,8 +471,8 @@ class FormatResponse {
       if (data['city_mod'] != null) {
         data['city_mod'] = await formatSongsInList(data['city_mod'] as List);
       }
-      final List promoList = [];
-      final List promoListTemp = [];
+      final promoList = [];
+      final promoListTemp = [];
       data['modules'].forEach((k, v) {
         if (k.startsWith('promo') as bool) {
           if (data[k][0]['type'] == 'song' &&
@@ -487,7 +483,7 @@ class FormatResponse {
           }
         }
       });
-      for (int i = 0; i < promoList.length; i++) {
+      for (var i = 0; i < promoList.length; i++) {
         data[promoList[i]] =
             await formatSongsInList(data[promoList[i]] as List);
       }
@@ -511,8 +507,8 @@ class FormatResponse {
 
   static Future<Map> formatPromoLists(Map data) async {
     try {
-      final List promoList = data['collections_temp'] as List;
-      for (int i = 0; i < promoList.length; i++) {
+      final promoList = data['collections_temp'] as List;
+      for (var i = 0; i < promoList.length; i++) {
         data[promoList[i]] =
             await formatSongsInList(data[promoList[i]] as List);
       }
@@ -526,11 +522,11 @@ class FormatResponse {
 
   static Future<List> formatSongsInList(List list) async {
     if (list.isNotEmpty) {
-      for (int i = 0; i < list.length; i++) {
-        final Map item = list[i] as Map;
+      for (var i = 0; i < list.length; i++) {
+        final item = list[i] as Map;
         if (item['type'] == 'song') {
           if (item['mini_obj'] as bool? ?? false) {
-            Map cachedDetails = Hive.box('cache')
+            var cachedDetails = Hive.box('cache')
                 .get(item['id'].toString(), defaultValue: {}) as Map;
             if (cachedDetails.isEmpty) {
               cachedDetails =

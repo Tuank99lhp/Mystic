@@ -1,12 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mystic/style/app_themes.dart';
 import 'package:marquee/marquee.dart';
 
-import '../style/app_themes.dart';
-
 class SongBar extends StatelessWidget {
+  SongBar(this.song, this.clearPlaylist, {super.key});
+
+  late final dynamic song;
+  late final bool clearPlaylist;
+  // late final songLikeStatus =
+  //     ValueNotifier<bool>(isSongAlreadyLiked(song['ytid']));
   final ValueNotifier<bool> _isLiked = ValueNotifier<bool>(false);
 
   @override

@@ -16,6 +16,9 @@ import 'package:rxdart/rxdart.dart';
 class AudioPlayerHandlerImpl extends BaseAudioHandler
     with QueueHandler, SeekHandler
     implements AudioPlayerHandler {
+  AudioPlayerHandlerImpl() {
+    _init();
+  }
   int? count;
   Timer? _sleepTimer;
   bool recommend = true;
@@ -95,10 +98,6 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
             state.queue.length == state.shuffleIndices!.length,
       );
 
-  AudioPlayerHandlerImpl() {
-    _init();
-  }
-
   Future<void> _init() async {
     Logger.root.info('starting audio service');
     final session = await AudioSession.instance;
@@ -137,19 +136,19 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
         _recentSubject.add([item]);
 
         if (recommend && item.extras!['autoplay'] as bool) {
-          final List<MediaItem> mediaQueue = queue.value;
-          final int index = mediaQueue.indexOf(item);
-          final int queueLength = mediaQueue.length;
+          final mediaQueue = queue.value;
+          final index = mediaQueue.indexOf(item);
+          final queueLength = mediaQueue.length;
           if (queueLength - index < 5) {
             Logger.root.info('less than 5 songs remaining, adding more songs');
             Future.delayed(const Duration(seconds: 1), () async {
               if (item == mediaItem.value) {
-                final List value = await MysticAPI().getReco(item.id);
+                final value = await MysticAPI().getReco(item.id);
                 value.shuffle();
                 // final List value = await MysticAPI().getRadioSongs(
                 //     stationId: stationId!, count: queueLength - index - 20);
 
-                for (int i = 0; i < value.length; i++) {
+                for (var i = 0; i < value.length; i++) {
                   final element = MediaItemConverter.mapToMediaItem(
                     value[i] as Map,
                     addedByAutoplay: true,
@@ -205,18 +204,18 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
         .pipe(queue);
     try {
       if (loadStart) {
-        final List lastQueueList = await Hive.box('cache')
+        final lastQueueList = await Hive.box('cache')
             .get('lastQueue', defaultValue: [])?.toList() as List;
 
-        final int lastIndex =
+        final lastIndex =
             await Hive.box('cache').get('lastIndex', defaultValue: 0) as int;
 
-        final int lastPos =
+        final lastPos =
             await Hive.box('cache').get('lastPos', defaultValue: 0) as int;
 
         if (lastQueueList.isNotEmpty &&
             lastQueueList.first['genre'] != 'YouTube') {
-          final List<MediaItem> lastQueue = lastQueueList
+          final lastQueue = lastQueueList
               .map((e) => MediaItemConverter.mapToMediaItem(e as Map))
               .toList();
           if (lastQueue.isEmpty) {
@@ -268,7 +267,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
         );
       } else {
         if (mediaItem.genre == 'YouTube') {
-          final int expiredAt =
+          final expiredAt =
               int.parse((mediaItem.extras!['expire_at'] ?? '0').toString());
           if ((DateTime.now().millisecondsSinceEpoch ~/ 1000) + 350 >
               expiredAt) {
@@ -276,11 +275,11 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
               'youtube link expired for ${mediaItem.title}, searching cache',
             );
             if (Hive.box('ytlinkcache').containsKey(mediaItem.id)) {
-              final Map cachedData =
+              final cachedData =
                   Hive.box('ytlinkcache').get(mediaItem.id) as Map;
-              final int cachedExpiredAt =
+              final cachedExpiredAt =
                   int.parse(cachedData['expire_at'].toString());
-              final String wasCacheEnabled = cachedData['cached'].toString();
+              final wasCacheEnabled = cachedData['cached'].toString();
               if ((DateTime.now().millisecondsSinceEpoch ~/ 1000) + 350 >
                       cachedExpiredAt &&
                   wasCacheEnabled != 'true') {
@@ -347,7 +346,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
 
   @override
   Future<void> onTaskRemoved() async {
-    final bool stopForegroundService = Hive.box('settings')
+    final stopForegroundService = Hive.box('settings')
         .get('stopForegroundService', defaultValue: true) as bool;
     if (stopForegroundService) {
       await stop();
@@ -383,11 +382,11 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
   }
 
   Future<void> startService() async {
-    final bool withPipeline =
+    final withPipeline =
         Hive.box('settings').get('supportEq', defaultValue: false) as bool;
     if (withPipeline && Platform.isAndroid) {
       Logger.root.info('starting with eq pipeline');
-      final AudioPipeline pipeline = AudioPipeline(
+      final pipeline = AudioPipeline(
         androidAudioEffects: [
           _equalizer,
         ],
@@ -401,15 +400,15 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
 
   Future<void> addRecentlyPlayed(MediaItem mediaitem) async {
     Logger.root.info('adding ${mediaitem.id} to recently played');
-    List recentList = await Hive.box('cache')
+    var recentList = await Hive.box('cache')
         .get('recentSongs', defaultValue: [])?.toList() as List;
 
-    final Map item = MediaItemConverter.mediaItemToMap(mediaitem);
+    final item = MediaItemConverter.mediaItemToMap(mediaitem);
     recentList.insert(0, item);
 
-    final jsonList = recentList.map((item) => jsonEncode(item)).toList();
+    final jsonList = recentList.map(jsonEncode).toList();
     final uniqueJsonList = jsonList.toSet().toList();
-    recentList = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+    recentList = uniqueJsonList.map(jsonDecode).toList();
 
     if (recentList.length > 30) {
       recentList = recentList.sublist(0, 30);
@@ -420,8 +419,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
   Future<void> addLastQueue(List<MediaItem> queue) async {
     if (queue.first.genre != 'YouTube') {
       Logger.root.info('saving last queue');
-      final lastQueue =
-          queue.map((item) => MediaItemConverter.mediaItemToMap(item)).toList();
+      final lastQueue = queue.map(MediaItemConverter.mediaItemToMap).toList();
       Hive.box('cache').put('lastQueue', lastQueue);
     }
   }
@@ -565,9 +563,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
       if (extras?['time'] != null &&
           extras!['time'].runtimeType == int &&
           extras['time'] > 0 as bool) {
-        _sleepTimer = Timer(Duration(minutes: extras['time'] as int), () {
-          stop();
-        });
+        _sleepTimer = Timer(Duration(minutes: extras['time'] as int), stop);
       }
     }
     if (name == 'sleepCounter') {
@@ -591,7 +587,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
     if (name == 'fastForward') {
       try {
         const stepInterval = Duration(seconds: 10);
-        Duration newPosition = _player!.position + stepInterval;
+        var newPosition = _player!.position + stepInterval;
         if (newPosition < Duration.zero) newPosition = Duration.zero;
         if (newPosition > _player!.duration!) newPosition = _player!.duration!;
         _player!.seek(newPosition);
@@ -603,7 +599,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
     if (name == 'rewind') {
       try {
         const stepInterval = Duration(seconds: 10);
-        Duration newPosition = _player!.position - stepInterval;
+        var newPosition = _player!.position - stepInterval;
         if (newPosition < Duration.zero) newPosition = Duration.zero;
         if (newPosition > _player!.duration!) newPosition = _player!.duration!;
         _player!.seek(newPosition);
@@ -620,7 +616,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
 
   Future<Map> getEqParms() async {
     _equalizerParams ??= await _equalizer.parameters;
-    final List<AndroidEqualizerBand> bands = _equalizerParams!.bands;
+    final bands = _equalizerParams!.bands;
     final List<Map> bandList = bands
         .map(
           (e) => {
