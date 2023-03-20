@@ -8,13 +8,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mystic/screens/player.dart';
 
 class MiniPlayer extends StatefulWidget {
-  static const MiniPlayer _instance = MiniPlayer._internal();
-
   factory MiniPlayer() {
     return _instance;
   }
 
   const MiniPlayer._internal();
+  static const MiniPlayer _instance = MiniPlayer._internal();
 
   @override
   State<MiniPlayer> createState() => _MiniPlayerState();
@@ -25,8 +24,8 @@ class _MiniPlayerState extends State<MiniPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final bool rotated = MediaQuery.of(context).size.height < screenWidth;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final rotated = MediaQuery.of(context).size.height < screenWidth;
     return StreamBuilder<PlaybackState>(
       stream: audioHandler.playbackState,
       builder: (context, snapshot) {
@@ -108,12 +107,12 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     },
                   ),
                   builder: (BuildContext context, Box box1, Widget? child) {
-                    final bool useDense = box1.get(
+                    final useDense = box1.get(
                           'useDenseMini',
                           defaultValue: false,
                         ) as bool ||
                         rotated;
-                    final List preferredMiniButtons = Hive.box('settings').get(
+                    final preferredMiniButtons = Hive.box('settings').get(
                       'preferredMiniButtons',
                       defaultValue: ['Like', 'Play/Pause', 'Next'],
                     )?.toList() as List;

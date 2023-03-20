@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mystic/screens/more_page.dart';
 import 'package:mystic/screens/player.dart';
 import 'package:mystic/screens/root_page.dart';
 import 'package:mystic/style/app_colors.dart';
 import 'package:mystic/style/app_themes.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'screens/local_music.dart';
 import 'services/audio_service.dart';
@@ -24,8 +25,8 @@ void main() async {
 }
 
 Future<void> startService() async {
-  final AudioPlayerHandler audioHandler = await AudioService.init(
-    builder: () => AudioPlayerHandlerImpl(),
+  final audioHandler = await AudioService.init(
+    builder: AudioPlayerHandlerImpl.new,
     config: const AudioServiceConfig(
       androidNotificationChannelId: 'com.hynduf.mystic.channel.audio',
       androidNotificationChannelName: 'mystic',
@@ -297,6 +298,7 @@ class _MyAppState extends State<MyApp> {
             '/downloads': (context) => const Placeholder(),
             '/favorites': (context) => const Placeholder(),
             '/local': (context) => const LocalMusic(),
+            '/player': (context) => const AudioApp(),
             '/settings': (context) => const Placeholder(),
           },
           navigatorKey: _navigatorKey,

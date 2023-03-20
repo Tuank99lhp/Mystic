@@ -51,19 +51,19 @@ class MysticAPI {
     }
     preferredLanguages =
         preferredLanguages.map((lang) => lang.toLowerCase()).toList();
-    final String languageHeader = 'L=${preferredLanguages.join('%2C')}';
+    final languageHeader = 'L=${preferredLanguages.join('%2C')}';
     headers = {'cookie': languageHeader, 'Accept': '*/*'};
 
     if (useProxy && settingsBox.get('useProxy', defaultValue: false) as bool) {
       final proxyIP = settingsBox.get('proxyIp');
       final proxyPort = settingsBox.get('proxyPort');
-      final HttpClient httpClient = HttpClient();
+      final httpClient = HttpClient();
       httpClient.findProxy = (uri) {
         return 'PROXY $proxyIP:$proxyPort;';
       };
       httpClient.badCertificateCallback =
           (X509Certificate cert, String host, int port) => Platform.isAndroid;
-      final IOClient myClient = IOClient(httpClient);
+      final myClient = IOClient(httpClient);
       return myClient.get(url, headers: headers);
     }
     return get(url, headers: headers).onError((error, stackTrace) {
@@ -78,11 +78,11 @@ class MysticAPI {
   }
 
   Future<Map> fetchHomePageData() async {
-    Map result = {};
+    var result = {};
     try {
       final res = await getResponse(endpoints['homeData']!);
       if (res.statusCode == 200) {
-        final Map data = json.decode(res.body) as Map;
+        final data = json.decode(res.body) as Map;
         result = await FormatResponse.formatHomePageData(data);
       }
     } catch (e) {
@@ -98,20 +98,20 @@ class MysticAPI {
     int p = 1,
   }) async {
     if (n == -1) {
-      final String params =
+      final params =
           "token=$token&type=$type&n=5&p=$p&${endpoints['fromToken']}";
       try {
         final res = await getResponse(params);
         if (res.statusCode == 200) {
-          final Map getMain = json.decode(res.body) as Map;
-          final String count = getMain['list_count'].toString();
-          final String params2 =
+          final getMain = json.decode(res.body) as Map;
+          final count = getMain['list_count'].toString();
+          final params2 =
               "token=$token&type=$type&n=$count&p=$p&${endpoints['fromToken']}";
           final res2 = await getResponse(params2);
           if (res2.statusCode == 200) {
-            final Map getMain2 = json.decode(res2.body) as Map;
+            final getMain2 = json.decode(res2.body) as Map;
             if (type == 'album' || type == 'playlist') return getMain2;
-            final List responseList = getMain2['songs'] as List;
+            final responseList = getMain2['songs'] as List;
             return {
               'songs':
                   await FormatResponse.formatSongsResponse(responseList, type),
@@ -124,12 +124,12 @@ class MysticAPI {
       }
       return {'songs': List.empty()};
     } else {
-      final String params =
+      final params =
           "token=$token&type=$type&n=$n&p=$p&${endpoints['fromToken']}";
       try {
         final res = await getResponse(params);
         if (res.statusCode == 200) {
-          final Map getMain = json.decode(res.body) as Map;
+          final getMain = json.decode(res.body) as Map;
           if (getMain['status'] == 'failure') {
             Logger.root.severe('Error in getSongFromToken response: $getMain');
             return {'songs': List.empty()};
@@ -138,20 +138,20 @@ class MysticAPI {
             return getMain;
           }
           if (type == 'show') {
-            final List responseList = getMain['episodes'] as List;
+            final responseList = getMain['episodes'] as List;
             return {
               'songs':
                   await FormatResponse.formatSongsResponse(responseList, type),
             };
           }
           if (type == 'mix') {
-            final List responseList = getMain['list'] as List;
+            final responseList = getMain['list'] as List;
             return {
               'songs':
                   await FormatResponse.formatSongsResponse(responseList, type),
             };
           }
-          final List responseList = getMain['songs'] as List;
+          final responseList = getMain['songs'] as List;
           return {
             'songs':
                 await FormatResponse.formatSongsResponse(responseList, type),
@@ -166,10 +166,10 @@ class MysticAPI {
   }
 
   Future<List> getReco(String pid) async {
-    final String params = "${endpoints['getReco']}&pid=$pid";
+    final params = "${endpoints['getReco']}&pid=$pid";
     final res = await getResponse(params);
     if (res.statusCode == 200) {
-      final List getMain = json.decode(res.body) as List;
+      final getMain = json.decode(res.body) as List;
       return FormatResponse.formatSongsResponse(getMain, 'song');
     }
     return List.empty();
@@ -196,7 +196,7 @@ class MysticAPI {
 
     final res = await getResponse(params!);
     if (res.statusCode == 200) {
-      final Map getMain = json.decode(res.body) as Map;
+      final getMain = json.decode(res.body) as Map;
       return getMain['stationid']?.toString();
     }
     return null;
@@ -208,13 +208,13 @@ class MysticAPI {
     int next = 1,
   }) async {
     if (count > 0) {
-      final String params =
+      final params =
           "stationid=$stationId&k=$count&next=$next&${endpoints['radioSongs']}";
       final res = await getResponse(params);
       if (res.statusCode == 200) {
-        final Map getMain = json.decode(res.body) as Map;
-        final List responseList = [];
-        for (int i = 0; i < count; i++) {
+        final getMain = json.decode(res.body) as Map;
+        final responseList = [];
+        for (var i = 0; i < count; i++) {
           responseList.add(getMain[i.toString()]['song']);
         }
         return FormatResponse.formatSongsResponse(responseList, 'song');
@@ -228,7 +228,7 @@ class MysticAPI {
     try {
       final res = await getResponse(endpoints['topSearches']!, useProxy: true);
       if (res.statusCode == 200) {
-        final List getMain = json.decode(res.body) as List;
+        final getMain = json.decode(res.body) as List;
         return getMain.map((element) {
           return element['title'].toString();
         }).toList();
@@ -244,14 +244,13 @@ class MysticAPI {
     int count = 20,
     int page = 1,
   }) async {
-    final String params =
-        "p=$page&q=$searchQuery&n=$count&${endpoints['getResults']}";
+    final params = "p=$page&q=$searchQuery&n=$count&${endpoints['getResults']}";
 
     try {
       final res = await getResponse(params, useProxy: true);
       if (res.statusCode == 200) {
-        final Map getMain = json.decode(res.body) as Map;
-        final List responseList = getMain['results'] as List;
+        final getMain = json.decode(res.body) as Map;
+        final responseList = getMain['results'] as List;
         return {
           'songs':
               await FormatResponse.formatSongsResponse(responseList, 'song'),
@@ -273,28 +272,28 @@ class MysticAPI {
   }
 
   Future<List<Map>> fetchSearchResults(String searchQuery) async {
-    final Map<String, List> result = {};
-    final Map<int, String> position = {};
-    List searchedAlbumList = [];
-    List searchedPlaylistList = [];
-    List searchedArtistList = [];
-    List searchedTopQueryList = [];
+    final result = <String, List>{};
+    final position = <int, String>{};
+    var searchedAlbumList = [];
+    var searchedPlaylistList = [];
+    var searchedArtistList = [];
+    var searchedTopQueryList = [];
     // List searchedShowList = [];
     // List searchedEpisodeList = [];
 
-    final String params =
+    final params =
         '__call=autocomplete.get&cc=in&includeMetaTags=1&query=$searchQuery';
 
     final res = await getResponse(params, usev4: false, useProxy: true);
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
-      final List albumResponseList = getMain['albums']['data'] as List;
+      final albumResponseList = getMain['albums']['data'] as List;
       position[getMain['albums']['position'] as int] = 'Albums';
 
-      final List playlistResponseList = getMain['playlists']['data'] as List;
+      final playlistResponseList = getMain['playlists']['data'] as List;
       position[getMain['playlists']['position'] as int] = 'Playlists';
 
-      final List artistResponseList = getMain['artists']['data'] as List;
+      final artistResponseList = getMain['artists']['data'] as List;
       position[getMain['artists']['position'] as int] = 'Artists';
 
       // final List showResponseList = getMain['shows']['data'] as List;
@@ -303,7 +302,7 @@ class MysticAPI {
       // final List episodeResponseList = getMain['episodes']['data'] as List;
       // position[getMain['episodes']['position'] as int] = 'Episodes';
 
-      final List topQuery = getMain['topquery']['data'] as List;
+      final topQuery = getMain['topquery']['data'] as List;
 
       searchedAlbumList =
           await FormatResponse.formatAlbumResponse(albumResponseList, 'album');
@@ -397,19 +396,19 @@ class MysticAPI {
     final res = await getResponse(params!);
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
-      final List responseList = getMain['results'] as List;
+      final responseList = getMain['results'] as List;
       return FormatResponse.formatAlbumResponse(responseList, type);
     }
     return List.empty();
   }
 
   Future<Map> fetchAlbumSongs(String albumId) async {
-    final String params = '${endpoints['albumDetails']}&cc=in&albumid=$albumId';
+    final params = '${endpoints['albumDetails']}&cc=in&albumid=$albumId';
     try {
       final res = await getResponse(params);
       if (res.statusCode == 200) {
         final getMain = json.decode(res.body);
-        final List responseList = getMain['list'] as List;
+        final responseList = getMain['list'] as List;
         return {
           'songs':
               await FormatResponse.formatSongsResponse(responseList, 'album'),
@@ -435,24 +434,22 @@ class MysticAPI {
     String category = '',
     String sortOrder = '',
   }) async {
-    final Map<String, List> data = {};
-    final String params =
+    final data = <String, List>{};
+    final params =
         '${endpoints["fromToken"]}&type=artist&p=&n_song=50&n_album=50&sub_type=&category=$category&sort_order=$sortOrder&includeMetaTags=0&token=$artistToken';
     final res = await getResponse(params);
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body) as Map;
-      final List topSongsResponseList = getMain['topSongs'] as List;
-      final List latestReleaseResponseList = getMain['latest_release'] as List;
-      final List topAlbumsResponseList = getMain['topAlbums'] as List;
-      final List singlesResponseList = getMain['singles'] as List;
-      final List dedicatedResponseList =
+      final topSongsResponseList = getMain['topSongs'] as List;
+      final latestReleaseResponseList = getMain['latest_release'] as List;
+      final topAlbumsResponseList = getMain['topAlbums'] as List;
+      final singlesResponseList = getMain['singles'] as List;
+      final dedicatedResponseList =
           getMain['dedicated_artist_playlist'] as List;
-      final List featuredResponseList =
-          getMain['featured_artist_playlist'] as List;
-      final List similarArtistsResponseList = getMain['similarArtists'] as List;
+      final featuredResponseList = getMain['featured_artist_playlist'] as List;
+      final similarArtistsResponseList = getMain['similarArtists'] as List;
 
-      final List topSongsSearchedList =
-          await FormatResponse.formatSongsResponse(
+      final topSongsSearchedList = await FormatResponse.formatSongsResponse(
         topSongsResponseList,
         'song',
       );
@@ -461,7 +458,7 @@ class MysticAPI {
             'Top Songs'] = topSongsSearchedList;
       }
 
-      final List latestReleaseSearchedList =
+      final latestReleaseSearchedList =
           await FormatResponse.formatArtistTopAlbumsResponse(
         latestReleaseResponseList,
       );
@@ -470,7 +467,7 @@ class MysticAPI {
             'Latest Releases'] = latestReleaseSearchedList;
       }
 
-      final List topAlbumsSearchedList =
+      final topAlbumsSearchedList =
           await FormatResponse.formatArtistTopAlbumsResponse(
         topAlbumsResponseList,
       );
@@ -479,7 +476,7 @@ class MysticAPI {
             'Top Albums'] = topAlbumsSearchedList;
       }
 
-      final List singlesSearchedList =
+      final singlesSearchedList =
           await FormatResponse.formatArtistTopAlbumsResponse(
         singlesResponseList,
       );
@@ -488,7 +485,7 @@ class MysticAPI {
             'Singles'] = singlesSearchedList;
       }
 
-      final List dedicatedSearchedList =
+      final dedicatedSearchedList =
           await FormatResponse.formatArtistTopAlbumsResponse(
         dedicatedResponseList,
       );
@@ -498,7 +495,7 @@ class MysticAPI {
             'Dedicated Playlists'] = dedicatedSearchedList;
       }
 
-      final List featuredSearchedList =
+      final featuredSearchedList =
           await FormatResponse.formatArtistTopAlbumsResponse(
         featuredResponseList,
       );
@@ -508,7 +505,7 @@ class MysticAPI {
             'Featured Playlists'] = featuredSearchedList;
       }
 
-      final List similarArtistsSearchedList =
+      final similarArtistsSearchedList =
           await FormatResponse.formatSimilarArtistsResponse(
         similarArtistsResponseList,
       );
@@ -521,14 +518,13 @@ class MysticAPI {
   }
 
   Future<Map> fetchPlaylistSongs(String playlistId) async {
-    final String params =
-        '${endpoints["playlistDetails"]}&cc=in&listid=$playlistId';
+    final params = '${endpoints["playlistDetails"]}&cc=in&listid=$playlistId';
     try {
       final res = await getResponse(params);
       if (res.statusCode == 200) {
         final getMain = json.decode(res.body);
         if (getMain['list'] != '') {
-          final List responseList = getMain['list'] as List;
+          final responseList = getMain['list'] as List;
           return {
             'songs': await FormatResponse.formatSongsResponse(
               responseList,
@@ -557,11 +553,11 @@ class MysticAPI {
   }
 
   Future<List> fetchTopSearchResult(String searchQuery) async {
-    final String params = 'p=1&q=$searchQuery&n=10&${endpoints["getResults"]}';
+    final params = 'p=1&q=$searchQuery&n=10&${endpoints["getResults"]}';
     final res = await getResponse(params, useProxy: true);
     if (res.statusCode == 200) {
       final getMain = json.decode(res.body);
-      final List responseList = getMain['results'] as List;
+      final responseList = getMain['results'] as List;
       return [
         await FormatResponse.formatSingleSongResponse(responseList[0] as Map)
       ];
@@ -570,11 +566,11 @@ class MysticAPI {
   }
 
   Future<Map> fetchSongDetails(String songId) async {
-    final String params = 'pids=$songId&${endpoints["songDetails"]}';
+    final params = 'pids=$songId&${endpoints["songDetails"]}';
     try {
       final res = await getResponse(params);
       if (res.statusCode == 200) {
-        final Map data = json.decode(res.body) as Map;
+        final data = json.decode(res.body) as Map;
         return await FormatResponse.formatSingleSongResponse(
           data['songs'][0] as Map,
         );

@@ -9,10 +9,9 @@ import 'package:mystic/services/player_service.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class DataSearch extends SearchDelegate {
+  DataSearch({required this.data, required this.tempPath}) : super();
   final List<SongModel> data;
   final String tempPath;
-
-  DataSearch({required this.data, required this.tempPath}) : super();
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -155,7 +154,7 @@ class DataSearch extends SearchDelegate {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     return theme.copyWith(
       primaryColor: Theme.of(context).colorScheme.secondary,
       textSelectionTheme:
@@ -173,10 +172,9 @@ class DataSearch extends SearchDelegate {
 }
 
 class DownloadsSearch extends SearchDelegate {
+  DownloadsSearch({required this.data, this.isDowns = false});
   final bool isDowns;
   final List data;
-
-  DownloadsSearch({required this.data, this.isDowns = false});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -375,7 +373,7 @@ class DownloadsSearch extends SearchDelegate {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     return theme.copyWith(
       primaryColor: Theme.of(context).colorScheme.secondary,
       textSelectionTheme:

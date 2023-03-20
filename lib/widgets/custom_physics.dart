@@ -17,9 +17,8 @@ class CustomPhysics extends ScrollPhysics {
 }
 
 class PagingScrollPhysics extends ScrollPhysics {
-  final double itemDimension;
-
   const PagingScrollPhysics({required this.itemDimension, super.parent});
+  final double itemDimension;
 
   @override
   PagingScrollPhysics applyTo(ScrollPhysics? ancestor) {
@@ -42,7 +41,7 @@ class PagingScrollPhysics extends ScrollPhysics {
     Tolerance tolerance,
     double velocity,
   ) {
-    double page = _getPage(position);
+    var page = _getPage(position);
     if (velocity < -tolerance.velocity) {
       page -= 0.5;
     } else if (velocity > tolerance.velocity) {
@@ -60,8 +59,8 @@ class PagingScrollPhysics extends ScrollPhysics {
         (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
     }
-    final Tolerance tolerance = this.tolerance;
-    final double target = _getTargetPixels(position, tolerance, velocity);
+    final tolerance = this.tolerance;
+    final target = _getTargetPixels(position, tolerance, velocity);
     if (target != position.pixels) {
       return ScrollSpringSimulation(
         spring,

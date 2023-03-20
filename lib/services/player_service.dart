@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
@@ -23,9 +24,9 @@ class PlayerInvoke {
     bool shuffle = false,
     String? playlistBox,
   }) async {
-    final int globalIndex = index < 0 ? 0 : index;
-    bool? offline = isOffline;
-    final List finalList = songsList.toList();
+    final globalIndex = index < 0 ? 0 : index;
+    var offline = isOffline;
+    final finalList = songsList.toList();
     if (shuffle) finalList.shuffle();
     if (offline == null) {
       if (audioHandler.mediaItem.value?.extras!['url'].startsWith('http')
@@ -41,7 +42,7 @@ class PlayerInvoke {
     if (!fromMiniplayer) {
       if (!Platform.isAndroid) {
         // Don't know why but it fixes the playback issue with iOS Side
-        audioHandler.stop();
+        unawaited(audioHandler.stop());
       }
       if (offline) {
         fromDownloads
@@ -64,20 +65,20 @@ class PlayerInvoke {
     SongModel response,
     Directory tempDir,
   ) async {
-    String playTitle = response.title;
+    var playTitle = response.title;
     playTitle == ''
         ? playTitle = response.displayNameWOExt
         : playTitle = response.title;
-    String playArtist = response.artist!;
+    var playArtist = response.artist!;
     playArtist == '<unknown>'
         ? playArtist = 'Unknown'
         : playArtist = response.artist!;
 
-    final String playAlbum = response.album!;
-    final int playDuration = response.duration ?? 180000;
-    final String imagePath = '${tempDir.path}/${response.displayNameWOExt}.jpg';
+    final playAlbum = response.album!;
+    final playDuration = response.duration ?? 180000;
+    final imagePath = '${tempDir.path}/${response.displayNameWOExt}.jpg';
 
-    final MediaItem tempDict = MediaItem(
+    final tempDict = MediaItem(
       id: response.id.toString(),
       album: playAlbum,
       duration: Duration(milliseconds: playDuration),
@@ -98,7 +99,7 @@ class PlayerInvoke {
 
   static void setOffDesktopValues(List response, int index) {
     getTemporaryDirectory().then((tempDir) async {
-      final File file = File('${tempDir.path}/cover.jpg');
+      final file = File('${tempDir.path}/cover.jpg');
       if (!await file.exists()) {
         final byteData = await rootBundle.load('assets/cover.jpg');
         await file.writeAsBytes(
@@ -106,7 +107,7 @@ class PlayerInvoke {
               .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
         );
       }
-      final List<MediaItem> queue = [];
+      final queue = <MediaItem>[];
       queue.addAll(
         response.map(
           (song) => MediaItem(
@@ -131,13 +132,13 @@ class PlayerInvoke {
           ),
         ),
       );
-      updateNplay(queue, index);
+      unawaited(updateNplay(queue, index));
     });
   }
 
   static void setOffValues(List response, int index) {
     getTemporaryDirectory().then((tempDir) async {
-      final File file = File('${tempDir.path}/cover.jpg');
+      final file = File('${tempDir.path}/cover.jpg');
       if (!await file.exists()) {
         final byteData = await rootBundle.load('assets/cover.jpg');
         await file.writeAsBytes(
@@ -145,18 +146,18 @@ class PlayerInvoke {
               .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
         );
       }
-      final List<MediaItem> queue = [];
-      for (int i = 0; i < response.length; i++) {
+      final queue = <MediaItem>[];
+      for (var i = 0; i < response.length; i++) {
         queue.add(
           await setTags(response[i] as SongModel, tempDir),
         );
       }
-      updateNplay(queue, index);
+      unawaited(updateNplay(queue, index));
     });
   }
 
   static void setDownValues(List response, int index) {
-    final List<MediaItem> queue = [];
+    final queue = <MediaItem>[];
     queue.addAll(
       response.map(
         (song) => MediaItemConverter.downMapToMediaItem(song as Map),
@@ -171,7 +172,7 @@ class PlayerInvoke {
     bool recommend = true,
     String? playlistBox,
   }) {
-    final List<MediaItem> queue = [];
+    final queue = <MediaItem>[];
     queue.addAll(
       response.map(
         (song) => MediaItemConverter.mapToMediaItem(
@@ -189,27 +190,27 @@ class PlayerInvoke {
     await audioHandler.updateQueue(queue);
     await audioHandler.skipToQueueItem(index);
     await audioHandler.play();
-    final String repeatMode =
+    final repeatMode =
         Hive.box('settings').get('repeatMode', defaultValue: 'None').toString();
-    final bool enforceRepeat =
+    final enforceRepeat =
         Hive.box('settings').get('enforceRepeat', defaultValue: false) as bool;
     if (enforceRepeat) {
       switch (repeatMode) {
         case 'None':
-          audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
+          await audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
           break;
         case 'All':
-          audioHandler.setRepeatMode(AudioServiceRepeatMode.all);
+          await audioHandler.setRepeatMode(AudioServiceRepeatMode.all);
           break;
         case 'One':
-          audioHandler.setRepeatMode(AudioServiceRepeatMode.one);
+          await audioHandler.setRepeatMode(AudioServiceRepeatMode.one);
           break;
         default:
           break;
       }
     } else {
-      audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
-      Hive.box('settings').put('repeatMode', 'None');
+      await audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
+      await Hive.box('settings').put('repeatMode', 'None');
     }
   }
 }

@@ -98,5 +98,7 @@
   "empty": "Empty",
   "songs": "Songs",
   "shuffle": "Shuffle",
-  "removedFrom": "Removed from"
+  "removedFrom": "Removed from",
+  "backupError": "Error while data backup",
+  "restoreError": "Error while data restore"
 }

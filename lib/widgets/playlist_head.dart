@@ -3,15 +3,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mystic/services/player_service.dart';
 
 class PlaylistHead extends StatelessWidget {
-  final List songsList;
-  final bool offline;
-  final bool fromDownloads;
   const PlaylistHead({
     super.key,
     required this.songsList,
     required this.fromDownloads,
     required this.offline,
   });
+  final List songsList;
+  final bool offline;
+  final bool fromDownloads;
   @override
   Widget build(BuildContext context) {
     return Container(
