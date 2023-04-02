@@ -103,21 +103,16 @@ class _SearchBarState extends State<SearchBar> {
                 height: 52.0,
                 child: Center(
                   child: TextField(
-                    style: const TextStyle(
-                      color: Colors.white
-                    ),
+                    style: const TextStyle(color: Colors.white),
                     controller: widget.controller,
                     textAlignVertical: TextAlignVertical.center,
+                    cursorColor: Colors.black,
                     decoration: InputDecoration(
-                      focusedBorder: const OutlineInputBorder(
+                      focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(
                           width: 1.5,
-                          color: Colors.blue,
+                          color: Colors.white,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                       fillColor: Theme.of(context).colorScheme.primary,
@@ -133,8 +128,8 @@ class _SearchBarState extends State<SearchBar> {
                           return Visibility(
                             visible: !hidden,
                             child: IconButton(
-                              icon: const Icon(Icons.close_rounded),
                               color: Colors.white,
+                              icon: const Icon(Icons.close_rounded),
                               onPressed: () {
                                 widget.controller.text = '';
                                 suggestionsList.value = [];
@@ -215,29 +210,6 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
             ),
-            if (!widget.isYt)
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                child: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        style: const TextStyle(color: Colors.grey),
-                        text: AppLocalizations.of(context)!.cantFind,
-                      ),
-                      TextSpan(
-                        text: AppLocalizations.of(context)!.searchYt,
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                          },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ValueListenableBuilder(
               valueListenable: hide,
               builder: (

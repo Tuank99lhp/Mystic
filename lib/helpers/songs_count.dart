@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
 void addSongsCount(String playlistName, int len, List images) {
-  final Map playlistDetails =
+  final playlistDetails =
       Hive.box('settings').get('playlistDetails', defaultValue: {}) as Map;
   if (playlistDetails.containsKey(playlistName)) {
     playlistDetails[playlistName].addAll({'count': len, 'imagesList': images});

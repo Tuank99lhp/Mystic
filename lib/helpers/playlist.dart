@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
+import 'package:hive/hive.dart';
 import 'package:mystic/helpers/mediaitem_converter.dart';
 import 'package:mystic/helpers/songs_count.dart' as songs_count;
-import 'package:hive/hive.dart';
 
 bool checkPlaylist(String name, String key) {
   if (name != 'Favorite Songs') {
@@ -13,15 +15,15 @@ bool checkPlaylist(String name, String key) {
 }
 
 Future<void> removeLiked(String key) async {
-  final Box likedBox = Hive.box('Favorite Songs');
-  likedBox.delete(key);
+  final likedBox = Hive.box('Favorite Songs');
+  unawaited(likedBox.delete(key));
   // setState(() {});
 }
 
 Future<void> addMapToPlaylist(String name, Map info) async {
   if (name != 'Favorite Songs') await Hive.openBox(name);
-  final Box playlistBox = Hive.box(name);
-  final List songs = playlistBox.values.toList();
+  final playlistBox = Hive.box(name);
+  final songs = playlistBox.values.toList();
   info.addEntries([MapEntry('dateAdded', DateTime.now().toString())]);
   songs_count.addSongsCount(
     name,
@@ -33,10 +35,10 @@ Future<void> addMapToPlaylist(String name, Map info) async {
 
 Future<void> addItemToPlaylist(String name, MediaItem mediaItem) async {
   if (name != 'Favorite Songs') await Hive.openBox(name);
-  final Box playlistBox = Hive.box(name);
-  final Map info = MediaItemConverter.mediaItemToMap(mediaItem);
+  final playlistBox = Hive.box(name);
+  final info = MediaItemConverter.mediaItemToMap(mediaItem);
   info.addEntries([MapEntry('dateAdded', DateTime.now().toString())]);
-  final List songs = playlistBox.values.toList();
+  final songs = playlistBox.values.toList();
   songs_count.addSongsCount(
     name,
     playlistBox.values.length + 1,
@@ -46,21 +48,21 @@ Future<void> addItemToPlaylist(String name, MediaItem mediaItem) async {
 }
 
 Future<void> addPlaylist(String inputName, List data) async {
-  final RegExp avoid = RegExp(r'[.\\*:"?#/;|]');
-  String name = inputName.replaceAll(avoid, '').replaceAll('  ', ' ');
+  final avoid = RegExp(r'[.\\*:"?#/;|]');
+  var name = inputName.replaceAll(avoid, '').replaceAll('  ', ' ');
 
   await Hive.openBox(name);
-  final Box playlistBox = Hive.box(name);
+  final playlistBox = Hive.box(name);
 
   songs_count.addSongsCount(
     name,
     data.length,
     data.length >= 4 ? data.sublist(0, 4) : data.sublist(0, data.length),
   );
-  final Map result = {for (var v in data) v['id'].toString(): v};
-  playlistBox.putAll(result);
+  final result = {for (var v in data) v['id'].toString(): v};
+  await playlistBox.putAll(result);
 
-  final List playlistNames =
+  final playlistNames =
       Hive.box('settings').get('playlistNames', defaultValue: []) as List;
 
   if (name.trim() == '') {

@@ -14,7 +14,6 @@
   "backupedSuccess": "Backuped Successfully",
   "backupedSuccessfully": "Backuped Successfully",
   "cacheMsg": "Cache cleared",
-  "cantFind": "Can't find",
   "chooseBackupDir": "Choose Backup Directory",
   "chooseDownloadDir": "Choose Download Directory",
   "chooseRestoreDir": "Choose Restore File Directory",
@@ -100,9 +99,16 @@
   "songs": "Songs",
   "shuffle": "Shuffle",
   "removedFrom": "Removed from",
-  "searchYt": "Search Youtube",
-  "searchText": "Search Text",
+  "backupError": "Error while data backup",
+  "restoreError": "Error while data restore",
+  "useVpn": "Use VPN",
+  "resultsNotFound": "resultsNotFound",
+  "searchText": "Search...",
   "trendingSearch": "Trending Search",
+  "copied": "Copied",
+  "downingAlbum": "Downing",
+  "down": "Download,",
+  "downDone": "Download Done",
   "viewAll": "View all",
-  "song": "song"
+  "song": "Song"
 }

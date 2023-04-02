@@ -6,10 +6,6 @@ import 'package:mystic/helpers/playlist.dart';
 import 'package:mystic/widgets/snackbar.dart';
 
 class FavoriteButton extends StatefulWidget {
-  final MediaItem? mediaItem;
-  final double? size;
-  final Map? data;
-  final bool showSnack;
   const FavoriteButton({
     super.key,
     required this.mediaItem,
@@ -17,6 +13,10 @@ class FavoriteButton extends StatefulWidget {
     this.data,
     this.showSnack = false,
   });
+  final MediaItem? mediaItem;
+  final double? size;
+  final Map? data;
+  final bool showSnack;
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();

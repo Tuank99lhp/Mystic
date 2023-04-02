@@ -15,15 +15,15 @@ extension StringExtension on String {
   }
 
   String formatToHHMMSS() {
-    final int? time = int.tryParse(this);
+    final time = int.tryParse(this);
     if (time != null) {
-      final int hours = time ~/ 3600;
-      final int seconds = time % 3600;
-      final int minutes = seconds ~/ 60;
+      final hours = time ~/ 3600;
+      final seconds = time % 3600;
+      final minutes = seconds ~/ 60;
 
-      final String hoursStr = hours.toString().padLeft(2, '0');
-      final String minutesStr = minutes.toString().padLeft(2, '0');
-      final String secondsStr = (seconds % 60).toString().padLeft(2, '0');
+      final hoursStr = hours.toString().padLeft(2, '0');
+      final minutesStr = minutes.toString().padLeft(2, '0');
+      final secondsStr = (seconds % 60).toString().padLeft(2, '0');
 
       if (hours == 0) {
         return '$minutesStr:$secondsStr';
@@ -48,13 +48,13 @@ extension StringExtension on String {
 extension DateTimeExtension on int {
   String formatToHHMMSS() {
     if (this != 0) {
-      final int hours = this ~/ 3600;
-      final int seconds = this % 3600;
-      final int minutes = seconds ~/ 60;
+      final hours = this ~/ 3600;
+      final seconds = this % 3600;
+      final minutes = seconds ~/ 60;
 
-      final String hoursStr = hours.toString().padLeft(2, '0');
-      final String minutesStr = minutes.toString().padLeft(2, '0');
-      final String secondsStr = (seconds % 60).toString().padLeft(2, '0');
+      final hoursStr = hours.toString().padLeft(2, '0');
+      final minutesStr = minutes.toString().padLeft(2, '0');
+      final secondsStr = (seconds % 60).toString().padLeft(2, '0');
 
       if (hours == 0) {
         return '$minutesStr:$secondsStr';

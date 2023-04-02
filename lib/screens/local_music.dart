@@ -14,10 +14,6 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LocalMusic extends StatefulWidget {
-  final List<SongModel>? cachedSongs;
-  final String? title;
-  final int? playlistId;
-  final bool showPlaylists;
   const LocalMusic({
     super.key,
     this.cachedSongs,
@@ -25,6 +21,10 @@ class LocalMusic extends StatefulWidget {
     this.playlistId,
     this.showPlaylists = false,
   });
+  final List<SongModel>? cachedSongs;
+  final String? title;
+  final int? playlistId;
+  final bool showPlaylists;
   @override
   State<LocalMusic> createState() => _LocalMusicState();
 }
@@ -117,7 +117,7 @@ class _LocalMusicState extends State<LocalMusic> with TickerProviderStateMixin {
       Logger.root.info('got ${_songs.length} songs');
       setState(() {});
       Logger.root.info('setting albums and artists');
-      for (int i = 0; i < _songs.length; i++) {
+      for (var i = 0; i < _songs.length; i++) {
         try {
           if (_albums.containsKey(_songs[i].album ?? 'Unknown')) {
             _albums[_songs[i].album ?? 'Unknown']!.add(_songs[i]);
@@ -229,16 +229,16 @@ class _LocalMusicState extends State<LocalMusic> with TickerProviderStateMixin {
                   onSelected: (int value) async {
                     if (value < 6) {
                       sortValue = value;
-                      Hive.box('settings').put('sortValue', value);
+                      await Hive.box('settings').put('sortValue', value);
                     } else {
                       orderValue = value - 6;
-                      Hive.box('settings').put('orderValue', orderValue);
+                      await Hive.box('settings').put('orderValue', orderValue);
                     }
                     await sortSongs(sortValue, orderValue);
                     setState(() {});
                   },
                   itemBuilder: (context) {
-                    final List<String> sortTypes = [
+                    final sortTypes = <String>[
                       AppLocalizations.of(context)!.displayName,
                       AppLocalizations.of(context)!.dateAdded,
                       AppLocalizations.of(context)!.album,
@@ -246,7 +246,7 @@ class _LocalMusicState extends State<LocalMusic> with TickerProviderStateMixin {
                       AppLocalizations.of(context)!.duration,
                       AppLocalizations.of(context)!.size,
                     ];
-                    final List<String> orderTypes = [
+                    final orderTypes = <String>[
                       AppLocalizations.of(context)!.inc,
                       AppLocalizations.of(context)!.dec,
                     ];
@@ -573,10 +573,6 @@ class _LocalMusicState extends State<LocalMusic> with TickerProviderStateMixin {
 }
 
 class SongsTab extends StatefulWidget {
-  final List<SongModel> songs;
-  final int? playlistId;
-  final String? playlistName;
-  final String tempPath;
   const SongsTab({
     super.key,
     required this.songs,
@@ -584,6 +580,10 @@ class SongsTab extends StatefulWidget {
     this.playlistId,
     this.playlistName,
   });
+  final List<SongModel> songs;
+  final int? playlistId;
+  final String? playlistName;
+  final String tempPath;
 
   @override
   State<SongsTab> createState() => _SongsTabState();
@@ -659,453 +659,6 @@ class _SongsTabState extends State<SongsTab>
                               );
                             }
                           }
-                          // if (value == 0) {
-                          // showDialog(
-                          // context: context,
-                          // builder: (BuildContext context) {
-                          // final String fileName = _cachedSongs[index].uri!;
-                          // final List temp = fileName.split('.');
-                          // temp.removeLast();
-                          //           final String songName = temp.join('.');
-                          //           final controller =
-                          //               TextEditingController(text: songName);
-                          //           return AlertDialog(
-                          //             content: Column(
-                          //               mainAxisSize: MainAxisSize.min,
-                          //               children: [
-                          //                 Row(
-                          //                   children: [
-                          //                     Text(
-                          //                       'Name',
-                          //                       style: TextStyle(
-                          //                           color: Theme.of(context).accentColor),
-                          //                     ),
-                          //                   ],
-                          //                 ),
-                          //                 const SizedBox(
-                          //                   height: 10,
-                          //                 ),
-                          //                 TextField(
-                          //                     autofocus: true,
-                          //                     controller: controller,
-                          //                     onSubmitted: (value) async {
-                          //                       try {
-                          //                         Navigator.pop(context);
-                          //                         String newName = _cachedSongs[index]
-                          //                                 ['id']
-                          //                             .toString()
-                          //                             .replaceFirst(songName, value);
-
-                          //                         while (await File(newName).exists()) {
-                          //                           newName = newName.replaceFirst(
-                          //                               value, '$value (1)');
-                          //                         }
-
-                          //                         File(_cachedSongs[index]['id']
-                          //                                 .toString())
-                          //                             .rename(newName);
-                          //                         _cachedSongs[index]['id'] = newName;
-                          //                         ShowSnackBar().showSnackBar(
-                          //                           context,
-                          //                           'Renamed to ${_cachedSongs[index]['id'].split('/').last}',
-                          //                         );
-                          //                       } catch (e) {
-                          //                         ShowSnackBar().showSnackBar(
-                          //                           context,
-                          //                           'Failed to Rename ${_cachedSongs[index]['id'].split('/').last}',
-                          //                         );
-                          //                       }
-                          //                       setState(() {});
-                          //                     }),
-                          //               ],
-                          //             ),
-                          //             actions: [
-                          //               TextButton(
-                          //                 style: TextButton.styleFrom(
-                          //                   primary: Theme.of(context).brightness ==
-                          //                           Brightness.dark
-                          //                       ? Colors.white
-                          //                       : Colors.grey[700],
-                          //                   //       backgroundColor: Theme.of(context).accentColor,
-                          //                 ),
-                          //                 onPressed: () {
-                          //                   Navigator.pop(context);
-                          //                 },
-                          //                 child: const Text(
-                          //                   'Cancel',
-                          //                 ),
-                          //               ),
-                          //               TextButton(
-                          //                 style: TextButton.styleFrom(
-                          //                   primary: Colors.white,
-                          //                   backgroundColor:
-                          //                       Theme.of(context).accentColor,
-                          //                 ),
-                          //                 onPressed: () async {
-                          //                   try {
-                          //                     Navigator.pop(context);
-                          //                     String newName = _cachedSongs[index]['id']
-                          //                         .toString()
-                          //                         .replaceFirst(
-                          //                             songName, controller.text);
-
-                          //                     while (await File(newName).exists()) {
-                          //                       newName = newName.replaceFirst(
-                          //                           controller.text,
-                          //                           '${controller.text} (1)');
-                          //                     }
-
-                          //                     File(_cachedSongs[index]['id'].toString())
-                          //                         .rename(newName);
-                          //                     _cachedSongs[index]['id'] = newName;
-                          //                     ShowSnackBar().showSnackBar(
-                          //                       context,
-                          //                       'Renamed to ${_cachedSongs[index]['id'].split('/').last}',
-                          //                     );
-                          //                   } catch (e) {
-                          //                     ShowSnackBar().showSnackBar(
-                          //                       context,
-                          //                       'Failed to Rename ${_cachedSongs[index]['id'].split('/').last}',
-                          //                     );
-                          //                   }
-                          //                   setState(() {});
-                          //                 },
-                          //                 child: const Text(
-                          //                   'Ok',
-                          //                   style: TextStyle(color: Colors.white),
-                          //                 ),
-                          //               ),
-                          //               const SizedBox(
-                          //                 width: 5,
-                          //               ),
-                          //             ],
-                          //           );
-                          //         },
-                          //       );
-                          //     }
-                          //     if (value == 1) {
-                          //       showDialog(
-                          //         context: context,
-                          //         builder: (BuildContext context) {
-                          //           Uint8List? _imageByte =
-                          //               _cachedSongs[index]['image'] as Uint8List?;
-                          //           String _imagePath = '';
-                          //           final _titlecontroller = TextEditingController(
-                          //               text: _cachedSongs[index]['title'].toString());
-                          //           final _albumcontroller = TextEditingController(
-                          //               text: _cachedSongs[index]['album'].toString());
-                          //           final _artistcontroller = TextEditingController(
-                          //               text: _cachedSongs[index]['artist'].toString());
-                          //           final _albumArtistController = TextEditingController(
-                          //               text: _cachedSongs[index]['albumArtist']
-                          //                   .toString());
-                          //           final _genrecontroller = TextEditingController(
-                          //               text: _cachedSongs[index]['genre'].toString());
-                          //           final _yearcontroller = TextEditingController(
-                          //               text: _cachedSongs[index]['year'].toString());
-                          //           final tagger = Audiotagger();
-                          //           return AlertDialog(
-                          //             content: SizedBox(
-                          //               height: 400,
-                          //               width: 300,
-                          //               child: SingleChildScrollView(
-                          //                 physics: const BouncingScrollPhysics(),
-                          //                 child: Column(
-                          //                   mainAxisSize: MainAxisSize.min,
-                          //                   children: [
-                          //                     GestureDetector(
-                          //                       onTap: () async {
-                          //                         final String filePath = await Picker()
-                          //                             .selectFile(
-                          //                                 context,
-                          //                                 ['png', 'jpg', 'jpeg'],
-                          //                                 'Pick Image');
-                          //                         if (filePath != '') {
-                          //                           _imagePath = filePath;
-                          //                           final Uri myUri = Uri.parse(filePath);
-                          //                           final Uint8List imageBytes =
-                          //                               await File.fromUri(myUri)
-                          //                                   .readAsBytes();
-                          //                           _imageByte = imageBytes;
-                          //                           final Tag tag = Tag(
-                          //                             artwork: _imagePath,
-                          //                           );
-                          //                           try {
-                          //                             await [
-                          //                               Permission.manageExternalStorage,
-                          //                             ].request();
-                          //                             await tagger.writeTags(
-                          //                               path: _cachedSongs[index]['id']
-                          //                                   .toString(),
-                          //                               tag: tag,
-                          //                             );
-                          //                           } catch (e) {
-                          //                             await tagger.writeTags(
-                          //                               path: _cachedSongs[index]['id']
-                          //                                   .toString(),
-                          //                               tag: tag,
-                          //                             );
-                          //                           }
-                          //                         }
-                          //                       },
-                          //                       child: Card(
-                          //                         elevation: 5,
-                          //                         shape: RoundedRectangleBorder(
-                          //                           borderRadius:
-                          //                               BorderRadius.circular(7.0),
-                          //                         ),
-                          //                         clipBehavior: Clip.antiAlias,
-                          //                         child: SizedBox(
-                          //                           height: MediaQuery.of(context)
-                          //                                   .size
-                          //                                   .width /
-                          //                               2,
-                          //                           width: MediaQuery.of(context)
-                          //                                   .size
-                          //                                   .width /
-                          //                               2,
-                          //                           child: _imageByte == null
-                          //                               ? const Image(
-                          //                                   fit: BoxFit.cover,
-                          //                                   image: AssetImage(
-                          //                                       'assets/cover.jpg'),
-                          //                                 )
-                          //                               : Image(
-                          //                                   fit: BoxFit.cover,
-                          //                                   image:
-                          //                                       MemoryImage(_imageByte!)),
-                          //                         ),
-                          //                       ),
-                          //                     ),
-                          //                     const SizedBox(height: 20.0),
-                          //                     Row(
-                          //                       children: [
-                          //                         Text(
-                          //                           'Title',
-                          //                           style: TextStyle(
-                          //                               color: Theme.of(context)
-                          //                                   .accentColor),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                     TextField(
-                          //                         autofocus: true,
-                          //                         controller: _titlecontroller,
-                          //                         onSubmitted: (value) {}),
-                          //                     const SizedBox(
-                          //                       height: 30,
-                          //                     ),
-                          //                     Row(
-                          //                       children: [
-                          //                         Text(
-                          //                           'Artist',
-                          //                           style: TextStyle(
-                          //                               color: Theme.of(context)
-                          //                                   .accentColor),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                     TextField(
-                          //                         autofocus: true,
-                          //                         controller: _artistcontroller,
-                          //                         onSubmitted: (value) {}),
-                          //                     const SizedBox(
-                          //                       height: 30,
-                          //                     ),
-                          //                     Row(
-                          //                       children: [
-                          //                         Text(
-                          //                           'Album Artist',
-                          //                           style: TextStyle(
-                          //                               color: Theme.of(context)
-                          //                                   .accentColor),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                     TextField(
-                          //                         autofocus: true,
-                          //                         controller: _albumArtistController,
-                          //                         onSubmitted: (value) {}),
-                          //                     const SizedBox(
-                          //                       height: 30,
-                          //                     ),
-                          //                     Row(
-                          //                       children: [
-                          //                         Text(
-                          //                           'Album',
-                          //                           style: TextStyle(
-                          //                               color: Theme.of(context)
-                          //                                   .accentColor),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                     TextField(
-                          //                         autofocus: true,
-                          //                         controller: _albumcontroller,
-                          //                         onSubmitted: (value) {}),
-                          //                     const SizedBox(
-                          //                       height: 30,
-                          //                     ),
-                          //                     Row(
-                          //                       children: [
-                          //                         Text(
-                          //                           'Genre',
-                          //                           style: TextStyle(
-                          //                               color: Theme.of(context)
-                          //                                   .accentColor),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                     TextField(
-                          //                         autofocus: true,
-                          //                         controller: _genrecontroller,
-                          //                         onSubmitted: (value) {}),
-                          //                     const SizedBox(
-                          //                       height: 30,
-                          //                     ),
-                          //                     Row(
-                          //                       children: [
-                          //                         Text(
-                          //                           'Year',
-                          //                           style: TextStyle(
-                          //                               color: Theme.of(context)
-                          //                                   .accentColor),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                     TextField(
-                          //                         autofocus: true,
-                          //                         controller: _yearcontroller,
-                          //                         onSubmitted: (value) {}),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //             actions: [
-                          //               TextButton(
-                          //                 style: TextButton.styleFrom(
-                          //                   primary: Theme.of(context).brightness ==
-                          //                           Brightness.dark
-                          //                       ? Colors.white
-                          //                       : Colors.grey[700],
-                          //                 ),
-                          //                 onPressed: () {
-                          //                   Navigator.pop(context);
-                          //                 },
-                          //                 child: const Text('Cancel'),
-                          //               ),
-                          //               TextButton(
-                          //                 style: TextButton.styleFrom(
-                          //                   primary: Colors.white,
-                          //                   backgroundColor:
-                          //                       Theme.of(context).accentColor,
-                          //                 ),
-                          //                 onPressed: () async {
-                          //                   Navigator.pop(context);
-                          //                   _cachedSongs[index]['title'] =
-                          //                       _titlecontroller.text;
-                          //                   _cachedSongs[index]['album'] =
-                          //                       _albumcontroller.text;
-                          //                   _cachedSongs[index]['artist'] =
-                          //                       _artistcontroller.text;
-                          //                   _cachedSongs[index]['albumArtist'] =
-                          //                       _albumArtistController.text;
-                          //                   _cachedSongs[index]['genre'] =
-                          //                       _genrecontroller.text;
-                          //                   _cachedSongs[index]['year'] =
-                          //                       _yearcontroller.text;
-                          //                   final tag = Tag(
-                          //                     title: _titlecontroller.text,
-                          //                     artist: _artistcontroller.text,
-                          //                     album: _albumcontroller.text,
-                          //                     genre: _genrecontroller.text,
-                          //                     year: _yearcontroller.text,
-                          //                     albumArtist: _albumArtistController.text,
-                          //                   );
-                          //                   try {
-                          //                     try {
-                          //                       await [
-                          //                         Permission.manageExternalStorage,
-                          //                       ].request();
-                          //                       tagger.writeTags(
-                          //                         path: _cachedSongs[index]['id']
-                          //                             .toString(),
-                          //                         tag: tag,
-                          //                       );
-                          //                     } catch (e) {
-                          //                       await tagger.writeTags(
-                          //                         path: _cachedSongs[index]['id']
-                          //                             .toString(),
-                          //                         tag: tag,
-                          //                       );
-                          //                       ShowSnackBar().showSnackBar(
-                          //                         context,
-                          //                         'Successfully edited tags',
-                          //                       );
-                          //                     }
-                          //                   } catch (e) {
-                          //                     ShowSnackBar().showSnackBar(
-                          //                       context,
-                          //                       'Failed to edit tags',
-                          //                     );
-                          //                   }
-                          //                 },
-                          //                 child: const Text(
-                          //                   'Ok',
-                          //                   style: TextStyle(color: Colors.white),
-                          //                 ),
-                          //               ),
-                          //               const SizedBox(
-                          //                 width: 5,
-                          //               ),
-                          //             ],
-                          //           );
-                          //         },
-                          //       );
-                          //     }
-                          //     if (value == 2) {
-                          //       try {
-                          //         File(_cachedSongs[index]['id'].toString()).delete();
-                          //         ShowSnackBar().showSnackBar(
-                          //           context,
-                          //           'Deleted ${_cachedSongs[index]['id'].split('/').last}',
-                          //         );
-                          //         if (_cachedAlbums[_cachedSongs[index]['album']]
-                          //                 .length ==
-                          //             1) {
-                          //           sortedCachedAlbumKeysList
-                          //               .remove(_cachedSongs[index]['album']);
-                          //         }
-                          //         _cachedAlbums[_cachedSongs[index]['album']]
-                          //             .remove(_cachedSongs[index]);
-
-                          //         if (_cachedArtists[_cachedSongs[index]['artist']]
-                          //                 .length ==
-                          //             1) {
-                          //           sortedCachedArtistKeysList
-                          //               .remove(_cachedSongs[index]['artist']);
-                          //         }
-                          //         _cachedArtists[_cachedSongs[index]['artist']]
-                          //             .remove(_cachedSongs[index]);
-
-                          //         if (_cachedGenres[_cachedSongs[index]['genre']]
-                          //                 .length ==
-                          //             1) {
-                          //           sortedCachedGenreKeysList
-                          //               .remove(_cachedSongs[index]['genre']);
-                          //         }
-                          //         _cachedGenres[_cachedSongs[index]['genre']]
-                          //             .remove(_cachedSongs[index]);
-
-                          //         _cachedSongs.remove(_cachedSongs[index]);
-                          //       } catch (e) {
-                          //         ShowSnackBar().showSnackBar(
-                          //           context,
-                          //           'Failed to delete ${_cachedSongs[index]['id']}',
-                          //         );
-                          //       }
-                          //       setState(() {});
-                          // }
                         },
                         itemBuilder: (context) => [
                           PopupMenuItem(
@@ -1131,38 +684,6 @@ class _SongsTabState extends State<SongsTab>
                                 ],
                               ),
                             ),
-                          // PopupMenuItem(
-                          //       value: 0,
-                          //       child: Row(
-                          //         children: const [
-                          //           Icon(Icons.edit_rounded),
-                          //           const SizedBox(width: 10.0),
-                          //           Text('Rename'),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     PopupMenuItem(
-                          //       value: 1,
-                          //       child: Row(
-                          //         children: const [
-                          //           Icon(
-                          //               // CupertinoIcons.tag
-                          //               Icons.local_offer_rounded),
-                          //           const SizedBox(width: 10.0),
-                          //           Text('Edit Tags'),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     PopupMenuItem(
-                          //       value: 2,
-                          //       child: Row(
-                          //         children: const [
-                          //           Icon(Icons.delete_rounded),
-                          //           const SizedBox(width: 10.0),
-                          //           Text('Delete'),
-                          //         ],
-                          //       ),
-                          //     ),
                         ],
                       ),
                       onTap: () {
@@ -1183,15 +704,15 @@ class _SongsTabState extends State<SongsTab>
 }
 
 class AlbumsTab extends StatefulWidget {
-  final Map<String, List<SongModel>> albums;
-  final List<String> albumsList;
-  final String tempPath;
   const AlbumsTab({
     super.key,
     required this.albums,
     required this.albumsList,
     required this.tempPath,
   });
+  final Map<String, List<SongModel>> albums;
+  final List<String> albumsList;
+  final String tempPath;
 
   @override
   State<AlbumsTab> createState() => _AlbumsTabState();

@@ -1,12 +1,12 @@
-import 'package:mystic/screens/home_page.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mystic/screens/home_page.dart';
 import 'package:mystic/screens/more_page.dart';
 import 'package:mystic/screens/search_page.dart';
 import 'package:mystic/screens/user_playlists_page.dart';
-import 'package:flutter/material.dart';
 import 'package:mystic/widgets/custom_physics.dart';
 import 'package:mystic/widgets/snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Mystic extends StatefulWidget {
@@ -75,22 +75,24 @@ class AppState extends State<Mystic> {
           child: Column(
             children: [
               Expanded(
-                  child: PageView(
-                      physics: const CustomPhysics(),
-                      onPageChanged: (index) {
-                        _selectedIndex.value = index;
-                      },
-                      controller: _pageController,
-                      children: [
+                child: PageView(
+                  physics: const CustomPhysics(),
+                  onPageChanged: (index) {
+                    _selectedIndex.value = index;
+                  },
+                  controller: _pageController,
+                  children: [
                     HomePage(),
-                    SearchPage(
+                    const SearchPage(
                       query: '',
                       fromHome: true,
                       autofocus: true,
                     ),
                     UserPlaylistsPage(),
                     MorePage(),
-                  ])),
+                  ],
+                ),
+              ),
               const SizedBox()
             ],
           ),

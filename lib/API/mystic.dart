@@ -1,21 +1,34 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:mystic/helpers/formatSong.dart';
+import 'package:mystic/services/data_manager.dart';
+import 'package:mystic/services/lyrics_service.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+List userLikedSongsList = Hive.box('user').get('likedSongs', defaultValue: []);
 final youtube = YoutubeExplode();
 final random = Random();
 String lastFetchedLyrics = '';
 final lyrics = ValueNotifier<String>('null');
+final yt = YoutubeExplode();
 
+Map activePlaylist = {
+  'ytid': '',
+  'title': 'No Playlist',
+  'header_desc': '',
+  'image': '',
+  'list': [],
+};
+
+int id = 0;
 Future<List> fetchSongList(String searchQuery) async {
   final List listYoutubeSearch = await youtube.search.search(searchQuery);
-  final List listSongbyQuery = [
+  final listSongbyQuery = [
     for (final song in listYoutubeSearch) {returnSongLayout(0, song)}
   ];
   return listSongbyQuery;
@@ -37,10 +50,10 @@ Future getSongDetails(dynamic songIndex, dynamic songId) async {
 Future getSongLyrics(String artist, String title) async {
   if (lastFetchedLyrics != '$artist - $title') {
     lyrics.value = 'null';
-    final _lyrics = await Lyrics().getLyrics(artist: artist, track: title);
-    lyrics.value = _lyrics;
+    final lyr = await Lyrics().getLyrics(artist: artist, track: title);
+    lyrics.value = lyr;
     lastFetchedLyrics = '$artist - $title';
-    return _lyrics;
+    return lyr;
   }
 
   return lyrics.value;
@@ -67,4 +80,51 @@ Future<List> getSearchSuggestions(String query) async {
     debugPrint('Error in getSearchSuggestions: $e');
     return [];
   }
+}
+
+bool isSongAlreadyLiked(songIdToCheck) =>
+    userLikedSongsList.any((song) => song['ytid'] == songIdToCheck);
+
+Future<Map> getRandomSong() async {
+  const playlistId = 'PLgzTt0k8mXzEk586ze4BjvDXR7c-TUSnx';
+  final playlistSongs = await getSongsFromPlaylist(playlistId);
+
+  return playlistSongs[random.nextInt(playlistSongs.length)];
+}
+
+Future<List> getSongsFromPlaylist(dynamic playlistId) async {
+  final songList = await getData('cache', 'playlistSongs$playlistId') ?? [];
+
+  if (songList.isEmpty) {
+    await for (final song in yt.playlists.getVideos(playlistId)) {
+      songList.add(returnSongLayout(songList.length, song));
+    }
+
+    addOrUpdateData('cache', 'playlistSongs$playlistId', songList);
+  }
+
+  return songList;
+}
+
+Future<void> updateLikeStatus(dynamic songId, bool add) async {
+  if (add) {
+    userLikedSongsList
+        .add(await getSongDetails(userLikedSongsList.length, songId));
+  } else {
+    userLikedSongsList.removeWhere((song) => song['ytid'] == songId);
+  }
+  addOrUpdateData('user', 'likedSongs', userLikedSongsList);
+}
+
+Future<List> fetchSongsList(String searchQuery) async {
+  final List list = await yt.search.search(searchQuery);
+  final searchedList = [
+    for (final s in list)
+      returnSongLayout(
+        0,
+        s,
+      )
+  ];
+
+  return searchedList;
 }

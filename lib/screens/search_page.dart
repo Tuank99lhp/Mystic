@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
-
-import '../widgets/empty_screen.dart';
+import 'package:mystic/widgets/gradient_containers.dart';
+import '../services/data_manager.dart';
 import '../widgets/search_bar.dart';
+import '../API/mystic.dart';
+import '../widgets/song_bar.dart';
 
 class SearchPage extends StatefulWidget {
   final String query;
@@ -16,29 +17,26 @@ class SearchPage extends StatefulWidget {
     this.fromHome = false,
     this.autofocus = false,
   });
+
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
+
+List searchHistory = Hive.box('user').get('searchHistory', defaultValue: []);
 
 class _SearchPageState extends State<SearchPage> {
   String query = '';
   bool status = false;
-  Map searchedData = {};
-  Map position = {};
-  List sortedKeys = [];
   final ValueNotifier<List<String>> topSearch = ValueNotifier<List<String>>(
     [],
   );
   bool fetched = false;
   bool alertShown = false;
-  bool albumFetched = false;
   bool? fromHome;
   List search = Hive.box('settings').get(
     'search',
     defaultValue: [],
   ) as List;
-  bool showHistory =
-      Hive.box('settings').get('showHistory', defaultValue: true) as bool;
   bool liveSearch =
       Hive.box('settings').get('liveSearch', defaultValue: true) as bool;
 
@@ -56,25 +54,42 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  Future<void> fetchResults() async {
-    setState(
-      () {},
-    );
-  }
+  final TextEditingController _searchBar = TextEditingController();
+  final FocusNode _inputNode = FocusNode();
+  List _searchResult = [];
+  List _suggestionsList = [];
 
-  Future<void> getTrendingSearch() async {}
+  Future<void> Search() async {
+    final Query = query == '' ? widget.query : query;
+    if (Query.isEmpty) {
+      _searchResult = [];
+      _suggestionsList = [];
+      setState(() {});
+      return;
+    }
 
-  Widget nothingFound(BuildContext context) {
-    return emptyScreen(
-      context,
-      ':( ',
-      100,
-    );
+    if (!searchHistory.contains(Query)) {
+      searchHistory.insert(0, Query);
+      addOrUpdateData('user', 'searchHistory', searchHistory);
+    }
+
+    try {
+      _searchResult = await fetchSongsList(Query);
+    } catch (e) {
+      debugPrint('Error while searching online songs: $e');
+    }
+    fetched = true;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    fromHome ??= widget.fromHome;
+    if (!status) {
+      status = true;
+      fromHome! ? null : Search();
+    }
+    return GradientContainer(
       child: SafeArea(
         child: Column(
           children: [
@@ -88,119 +103,32 @@ class _SearchPageState extends State<SearchPage> {
                   liveSearch: liveSearch,
                   autofocus: widget.autofocus,
                   hintText: AppLocalizations.of(context)!.searchText,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
-                    color: Colors.white,
-                    onPressed: () {},
-                  ),
-                  body: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Wrap(
-                            children: List<Widget>.generate(
-                              search.length,
-                              (int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 5.0,
-                                  ),
-                                  child: GestureDetector(
-                                    child: Chip(
-                                      label: Text(
-                                        search[index].toString(),
-                                      ),
-                                      labelStyle: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .color,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      onDeleted: () {
-                                        setState(() {
-                                          search.removeAt(index);
-                                          Hive.box('settings').put(
-                                            'search',
-                                            search,
-                                          );
-                                        });
-                                      },
-                                    ),
-                                    onTap: () {
-                                      setState(
-                                        () {
-                                          fetched = false;
-                                          query =
-                                              search[index].toString().trim();
-                                          controller.text = query;
-                                          status = false;
-                                          fromHome = false;
-                                          searchedData = {};
-                                        },
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
+                  body: (fromHome!)
+                      ? SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
                           ),
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: topSearch,
-                          builder: (
-                            BuildContext context,
-                            List<String> value,
-                            Widget? child,
-                          ) {
-                            if (value.isEmpty) return const SizedBox();
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!
-                                            .trendingSearch,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w800,
+                          physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Wrap(
+                                  children: List<Widget>.generate(
+                                    search.length,
+                                    (int index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Wrap(
-                                    children: List<Widget>.generate(
-                                      value.length,
-                                      (int index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 5.0,
-                                          ),
-                                          child: ChoiceChip(
-                                            label: Text(value[index]),
-                                            selectedColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondary
-                                                .withOpacity(0.2),
+                                        child: GestureDetector(
+                                          child: Chip(
+                                            label: Text(
+                                              search[index].toString(),
+                                            ),
                                             labelStyle: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -208,46 +136,64 @@ class _SearchPageState extends State<SearchPage> {
                                                   .color,
                                               fontWeight: FontWeight.normal,
                                             ),
-                                            selected: false,
-                                            onSelected: (bool selected) {
-                                              if (selected) {
-                                                setState(
-                                                  () {
-                                                    fetched = false;
-                                                    query = value[index].trim();
-                                                    controller.text = query;
-                                                    status = false;
-                                                    fromHome = false;
-                                                    searchedData = {};
-                                                    search.insert(
-                                                      0,
-                                                      value[index],
-                                                    );
-                                                    if (search.length > 10) {
-                                                      search =
-                                                          search.sublist(0, 10);
-                                                    }
-                                                    Hive.box('settings').put(
-                                                      'search',
-                                                      search,
-                                                    );
-                                                  },
+                                            onDeleted: () {
+                                              setState(() {
+                                                search.removeAt(index);
+                                                Hive.box('settings').put(
+                                                  'search',
+                                                  search,
                                                 );
-                                              }
+                                              });
                                             },
                                           ),
-                                        );
-                                      },
-                                    ),
+                                          onTap: () {
+                                            setState(
+                                              () {
+                                                fetched = false;
+                                                query = search[index]
+                                                    .toString()
+                                                    .trim();
+                                                controller.text = query;
+                                                status = false;
+                                                fromHome = false;
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : !fetched
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : SingleChildScrollView(
+                              padding: const EdgeInsets.only(
+                                top: 100,
+                              ),
+                              physics: const BouncingScrollPhysics(),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                addAutomaticKeepAlives: false,
+                                addRepaintBoundaries: false,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: _searchResult.length,
+                                itemBuilder: (BuildContext ctxt, int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, bottom: 5),
+                                    child: SongBar(
+                                      _searchResult[index],
+                                      true,
+                                    ),
+                                  );
+                                },
+                              )),
                   onSubmitted: (String submittedQuery) {
                     setState(
                       () {
@@ -255,7 +201,6 @@ class _SearchPageState extends State<SearchPage> {
                         query = submittedQuery;
                         status = false;
                         fromHome = false;
-                        searchedData = {};
                       },
                     );
                   },

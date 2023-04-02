@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:mystic/API/mystic.dart';
 import '../widgets/song_bar.dart';
 
 class UserPlaylistsPage extends StatefulWidget {
@@ -17,7 +17,10 @@ class _UserPlaylistsPageState extends State<UserPlaylistsPage> {
             contentPadding: const EdgeInsets.only(
               bottom: 10,
             ),
-            leading: SongBar(),
+            leading: SongBar(
+              activePlaylist['list'][index],
+              false,
+            ),
           );
         },
         itemCount: 50,

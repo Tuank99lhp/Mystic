@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mystic/style/app_colors.dart';
 import 'package:hive/hive.dart';
+import 'package:mystic/style/app_colors.dart';
 
 Color primaryColor =
     Color(Hive.box('settings').get('accentColor', defaultValue: 0xFFF08080));
