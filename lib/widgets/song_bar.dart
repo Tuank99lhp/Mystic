@@ -185,9 +185,7 @@ class SongBar extends StatelessWidget {
                       ),
                     ];
                   },
-                  onSelected: (value) {
-
-                  },
+                  onSelected: (value) {},
                 ),
               ],
             ),

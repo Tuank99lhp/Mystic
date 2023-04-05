@@ -70,10 +70,10 @@ class _SearchBarState extends State<SearchBar> {
         ValueListenableBuilder(
           valueListenable: hide,
           builder: (
-              BuildContext context,
-              bool hidden,
-              Widget? child,
-              ) {
+            BuildContext context,
+            bool hidden,
+            Widget? child,
+          ) {
             return Visibility(
               visible: !hidden,
               child: GestureDetector(
@@ -119,28 +119,28 @@ class _SearchBarState extends State<SearchBar> {
                       prefixIcon: widget.leading,
                       suffixIcon: widget.showClose
                           ? ValueListenableBuilder(
-                        valueListenable: hide,
-                        builder: (
-                            BuildContext context,
-                            bool hidden,
-                            Widget? child,
-                            ) {
-                          return Visibility(
-                            visible: !hidden,
-                            child: IconButton(
-                              color: Colors.white,
-                              icon: const Icon(Icons.close_rounded),
-                              onPressed: () {
-                                widget.controller.text = '';
-                                suggestionsList.value = [];
-                                if (widget.onQueryCleared != null) {
-                                  widget.onQueryCleared!.call();
-                                }
+                              valueListenable: hide,
+                              builder: (
+                                BuildContext context,
+                                bool hidden,
+                                Widget? child,
+                              ) {
+                                return Visibility(
+                                  visible: !hidden,
+                                  child: IconButton(
+                                    color: Colors.white,
+                                    icon: const Icon(Icons.close_rounded),
+                                    onPressed: () {
+                                      widget.controller.text = '';
+                                      suggestionsList.value = [];
+                                      if (widget.onQueryCleared != null) {
+                                        widget.onQueryCleared!.call();
+                                      }
+                                    },
+                                  ),
+                                );
                               },
-                            ),
-                          );
-                        },
-                      )
+                            )
                           : null,
                       border: InputBorder.none,
                       hintText: widget.hintText,
@@ -157,14 +157,14 @@ class _SearchBarState extends State<SearchBar> {
                             const Duration(
                               milliseconds: 600,
                             ),
-                                () async {
+                            () async {
                               if (tempQuery == val &&
                                   tempQuery.trim() != '' &&
                                   tempQuery != query) {
                                 query = tempQuery;
                                 suggestionsList.value =
-                                await widget.onQueryChanged!(tempQuery)
-                                as List;
+                                    await widget.onQueryChanged!(tempQuery)
+                                        as List;
                               }
                             },
                           );
@@ -173,7 +173,7 @@ class _SearchBarState extends State<SearchBar> {
                             const Duration(
                               milliseconds: 600,
                             ),
-                                () async {
+                            () async {
                               if (tempQuery == val &&
                                   tempQuery.trim() != '' &&
                                   tempQuery != query) {
@@ -213,86 +213,86 @@ class _SearchBarState extends State<SearchBar> {
             ValueListenableBuilder(
               valueListenable: hide,
               builder: (
-                  BuildContext context,
-                  bool hidden,
-                  Widget? child,
-                  ) {
+                BuildContext context,
+                bool hidden,
+                Widget? child,
+              ) {
                 return Visibility(
                   visible: !hidden,
                   child: ValueListenableBuilder(
                     valueListenable: suggestionsList,
                     builder: (
-                        BuildContext context,
-                        List suggestedList,
-                        Widget? child,
-                        ) {
+                      BuildContext context,
+                      List suggestedList,
+                      Widget? child,
+                    ) {
                       return suggestedList.isEmpty
                           ? const SizedBox()
                           : Card(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 18.0,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            10.0,
-                          ),
-                        ),
-                        elevation: 8.0,
-                        child: SizedBox(
-                          height: min(
-                            MediaQuery.of(context).size.height / 1.75,
-                            70.0 * suggestedList.length,
-                          ),
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.only(
-                              top: 10,
-                              bottom: 10,
-                            ),
-                            shrinkWrap: true,
-                            itemExtent: 70.0,
-                            itemCount: suggestedList.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                leading:
-                                const Icon(CupertinoIcons.search),
-                                title: Text(
-                                  suggestedList[index].toString(),
-                                  overflow: TextOverflow.ellipsis,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 18.0,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  10.0,
                                 ),
-                                onTap: () {
-                                  widget.onSubmitted(
-                                    suggestedList[index].toString(),
-                                  );
-                                  hide.value = true;
-                                  List searchQueries =
-                                  Hive.box('settings').get(
-                                    'search',
-                                    defaultValue: [],
-                                  ) as List;
-                                  if (searchQueries.contains(
-                                    suggestedList[index].toString(),
-                                  )) {
-                                    searchQueries.remove(
-                                      suggestedList[index].toString(),
+                              ),
+                              elevation: 8.0,
+                              child: SizedBox(
+                                height: min(
+                                  MediaQuery.of(context).size.height / 1.75,
+                                  70.0 * suggestedList.length,
+                                ),
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                    bottom: 10,
+                                  ),
+                                  shrinkWrap: true,
+                                  itemExtent: 70.0,
+                                  itemCount: suggestedList.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading:
+                                          const Icon(CupertinoIcons.search),
+                                      title: Text(
+                                        suggestedList[index].toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      onTap: () {
+                                        widget.onSubmitted(
+                                          suggestedList[index].toString(),
+                                        );
+                                        hide.value = true;
+                                        List searchQueries =
+                                            Hive.box('settings').get(
+                                          'search',
+                                          defaultValue: [],
+                                        ) as List;
+                                        if (searchQueries.contains(
+                                          suggestedList[index].toString(),
+                                        )) {
+                                          searchQueries.remove(
+                                            suggestedList[index].toString(),
+                                          );
+                                        }
+                                        searchQueries.insert(
+                                          0,
+                                          suggestedList[index].toString(),
+                                        );
+                                        if (searchQueries.length > 10) {
+                                          searchQueries =
+                                              searchQueries.sublist(0, 10);
+                                        }
+                                        Hive.box('settings')
+                                            .put('search', searchQueries);
+                                      },
                                     );
-                                  }
-                                  searchQueries.insert(
-                                    0,
-                                    suggestedList[index].toString(),
-                                  );
-                                  if (searchQueries.length > 10) {
-                                    searchQueries =
-                                        searchQueries.sublist(0, 10);
-                                  }
-                                  Hive.box('settings')
-                                      .put('search', searchQueries);
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      );
+                                  },
+                                ),
+                              ),
+                            );
                     },
                   ),
                 );

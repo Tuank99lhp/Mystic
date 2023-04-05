@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class MyTheme with ChangeNotifier {
-
   bool _isDark =
       Hive.box('settings').get('darkMode', defaultValue: true) as bool;
 
