@@ -2,12 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mystic/API/apis.dart';
-
-import '../helpers/mediaitem_converter.dart';
 import '../widgets/bouncy_sliver_scroll_view.dart';
 import '../widgets/copy_clipboard.dart';
 import '../widgets/empty_screen.dart';
-import '../widgets/download_button.dart';
 import '../widgets/miniplayer.dart';
 
 class AlbumSearchPage extends StatefulWidget {

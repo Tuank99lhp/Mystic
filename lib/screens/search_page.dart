@@ -54,16 +54,12 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  final TextEditingController _searchBar = TextEditingController();
-  final FocusNode _inputNode = FocusNode();
   List _searchResult = [];
-  List _suggestionsList = [];
 
   Future<void> Search() async {
     final Query = query == '' ? widget.query : query;
     if (Query.isEmpty) {
       _searchResult = [];
-      _suggestionsList = [];
       setState(() {});
       return;
     }
