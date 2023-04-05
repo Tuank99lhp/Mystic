@@ -115,3 +115,16 @@ Future<void> updateLikeStatus(dynamic songId, bool add) async {
   }
   addOrUpdateData('user', 'likedSongs', userLikedSongsList);
 }
+
+Future<List> fetchSongsList(String searchQuery) async {
+  final List list = await yt.search.search(searchQuery);
+  final searchedList = [
+    for (final s in list)
+      returnSongLayout(
+        0,
+        s,
+      )
+  ];
+
+  return searchedList;
+}

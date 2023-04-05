@@ -156,13 +156,22 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                           .startsWith('file:'))
                                       ? SizedBox.square(
                                           dimension: useDense ? 40.0 : 50.0,
-                                          child: Image(
+                                          child: FadeInImage.assetNetwork(
                                             fit: BoxFit.cover,
+                                            placeholder:
+                                                'assets/cover.jpg', // đường dẫn tới hình ảnh mặc định
                                             image: FileImage(
                                               File(
                                                 mediaItem.artUri!.toFilePath(),
                                               ),
-                                            ),
+                                            ).toString(),
+                                            imageErrorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Image.asset(
+                                                'assets/cover.jpg', // đường dẫn tới hình ảnh mặc định
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
                                         )
                                       : SizedBox.square(

@@ -18,6 +18,8 @@ import 'package:mystic/style/app_themes.dart';
 import 'screens/local_music.dart';
 import 'services/audio_service.dart';
 
+import 'package:mystic/helpers/config.dart';
+
 void main() async {
   await initialisation();
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +35,7 @@ Future<void> startService() async {
     ),
   );
   GetIt.I.registerSingleton<AudioPlayerHandler>(audioHandler);
-  // GetIt.I.registerSingleton<MyTheme>(MyTheme());
+  GetIt.I.registerSingleton<MyTheme>(MyTheme());
 }
 
 Future<void> initialisation() async {

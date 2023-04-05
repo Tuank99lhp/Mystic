@@ -100,5 +100,15 @@
   "shuffle": "Shuffle",
   "removedFrom": "Removed from",
   "backupError": "Error while data backup",
-  "restoreError": "Error while data restore"
+  "restoreError": "Error while data restore",
+  "useVpn": "Use VPN",
+  "resultsNotFound": "resultsNotFound",
+  "searchText": "Search...",
+  "trendingSearch": "Trending Search",
+  "copied": "Copied",
+  "downingAlbum": "Downing",
+  "down": "Download,",
+  "downDone": "Download Done",
+  "viewAll": "View all",
+  "song": "Song"
 }
