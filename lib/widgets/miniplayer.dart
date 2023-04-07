@@ -155,27 +155,26 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                           .toString()
                                           .startsWith('file:'))
                                       ? SizedBox.square(
-                                          dimension: useDense ? 40.0 : 50.0,
-                                          child: FadeInImage.assetNetwork(
-                                            fit: BoxFit.cover,
-                                            placeholder:
-                                                'assets/cover.jpg', // đường dẫn tới hình ảnh mặc định
-                                            image: FileImage(
-                                              File(
-                                                mediaItem.artUri!.toFilePath(),
-                                              ),
-                                            ).toString(),
-                                            imageErrorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Image.asset(
-                                                'assets/cover.jpg', // đường dẫn tới hình ảnh mặc định
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                          ),
-                                        )
+                                    dimension: useDense ? 40.0 : 50.0,
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: FileImage(
+                                        File(
+                                          mediaItem.artUri!
+                                              .toFilePath(),
+                                        ),
+                                      ),
+
+                                      errorBuilder: (context, exception, stackTrace) {
+                                        return Image(
+                                              fit: BoxFit.cover,
+                                              image: const AssetImage('assets/cover.jpg'),
+                                            );
+                                      },
+                                    ),
+                                  )
                                       : SizedBox.square(
-                                          dimension: useDense ? 40.0 : 50.0,
+                                    dimension: useDense ? 40.0 : 50.0,
                                           child: CachedNetworkImage(
                                             fit: BoxFit.cover,
                                             errorWidget: (

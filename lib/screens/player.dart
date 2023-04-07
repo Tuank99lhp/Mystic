@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mystic/API/mystic.dart';
 import 'package:mystic/helpers/media_item.dart';
@@ -30,6 +31,7 @@ class AudioApp extends StatefulWidget {
 
 @override
 class AudioAppState extends State<AudioApp> {
+  final AudioPlayerHandler audioHandler = GetIt.I<AudioPlayerHandler>();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -360,7 +362,10 @@ class AudioAppState extends State<AudioApp> {
                                     color: Theme.of(context).hintColor,
                                   ),
                                   iconSize: 40,
-                                  onPressed: audioPlayer.play,
+                                  onPressed: () => {
+                                    audioHandler.stop(),
+                                    audioPlayer.play(),
+                                  },
                                   splashColor: Colors.transparent,
                                 );
                               } else if (processingState !=
