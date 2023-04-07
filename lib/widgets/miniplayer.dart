@@ -155,26 +155,26 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                           .toString()
                                           .startsWith('file:'))
                                       ? SizedBox.square(
-                                    dimension: useDense ? 40.0 : 50.0,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: FileImage(
-                                        File(
-                                          mediaItem.artUri!
-                                              .toFilePath(),
-                                        ),
-                                      ),
-
-                                      errorBuilder: (context, exception, stackTrace) {
-                                        return Image(
-                                              fit: BoxFit.cover,
-                                              image: const AssetImage('assets/cover.jpg'),
-                                            );
-                                      },
-                                    ),
-                                  )
+                                          dimension: useDense ? 40.0 : 50.0,
+                                          child: Image(
+                                            fit: BoxFit.cover,
+                                            image: FileImage(
+                                              File(
+                                                mediaItem.artUri!.toFilePath(),
+                                              ),
+                                            ),
+                                            errorBuilder: (context, exception,
+                                                stackTrace) {
+                                              return Image(
+                                                fit: BoxFit.cover,
+                                                image: const AssetImage(
+                                                    'assets/cover.jpg'),
+                                              );
+                                            },
+                                          ),
+                                        )
                                       : SizedBox.square(
-                                    dimension: useDense ? 40.0 : 50.0,
+                                          dimension: useDense ? 40.0 : 50.0,
                                           child: CachedNetworkImage(
                                             fit: BoxFit.cover,
                                             errorWidget: (
