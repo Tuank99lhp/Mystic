@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:mystic/widgets/gradient_containers.dart';
+import 'package:mystic/widgets/miniplayer.dart';
 import '../services/data_manager.dart';
 import '../widgets/search_bar.dart';
 import '../API/mystic.dart';
@@ -208,6 +209,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
+            MiniPlayer()
           ],
         ),
       ),

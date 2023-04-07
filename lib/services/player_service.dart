@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mystic/helpers/mediaitem_converter.dart';
 import 'package:mystic/screens/player.dart';
+import 'package:mystic/services/audio_manager.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -24,6 +25,7 @@ class PlayerInvoke {
     bool shuffle = false,
     String? playlistBox,
   }) async {
+    await audioPlayer.pause();
     final globalIndex = index < 0 ? 0 : index;
     var offline = isOffline;
     final finalList = songsList.toList();

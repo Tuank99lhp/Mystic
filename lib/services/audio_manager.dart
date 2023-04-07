@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mystic/API/mystic.dart';
 import 'package:mystic/helpers/media_item.dart';
 import 'package:mystic/screens/more_page.dart';
+import 'package:mystic/screens/player.dart';
 import 'package:mystic/services/data_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
+final AudioPlayerHandler audioHandler = GetIt.I<AudioPlayerHandler>();
 Stream<PositionData> get positionDataStream =>
     Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
       audioPlayer.positionStream,
@@ -46,6 +49,7 @@ Future<void> playSong(Map song) async {
       ? song['songUrl'].toString()
       : await getSong(song['ytid']);
 
+  await audioHandler.stop();
   try {
     await audioPlayer.setAudioSource(
       AudioSource.uri(
