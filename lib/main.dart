@@ -21,25 +21,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:mystic/Helpers/config.dart';
-import 'package:mystic/Helpers/countrycodes.dart';
-import 'package:mystic/Helpers/handle_native.dart';
-import 'package:mystic/Helpers/import_export_playlist.dart';
-import 'package:mystic/Helpers/logging.dart';
-import 'package:mystic/Helpers/route_handler.dart';
-import 'package:mystic/Screens/About/about.dart';
-import 'package:mystic/Screens/Home/home.dart';
-import 'package:mystic/Screens/Library/downloads.dart';
-import 'package:mystic/Screens/Library/nowplaying.dart';
-import 'package:mystic/Screens/Library/playlists.dart';
-import 'package:mystic/Screens/Library/recent.dart';
-import 'package:mystic/Screens/Library/stats.dart';
-import 'package:mystic/Screens/Login/auth.dart';
-import 'package:mystic/Screens/Login/pref.dart';
-import 'package:mystic/Screens/Player/audioplayer.dart';
-import 'package:mystic/Screens/Settings/setting.dart';
-import 'package:mystic/Services/audio_service.dart';
-import 'package:mystic/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -48,6 +29,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
+import 'package:mystic/Helpers/config.dart';
+import 'package:mystic/Helpers/countrycodes.dart';
+import 'package:mystic/Helpers/handle_native.dart';
+import 'package:mystic/Helpers/import_export_playlist.dart';
+import 'package:mystic/Helpers/logging.dart';
+import 'package:mystic/Helpers/route_handler.dart';
+import 'package:mystic/Screens/Home/home.dart';
+import 'package:mystic/Screens/Library/downloads.dart';
+import 'package:mystic/Screens/Library/playlists.dart';
+import 'package:mystic/Screens/Player/audioplayer.dart';
+import 'package:mystic/Screens/Settings/setting.dart';
+import 'package:mystic/Services/audio_service.dart';
+import 'package:mystic/theme/app_theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
@@ -249,9 +243,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget initialFuntion() {
-    return Hive.box('settings').get('userId') != null
-        ? HomePage()
-        : AuthScreen();
+    return HomePage();
   }
 
   @override
@@ -300,14 +292,9 @@ class _MyAppState extends State<MyApp> {
           .toList(),
       routes: {
         '/': (context) => initialFuntion(),
-        '/pref': (context) => const PrefScreen(),
         '/setting': (context) => const SettingPage(),
-        '/about': (context) => AboutScreen(),
         '/playlists': (context) => PlaylistScreen(),
-        '/nowplaying': (context) => NowPlaying(),
-        '/recent': (context) => RecentlyPlayed(),
         '/downloads': (context) => const Downloads(),
-        '/stats': (context) => const Stats(),
       },
       navigatorKey: navigatorKey,
       onGenerateRoute: (RouteSettings settings) {

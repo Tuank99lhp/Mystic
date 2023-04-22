@@ -21,6 +21,13 @@ import 'dart:io';
 
 import 'package:audiotagger/audiotagger.dart';
 import 'package:audiotagger/models/tag.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/CustomWidgets/custom_physics.dart';
 import 'package:mystic/CustomWidgets/data_search.dart';
 import 'package:mystic/CustomWidgets/empty_screen.dart';
@@ -29,16 +36,7 @@ import 'package:mystic/CustomWidgets/miniplayer.dart';
 import 'package:mystic/CustomWidgets/playlist_head.dart';
 import 'package:mystic/CustomWidgets/snackbar.dart';
 import 'package:mystic/Helpers/picker.dart';
-import 'package:mystic/Screens/Library/liked.dart';
 import 'package:mystic/Services/player_service.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
-import 'package:logging/logging.dart';
-// import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Downloads extends StatefulWidget {
@@ -71,7 +69,7 @@ class _DownloadsState extends State<Downloads>
 
   @override
   void initState() {
-    _tcontroller = TabController(length: 4, vsync: this);
+    _tcontroller = TabController(length: 1, vsync: this);
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -334,24 +332,6 @@ class _DownloadsState extends State<Downloads>
                           ? Colors.transparent
                           : Theme.of(context).colorScheme.secondary,
                   elevation: 0,
-                  bottom: TabBar(
-                    controller: _tcontroller,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    tabs: [
-                      Tab(
-                        text: AppLocalizations.of(context)!.songs,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.albums,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.artists,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.genres,
-                      ),
-                    ],
-                  ),
                   actions: [
                     IconButton(
                       icon: const Icon(CupertinoIcons.search),
@@ -490,25 +470,6 @@ class _DownloadsState extends State<Downloads>
                             },
                             songs: _songs,
                             scrollController: _scrollController,
-                          ),
-                          AlbumsTab(
-                            albums: _albums,
-                            offline: true,
-                            type: 'album',
-                            sortedAlbumKeysList: _sortedAlbumKeysList,
-                          ),
-                          AlbumsTab(
-                            albums: _artists,
-                            type: 'artist',
-                            // tempPath: tempPath,
-                            offline: true,
-                            sortedAlbumKeysList: _sortedArtistKeysList,
-                          ),
-                          AlbumsTab(
-                            albums: _genres,
-                            type: 'genre',
-                            offline: true,
-                            sortedAlbumKeysList: _sortedGenreKeysList,
                           ),
                         ],
                       ),

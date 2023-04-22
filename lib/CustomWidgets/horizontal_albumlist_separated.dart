@@ -17,11 +17,11 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:mystic/CustomWidgets/custom_physics.dart';
 import 'package:mystic/CustomWidgets/song_tile_trailing_menu.dart';
 import 'package:mystic/Helpers/image_resolution_modifier.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 
 class HorizontalAlbumsListSeparated extends StatelessWidget {
   final List songsList;

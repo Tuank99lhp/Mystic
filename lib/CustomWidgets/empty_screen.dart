@@ -36,41 +36,13 @@ Widget emptyScreen(
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          RotatedBox(
-            quarterTurns: turns,
-            child: Text(
-              text1,
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: size1,
-                color: useWhite
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.w600,
-              ),
+          Text(
+            'Empty :(',
+            style: TextStyle(
+              fontSize: size3,
+              fontWeight: FontWeight.w600,
+              color: useWhite ? Colors.white : null,
             ),
-          ),
-          Column(
-            children: [
-              Text(
-                text2,
-                style: TextStyle(
-                  fontSize: size2,
-                  color: useWhite
-                      ? Colors.white
-                      : Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                text3,
-                style: TextStyle(
-                  fontSize: size3,
-                  fontWeight: FontWeight.w600,
-                  color: useWhite ? Colors.white : null,
-                ),
-              ),
-            ],
           ),
         ],
       ),

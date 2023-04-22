@@ -17,6 +17,9 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mystic/APIs/api.dart';
 import 'package:mystic/CustomWidgets/bouncy_sliver_scroll_view.dart';
 import 'package:mystic/CustomWidgets/copy_clipboard.dart';
@@ -26,9 +29,6 @@ import 'package:mystic/CustomWidgets/gradient_containers.dart';
 import 'package:mystic/CustomWidgets/miniplayer.dart';
 import 'package:mystic/Screens/Common/song_list.dart';
 import 'package:mystic/Screens/Search/artists.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AlbumSearchPage extends StatefulWidget {
   final String query;

@@ -21,9 +21,6 @@ import 'dart:io';
 
 import 'package:audiotagger/audiotagger.dart';
 import 'package:audiotagger/models/tag.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/Helpers/lyrics.dart';
-import 'package:mystic/Services/ext_storage_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_downloader/flutter_downloader.dart';
@@ -31,6 +28,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
+import 'package:mystic/CustomWidgets/snackbar.dart';
+import 'package:mystic/Helpers/lyrics.dart';
+import 'package:mystic/Services/ext_storage_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -94,7 +94,7 @@ class Download with ChangeNotifier {
         await openAppSettings();
       }
     }
-    final RegExp avoid = RegExp(r'[\.\\\*\:\"\?#/;\|]');
+    final RegExp avoid = RegExp(r'[.\\*:"?#/;|]');
     data['title'] = data['title'].toString().split('(From')[0].trim();
 
     String filename = '';

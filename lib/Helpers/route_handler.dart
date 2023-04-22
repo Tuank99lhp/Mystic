@@ -17,6 +17,8 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/APIs/api.dart';
 import 'package:mystic/APIs/spotify_api.dart';
 import 'package:mystic/Helpers/audio_query.dart';
@@ -27,8 +29,6 @@ import 'package:mystic/Screens/Search/search.dart';
 import 'package:mystic/Screens/YouTube/youtube_playlist.dart';
 import 'package:mystic/Services/player_service.dart';
 import 'package:mystic/Services/youtube_services.dart';
-import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 // ignore: avoid_classes_with_only_static_members
@@ -38,7 +38,7 @@ class HandleRoute {
     if (url == null) return null;
     if (url.contains('saavn')) {
       final RegExpMatch? songResult =
-          RegExp(r'.*saavn.com.*?\/(song)\/.*?\/(.*)').firstMatch('$url?');
+          RegExp('.*saavn.com.*?/(song)/.*?/(.*)').firstMatch('$url?');
       if (songResult != null) {
         return PageRouteBuilder(
           opaque: false,
@@ -49,7 +49,7 @@ class HandleRoute {
         );
       } else {
         final RegExpMatch? playlistResult = RegExp(
-          r'.*saavn.com\/?s?\/(featured|playlist|album)\/.*\/(.*_)?[?/]',
+          '.*saavn.com/?s?/(featured|playlist|album)/.*/(.*_)?[?/]',
         ).firstMatch('$url?');
         if (playlistResult != null) {
           return PageRouteBuilder(
@@ -65,7 +65,7 @@ class HandleRoute {
       // TODO: Add support for spotify links
       Logger.root.info('received spotify link');
       final RegExpMatch? songResult =
-          RegExp(r'.*spotify.com.*?\/(track)\/(.*?)[/?]').firstMatch('$url/');
+          RegExp('.*spotify.com.*?/(track)/(.*?)[/?]').firstMatch('$url/');
       if (songResult != null) {
         return PageRouteBuilder(
           opaque: false,
@@ -79,7 +79,7 @@ class HandleRoute {
       // TODO: Add support for youtube links
       Logger.root.info('received youtube link');
       final RegExpMatch? videoId =
-          RegExp(r'.*[\?\/](v|list)[=\/](.*?)[\/\?&#]').firstMatch('$url/');
+          RegExp('.*[?/](v|list)[=/](.*?)[/?&#]').firstMatch('$url/');
       if (videoId != null) {
         return PageRouteBuilder(
           opaque: false,
@@ -91,7 +91,7 @@ class HandleRoute {
       }
     } else {
       final RegExpMatch? fileResult =
-          RegExp(r'\/[0-9]+\/([0-9]+)\/').firstMatch('$url/');
+          RegExp(r'/\d+/(\d+)/').firstMatch('$url/');
       if (fileResult != null) {
         return PageRouteBuilder(
           opaque: false,

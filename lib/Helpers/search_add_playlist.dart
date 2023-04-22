@@ -18,16 +18,15 @@
  */
 
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/APIs/api.dart';
 import 'package:mystic/APIs/spotify_api.dart';
 import 'package:mystic/CustomWidgets/gradient_containers.dart';
 import 'package:mystic/Helpers/playlist.dart';
 import 'package:mystic/Services/youtube_services.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:http/http.dart';
-import 'package:logging/logging.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 // ignore: avoid_classes_with_only_static_members
@@ -35,7 +34,7 @@ class SearchAddPlaylist {
   static Future<Map> addYtPlaylist(String inLink) async {
     final String link = '$inLink&';
     try {
-      final RegExpMatch? id = RegExp(r'.*list\=(.*?)&').firstMatch(link);
+      final RegExpMatch? id = RegExp('.*list=(.*?)&').firstMatch(link);
       if (id != null) {
         final Playlist metadata =
             await YouTubeServices().getPlaylistDetails(id[1]!);
@@ -78,7 +77,7 @@ class SearchAddPlaylist {
 
   static Future<Map> addRessoPlaylist(String inLink) async {
     try {
-      final RegExpMatch? id = RegExp(r'.*?id\=(.*)&').firstMatch('$inLink&');
+      final RegExpMatch? id = RegExp('.*?id=(.*)&').firstMatch('$inLink&');
       if (id != null) {
         final List tracks = await getRessoSongs(playlistId: id[1]!);
         return {
@@ -95,7 +94,7 @@ class SearchAddPlaylist {
             Uri.parse(response.headers['location'].toString());
         baseClient.close();
         final RegExpMatch? id2 =
-            RegExp(r'.*?id\=(.*)&').firstMatch('$redirectUri&');
+            RegExp('.*?id=(.*)&').firstMatch('$redirectUri&');
         if (id2 != null) {
           final List tracks = await getRessoSongs(playlistId: id2[1]!);
           return {

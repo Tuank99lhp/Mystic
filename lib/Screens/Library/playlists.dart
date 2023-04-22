@@ -17,19 +17,17 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
-import 'package:mystic/CustomWidgets/collage.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/miniplayer.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/CustomWidgets/textinput_dialog.dart';
-import 'package:mystic/Helpers/import_export_playlist.dart';
-import 'package:mystic/Screens/Library/import.dart';
-import 'package:mystic/Screens/Library/liked.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mystic/CustomWidgets/collage.dart';
+import 'package:mystic/CustomWidgets/gradient_containers.dart';
+import 'package:mystic/CustomWidgets/snackbar.dart';
+import 'package:mystic/CustomWidgets/textinput_dialog.dart';
+import 'package:mystic/Helpers/import_export_playlist.dart';
+import 'package:mystic/Screens/Library/liked.dart';
 
 class PlaylistScreen extends StatefulWidget {
   @override
@@ -39,17 +37,12 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
   final Box settingsBox = Hive.box('settings');
   final List playlistNames =
-      Hive.box('settings').get('playlistNames')?.toList() as List? ??
-          ['Favorite Songs'];
+      Hive.box('settings').get('playlistNames')?.toList() as List? ?? [];
   Map playlistDetails =
       Hive.box('settings').get('playlistDetails', defaultValue: {}) as Map;
   @override
   Widget build(BuildContext context) {
-    if (!playlistNames.contains('Favorite Songs')) {
-      playlistNames.insert(0, 'Favorite Songs');
-      settingsBox.put('playlistNames', playlistNames);
-    }
-
+    settingsBox.put('playlistNames', playlistNames);
     return GradientContainer(
       child: Column(
         children: [
@@ -91,7 +84,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           initialText: '',
                           keyboardType: TextInputType.name,
                           onSubmitted: (String value) async {
-                            final RegExp avoid = RegExp(r'[\.\\\*\:\"\?#/;\|]');
+                            final RegExp avoid = RegExp(r'[.\\*:"?#/;|]');
                             value.replaceAll(avoid, '').replaceAll('  ', ' ');
                             if (value.trim() == '') {
                               value = 'Playlist ${playlistNames.length}';
@@ -108,33 +101,33 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         );
                       },
                     ),
-                    ListTile(
-                      title: Text(AppLocalizations.of(context)!.importPlaylist),
-                      leading: SizedBox.square(
-                        dimension: 50,
-                        child: Center(
-                          child: Icon(
-                            MdiIcons.import,
-                            color: Theme.of(context).iconTheme.color,
-                          ),
-                        ),
-                      ),
-                      onTap: () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImportPlaylist(),
-                          ),
-                        );
-                      },
-                    ),
+                    // ListTile(
+                    //   title: Text(AppLocalizations.of(context)!.importPlaylist),
+                    //   leading: SizedBox.square(
+                    //     dimension: 50,
+                    //     child: Center(
+                    //       child: Icon(
+                    //         MdiIcons.import,
+                    //         color: Theme.of(context).iconTheme.color,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   onTap: () async {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => ImportPlaylist(),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                     ListTile(
                       title: Text(AppLocalizations.of(context)!.mergePlaylists),
                       leading: SizedBox.square(
                         dimension: 50,
                         child: Center(
                           child: Icon(
-                            Icons.merge_type_rounded,
+                            Icons.merge_outlined,
                             color: Theme.of(context).iconTheme.color,
                           ),
                         ),
@@ -392,9 +385,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       ) {
                         final List playlistNamesValue = box.get(
                               'playlistNames',
-                              defaultValue: ['Favorite Songs'],
+                              defaultValue: [],
                             )?.toList() as List? ??
-                            ['Favorite Songs'];
+                            [];
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -713,7 +706,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               ),
             ),
           ),
-          MiniPlayer(),
         ],
       ),
     );

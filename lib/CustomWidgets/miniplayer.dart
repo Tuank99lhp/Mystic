@@ -20,12 +20,12 @@
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/Screens/Player/audioplayer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mystic/CustomWidgets/gradient_containers.dart';
+import 'package:mystic/Screens/Player/audioplayer.dart';
 
 class MiniPlayer extends StatefulWidget {
   static const MiniPlayer _instance = MiniPlayer._internal();
@@ -186,6 +186,17 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                                       .toFilePath(),
                                                 ),
                                               ),
+                                              errorBuilder:
+                                                  (BuildContext context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                return const Image(
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(
+                                                    'assets/cover.jpg',
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           )
                                         : SizedBox.square(

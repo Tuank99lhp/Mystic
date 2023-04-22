@@ -17,6 +17,10 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/APIs/api.dart';
 import 'package:mystic/CustomWidgets/bouncy_playlist_header_scroll_view.dart';
 import 'package:mystic/CustomWidgets/copy_clipboard.dart';
@@ -30,10 +34,6 @@ import 'package:mystic/CustomWidgets/song_tile_trailing_menu.dart';
 import 'package:mystic/Helpers/extensions.dart';
 import 'package:mystic/Helpers/image_resolution_modifier.dart';
 import 'package:mystic/Services/player_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SongsListPage extends StatefulWidget {

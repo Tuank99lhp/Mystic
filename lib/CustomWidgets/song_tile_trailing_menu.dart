@@ -18,6 +18,9 @@
  */
 
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mystic/CustomWidgets/add_playlist.dart';
 import 'package:mystic/Helpers/add_mediaitem_to_queue.dart';
 import 'package:mystic/Helpers/mediaitem_converter.dart';
@@ -25,9 +28,6 @@ import 'package:mystic/Screens/Common/song_list.dart';
 import 'package:mystic/Screens/Search/albums.dart';
 import 'package:mystic/Screens/Search/search.dart';
 import 'package:mystic/Services/youtube_services.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 

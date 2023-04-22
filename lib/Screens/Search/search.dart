@@ -17,6 +17,10 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
 import 'package:mystic/APIs/api.dart';
 import 'package:mystic/CustomWidgets/copy_clipboard.dart';
 import 'package:mystic/CustomWidgets/download_button.dart';
@@ -31,10 +35,6 @@ import 'package:mystic/Screens/Common/song_list.dart';
 import 'package:mystic/Screens/Search/albums.dart';
 import 'package:mystic/Screens/Search/artists.dart';
 import 'package:mystic/Services/player_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
 
 class SearchPage extends StatefulWidget {
   final String query;

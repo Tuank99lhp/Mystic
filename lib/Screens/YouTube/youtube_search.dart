@@ -19,9 +19,9 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:mystic/CustomWidgets/animated_text.dart';
 import 'package:mystic/CustomWidgets/empty_screen.dart';
 import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/miniplayer.dart';
 import 'package:mystic/CustomWidgets/search_bar.dart';
 import 'package:mystic/CustomWidgets/snackbar.dart';
 import 'package:mystic/CustomWidgets/song_tile_trailing_menu.dart';
@@ -58,8 +58,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
       Hive.box('settings').get('liveSearch', defaultValue: true) as bool;
   List searchHistory =
       Hive.box('settings').get('search', defaultValue: []) as List;
-  bool searchYtMusic =
-      Hive.box('settings').get('searchYtMusic', defaultValue: true) as bool;
+  bool searchYtMusic = false;
   // List ytSearch =
   // Hive.box('settings').get('ytSearch', defaultValue: []) as List;
   // bool showHistory =
@@ -91,27 +90,15 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
       if (query.isEmpty && widget.query.isEmpty) {
         fetched = true;
       } else {
-        if (searchYtMusic) {
-          Logger.root.info('calling yt music search');
-          YtMusicService()
-              .search(query == '' ? widget.query : query)
-              .then((value) {
-            setState(() {
-              searchedList = value;
-              fetched = true;
-            });
+        Logger.root.info('calling youtube search');
+        YouTubeServices()
+            .fetchSearchResults(query == '' ? widget.query : query)
+            .then((value) {
+          setState(() {
+            searchedList = value;
+            fetched = true;
           });
-        } else {
-          Logger.root.info('calling youtube search');
-          YouTubeServices()
-              .fetchSearchResults(query == '' ? widget.query : query)
-              .then((value) {
-            setState(() {
-              searchedList = value;
-              fetched = true;
-            });
-          });
-        }
+        });
       }
     }
     return GradientContainer(
@@ -127,10 +114,6 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                   controller: _controller,
                   liveSearch: true,
                   autofocus: widget.autofocus,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_rounded),
-                    onPressed: () => Navigator.pop(context),
-                  ),
                   hintText: AppLocalizations.of(context)!.searchYt,
                   onQueryChanged: (changedQuery) {
                     return YouTubeServices()
@@ -152,91 +135,11 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                   },
                   body: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 70,
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 60,
                           left: 20,
                         ),
-                        child: (query.isEmpty && widget.query.isEmpty)
-                            ? null
-                            : Row(
-                                children: [
-                                  ChoiceChip(
-                                    label: const Text('YT Music'),
-                                    selectedColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondary
-                                        .withOpacity(0.2),
-                                    labelStyle: TextStyle(
-                                      color: searchYtMusic
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .secondary
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .color,
-                                      fontWeight: searchYtMusic
-                                          ? FontWeight.w600
-                                          : FontWeight.normal,
-                                    ),
-                                    selected: searchYtMusic,
-                                    onSelected: (bool selected) {
-                                      if (selected) {
-                                        searchYtMusic = true;
-                                        fetched = false;
-                                        status = false;
-                                        Hive.box('settings').put(
-                                          'searchYtMusic',
-                                          searchYtMusic,
-                                        );
-                                        setState(() {});
-                                      }
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  ChoiceChip(
-                                    label: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!
-                                          .youTube,
-                                    ),
-                                    selectedColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondary
-                                        .withOpacity(0.2),
-                                    labelStyle: TextStyle(
-                                      color: !searchYtMusic
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .secondary
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .color,
-                                      fontWeight: !searchYtMusic
-                                          ? FontWeight.w600
-                                          : FontWeight.normal,
-                                    ),
-                                    selected: !searchYtMusic,
-                                    onSelected: (bool selected) {
-                                      if (selected) {
-                                        searchYtMusic = false;
-                                        fetched = false;
-                                        status = false;
-                                        Hive.box('settings').put(
-                                          'searchYtMusic',
-                                          searchYtMusic,
-                                        );
-                                        setState(() {});
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
                       ),
                       Expanded(
                         child: (!fetched)
@@ -361,8 +264,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   .spaceBetween,
                                                           children: [
                                                             Text(
-                                                              section['title']
-                                                                  .toString(),
+                                                              'Results',
                                                               style: TextStyle(
                                                                 color: Theme.of(
                                                                   context,
@@ -442,14 +344,25 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   ?.toString() ??
                                                               'Video';
                                                           return ListTile(
-                                                            title: Text(
-                                                              section['items']
+                                                            title: AnimatedText(
+                                                              text: section['items']
                                                                           [idx]
                                                                       ['title']
                                                                   .toString(),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              pauseAfterRound:
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          1),
+                                                              showFadingOnlyWhenScrolling:
+                                                                  false,
+                                                              fadingEdgeEndFraction:
+                                                                  0.1,
+                                                              fadingEdgeStartFraction:
+                                                                  0.1,
+                                                              startAfter:
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          1),
                                                               style:
                                                                   const TextStyle(
                                                                 fontWeight:
@@ -490,6 +403,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   .antiAlias,
                                                               child:
                                                                   CachedNetworkImage(
+                                                                width: 60,
+                                                                height: 60,
                                                                 fit: BoxFit
                                                                     .cover,
                                                                 errorWidget: (
@@ -710,7 +625,6 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                 ),
               ),
             ),
-            MiniPlayer(),
           ],
         ),
       ),

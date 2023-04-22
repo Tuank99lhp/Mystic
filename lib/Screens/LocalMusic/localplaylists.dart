@@ -17,12 +17,12 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mystic/CustomWidgets/snackbar.dart';
 import 'package:mystic/CustomWidgets/textinput_dialog.dart';
 import 'package:mystic/Helpers/audio_query.dart';
 import 'package:mystic/Screens/LocalMusic/downed_songs.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class LocalPlaylists extends StatefulWidget {

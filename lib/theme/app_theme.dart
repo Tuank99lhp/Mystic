@@ -17,9 +17,9 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
-import 'package:mystic/Helpers/config.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mystic/Helpers/config.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppTheme {

@@ -19,6 +19,10 @@
 
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:logging/logging.dart';
 // import 'package:mystic/CustomWidgets/add_playlist.dart';
 import 'package:mystic/CustomWidgets/custom_physics.dart';
 // import 'package:mystic/CustomWidgets/data_search.dart';
@@ -31,10 +35,6 @@ import 'package:mystic/Helpers/audio_query.dart';
 // import 'package:mystic/Screens/LocalMusic/localplaylists.dart';
 import 'package:mystic/Services/player_service.dart';
 // import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
-import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DownloadedSongsDesktop extends StatefulWidget {
@@ -98,7 +98,7 @@ class _DownloadedSongsDesktopState extends State<DownloadedSongsDesktop>
   }
 
   void getSongs() {
-    final RegExp avoid = RegExp(r'[\.\\\*\:\"\?#/;\|]');
+    final RegExp avoid = RegExp(r'[.\\*:"?#/;|]');
     for (final path in includedExcludedPaths) {
       final dir = Directory(path.toString());
       try {

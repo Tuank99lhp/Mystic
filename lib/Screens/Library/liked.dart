@@ -17,6 +17,12 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
 import 'package:mystic/CustomWidgets/collage.dart';
 import 'package:mystic/CustomWidgets/custom_physics.dart';
 import 'package:mystic/CustomWidgets/data_search.dart';
@@ -30,12 +36,6 @@ import 'package:mystic/CustomWidgets/song_tile_trailing_menu.dart';
 import 'package:mystic/Helpers/songs_count.dart' as songs_count;
 import 'package:mystic/Screens/Library/show_songs.dart';
 import 'package:mystic/Services/player_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
 // import 'package:path_provider/path_provider.dart';
 
 final ValueNotifier<bool> selectMode = ValueNotifier<bool>(false);
@@ -85,7 +85,7 @@ class _LikedSongsState extends State<LikedSongs>
 
   @override
   void initState() {
-    _tcontroller = TabController(length: 4, vsync: this);
+    _tcontroller = TabController(length: 1, vsync: this);
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -347,24 +347,6 @@ class _LikedSongsState extends State<LikedSongs>
                           ? Colors.transparent
                           : Theme.of(context).colorScheme.secondary,
                   elevation: 0,
-                  bottom: TabBar(
-                    controller: _tcontroller,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    tabs: [
-                      Tab(
-                        text: AppLocalizations.of(context)!.songs,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.albums,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.artists,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.genres,
-                      ),
-                    ],
-                  ),
                   actions: [
                     ValueListenableBuilder(
                       valueListenable: selectMode,
@@ -390,7 +372,7 @@ class _LikedSongsState extends State<LikedSongs>
                             },
                           ),
                           PopupMenuButton(
-                            icon: const Icon(Icons.sort_rounded),
+                            icon: const Icon(Icons.more_vert_outlined),
                             shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15.0)),
@@ -550,27 +532,6 @@ class _LikedSongsState extends State<LikedSongs>
                             },
                             playlistName: widget.playlistName,
                             scrollController: _scrollController,
-                          ),
-                          AlbumsTab(
-                            albums: _albums,
-                            type: 'album',
-                            offline: false,
-                            playlistName: widget.playlistName,
-                            sortedAlbumKeysList: _sortedAlbumKeysList,
-                          ),
-                          AlbumsTab(
-                            albums: _artists,
-                            type: 'artist',
-                            offline: false,
-                            playlistName: widget.playlistName,
-                            sortedAlbumKeysList: _sortedArtistKeysList,
-                          ),
-                          AlbumsTab(
-                            albums: _genres,
-                            type: 'genre',
-                            offline: false,
-                            playlistName: widget.playlistName,
-                            sortedAlbumKeysList: _sortedGenreKeysList,
                           ),
                         ],
                       ),

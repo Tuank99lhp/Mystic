@@ -19,11 +19,11 @@
 
 import 'dart:convert';
 
+import 'package:http/http.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/Helpers/extensions.dart';
 import 'package:mystic/Services/ytmusic/nav.dart';
 import 'package:mystic/Services/ytmusic/playlist.dart';
-import 'package:http/http.dart';
-import 'package:logging/logging.dart';
 
 class YtMusicService {
   static const ytmDomain = 'music.youtube.com';

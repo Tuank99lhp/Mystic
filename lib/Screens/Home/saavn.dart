@@ -18,7 +18,10 @@
  */
 
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
 import 'package:mystic/APIs/api.dart';
 import 'package:mystic/CustomWidgets/collage.dart';
 import 'package:mystic/CustomWidgets/horizontal_albumlist.dart';
@@ -34,10 +37,6 @@ import 'package:mystic/Screens/Common/song_list.dart';
 import 'package:mystic/Screens/Library/liked.dart';
 import 'package:mystic/Screens/Search/artists.dart';
 import 'package:mystic/Services/player_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
 
 bool fetched = false;
 List preferredLanguage = Hive.box('settings')

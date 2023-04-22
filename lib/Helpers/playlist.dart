@@ -18,9 +18,9 @@
  */
 
 import 'package:audio_service/audio_service.dart';
+import 'package:hive/hive.dart';
 import 'package:mystic/Helpers/mediaitem_converter.dart';
 import 'package:mystic/Helpers/songs_count.dart' as songs_count;
-import 'package:hive/hive.dart';
 
 bool checkPlaylist(String name, String key) {
   if (name != 'Favorite Songs') {
@@ -65,7 +65,7 @@ Future<void> addItemToPlaylist(String name, MediaItem mediaItem) async {
 }
 
 Future<void> addPlaylist(String inputName, List data) async {
-  final RegExp avoid = RegExp(r'[\.\\\*\:\"\?#/;\|]');
+  final RegExp avoid = RegExp(r'[.\\*:"?#/;|]');
   String name = inputName.replaceAll(avoid, '').replaceAll('  ', ' ');
 
   await Hive.openBox(name);

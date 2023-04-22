@@ -17,6 +17,11 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/CustomWidgets/add_playlist.dart';
 import 'package:mystic/CustomWidgets/custom_physics.dart';
 import 'package:mystic/CustomWidgets/data_search.dart';
@@ -26,13 +31,7 @@ import 'package:mystic/CustomWidgets/miniplayer.dart';
 import 'package:mystic/CustomWidgets/playlist_head.dart';
 import 'package:mystic/CustomWidgets/snackbar.dart';
 import 'package:mystic/Helpers/audio_query.dart';
-import 'package:mystic/Screens/LocalMusic/localplaylists.dart';
 import 'package:mystic/Services/player_service.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hive/hive.dart';
-import 'package:logging/logging.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -99,8 +98,7 @@ class _DownloadedSongsState extends State<DownloadedSongs>
 
   @override
   void initState() {
-    _tcontroller =
-        TabController(length: widget.showPlaylists ? 5 : 4, vsync: this);
+    _tcontroller = TabController(length: 1, vsync: this);
     getData();
     super.initState();
   }
@@ -243,32 +241,6 @@ class _DownloadedSongsState extends State<DownloadedSongs>
                   title: Text(
                     widget.title ?? AppLocalizations.of(context)!.myMusic,
                   ),
-                  bottom: TabBar(
-                    isScrollable: widget.showPlaylists,
-                    controller: _tcontroller,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    tabs: [
-                      Tab(
-                        text: AppLocalizations.of(context)!.songs,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.albums,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.artists,
-                      ),
-                      Tab(
-                        text: AppLocalizations.of(context)!.genres,
-                      ),
-                      if (widget.showPlaylists)
-                        Tab(
-                          text: AppLocalizations.of(context)!.playlists,
-                        ),
-                      //     Tab(
-                      //       text: AppLocalizations.of(context)!.videos,
-                      //     )
-                    ],
-                  ),
                   actions: [
                     IconButton(
                       icon: const Icon(CupertinoIcons.search),
@@ -284,7 +256,7 @@ class _DownloadedSongsState extends State<DownloadedSongs>
                       },
                     ),
                     PopupMenuButton(
-                      icon: const Icon(Icons.sort_rounded),
+                      icon: const Icon(Icons.more_vert_outlined),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       ),
@@ -397,28 +369,7 @@ class _DownloadedSongsState extends State<DownloadedSongs>
                             playlistId: widget.playlistId,
                             playlistName: widget.title,
                             tempPath: tempPath!,
-                          ),
-                          AlbumsTab(
-                            albums: _albums,
-                            albumsList: _sortedAlbumKeysList,
-                            tempPath: tempPath!,
-                          ),
-                          AlbumsTab(
-                            albums: _artists,
-                            albumsList: _sortedArtistKeysList,
-                            tempPath: tempPath!,
-                          ),
-                          AlbumsTab(
-                            albums: _genres,
-                            albumsList: _sortedGenreKeysList,
-                            tempPath: tempPath!,
-                          ),
-                          if (widget.showPlaylists)
-                            LocalPlaylists(
-                              playlistDetails: playlistDetails,
-                              offlineAudioQuery: offlineAudioQuery,
-                            ),
-                          // videosTab(),
+                          ), // videosTab(),
                         ],
                       ),
               ),

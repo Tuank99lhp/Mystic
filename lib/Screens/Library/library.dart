@@ -19,12 +19,15 @@
 
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mystic/Screens/Library/liked.dart';
 import 'package:mystic/Screens/LocalMusic/downed_songs.dart';
 import 'package:mystic/Screens/LocalMusic/downed_songs_desktop.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'package:mystic/Screens/Settings/setting.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -34,10 +37,23 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
+  List sectionsToShow = Hive.box('settings').get(
+    'sectionsToShow',
+    defaultValue: ['Home', 'YouTube', 'Library', 'More'],
+  ) as List;
+
+  void callback() {
+    sectionsToShow = Hive.box('settings').get(
+      'sectionsToShow',
+      defaultValue: ['Home', 'YouTube', 'Library', 'More'],
+    ) as List;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final bool rotated = MediaQuery.of(context).size.height < screenWidth;
+    //final double screenWidth = MediaQuery.of(context).size.width;
+    //final bool rotated = MediaQuery.of(context).size.height < screenWidth;
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: [
@@ -52,41 +68,21 @@ class _LibraryPageState extends State<LibraryPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: (rotated && screenWidth < 1050)
-              ? null
-              : Builder(
-                  builder: (BuildContext context) {
-                    return Transform.rotate(
-                      angle: 22 / 7 * 2,
-                      child: IconButton(
-                        color: Theme.of(context).iconTheme.color,
-                        icon: const Icon(
-                          Icons.horizontal_split_rounded,
-                        ),
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        tooltip: MaterialLocalizations.of(context)
-                            .openAppDrawerTooltip,
-                      ),
-                    );
-                  },
-                ),
         ),
-        LibraryTile(
-          title: AppLocalizations.of(context)!.nowPlaying,
-          icon: Icons.queue_music_rounded,
-          onTap: () {
-            Navigator.pushNamed(context, '/nowplaying');
-          },
-        ),
-        LibraryTile(
-          title: AppLocalizations.of(context)!.lastSession,
-          icon: Icons.history_rounded,
-          onTap: () {
-            Navigator.pushNamed(context, '/recent');
-          },
-        ),
+        // LibraryTile(
+        //   title: AppLocalizations.of(context)!.nowPlaying,
+        //   icon: Icons.queue_music_rounded,
+        //   onTap: () {
+        //     Navigator.pushNamed(context, '/nowplaying');
+        //   },
+        // ),
+        // LibraryTile(
+        //   title: AppLocalizations.of(context)!.lastSession,
+        //   icon: Icons.history_rounded,
+        //   onTap: () {
+        //     Navigator.pushNamed(context, '/recent');
+        //   },
+        // ),
         LibraryTile(
           title: AppLocalizations.of(context)!.favorites,
           icon: Icons.favorite_rounded,
@@ -127,19 +123,24 @@ class _LibraryPageState extends State<LibraryPage> {
           },
         ),
         LibraryTile(
-          title: AppLocalizations.of(context)!.playlists,
-          icon: Icons.playlist_play_rounded,
+          title: AppLocalizations.of(context)!.settings,
+          icon: Icons.settings_rounded,
           onTap: () {
-            Navigator.pushNamed(context, '/playlists');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SettingPage(callback: callback),
+              ),
+            );
           },
         ),
-        LibraryTile(
-          title: AppLocalizations.of(context)!.stats,
-          icon: Icons.auto_graph_rounded,
-          onTap: () {
-            Navigator.pushNamed(context, '/stats');
-          },
-        ),
+        // LibraryTile(
+        //   title: AppLocalizations.of(context)!.stats,
+        //   icon: Icons.auto_graph_rounded,
+        //   onTap: () {
+        //     Navigator.pushNamed(context, '/stats');
+        //   },
+        // ),
       ],
     );
   }

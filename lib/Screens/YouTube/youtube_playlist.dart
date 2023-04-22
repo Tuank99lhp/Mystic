@@ -17,6 +17,10 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
 import 'package:mystic/CustomWidgets/bouncy_playlist_header_scroll_view.dart';
 import 'package:mystic/CustomWidgets/copy_clipboard.dart';
 import 'package:mystic/CustomWidgets/gradient_containers.dart';
@@ -26,10 +30,6 @@ import 'package:mystic/CustomWidgets/song_tile_trailing_menu.dart';
 import 'package:mystic/Services/player_service.dart';
 import 'package:mystic/Services/youtube_services.dart';
 import 'package:mystic/Services/yt_music.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:logging/logging.dart';
 
 class YouTubePlaylist extends StatefulWidget {
   final String playlistId;

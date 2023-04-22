@@ -87,7 +87,7 @@ class AnimatedText extends StatelessWidget {
 
         if (tp.didExceedMaxLines) {
           return SizedBox(
-            height: tp.height,
+            height: tp.height + 10,
             width: constraints.maxWidth,
             child: wrapped.Marquee(
               text: '  $text${" " * 30}',
