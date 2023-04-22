@@ -1,97 +1,70 @@
+/*
+ *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ * 
+ * BlackHole is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * BlackHole is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Copyright (c) 2021-2022, Ankit Sangwan
+ */
+
 import 'dart:async';
 import 'dart:io';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'package:get_it/get_it.dart';
-import 'package:mystic/screens/more_page.dart';
-import 'package:mystic/screens/player.dart';
-import 'package:mystic/screens/root_page.dart';
-import 'package:mystic/style/app_colors.dart';
-import 'package:mystic/style/app_themes.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:logging/logging.dart';
+import 'package:mystic/Helpers/config.dart';
+import 'package:mystic/Helpers/countrycodes.dart';
+import 'package:mystic/Helpers/handle_native.dart';
+import 'package:mystic/Helpers/import_export_playlist.dart';
+import 'package:mystic/Helpers/logging.dart';
+import 'package:mystic/Helpers/route_handler.dart';
+import 'package:mystic/Screens/Home/home.dart';
+import 'package:mystic/Screens/Library/downloads.dart';
+import 'package:mystic/Screens/Library/playlists.dart';
+import 'package:mystic/Screens/Player/audioplayer.dart';
+import 'package:mystic/Screens/Settings/setting.dart';
+import 'package:mystic/Services/audio_service.dart';
+import 'package:mystic/theme/app_theme.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
-import 'screens/local_music.dart';
-import 'services/audio_service.dart';
-
-void main() async {
-  await initialisation();
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
-}
+  Paint.enableDithering = true;
 
-Future<void> startService() async {
-  final AudioPlayerHandler audioHandler = await AudioService.init(
-    builder: () => AudioPlayerHandlerImpl(),
-    config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.hynduf.mystic.channel.audio',
-      androidNotificationChannelName: 'mystic',
-    ),
-  );
-  GetIt.I.registerSingleton<AudioPlayerHandler>(audioHandler);
-  // GetIt.I.registerSingleton<MyTheme>(MyTheme());
-}
-
-Future<void> initialisation() async {
-  await Hive.initFlutter();
-  await Hive.openBox('settings');
-  await Hive.openBox('ytlinkcache');
-  await Hive.openBox('downloads');
-  await Hive.openBox('user');
-  await Hive.openBox('cache');
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    await Hive.initFlutter('BlackHole');
+  } else {
+    await Hive.initFlutter();
+  }
+  await openHiveBox('settings');
+  await openHiveBox('downloads');
+  await openHiveBox('stats');
+  await openHiveBox('Favorite Songs');
+  await openHiveBox('cache', limit: true);
+  await openHiveBox('ytlinkcache', limit: true);
   if (Platform.isAndroid) {
     setOptimalDisplayMode();
   }
   await startService();
-
-  // await FlutterDisplayMode.setHighRefreshRate();
-
-  // await JustAudioBackground.init(
-  //   androidNotificationChannelId: 'com.hynduf.mystic',
-  //   androidNotificationChannelName: 'Mystic',
-  //   androidNotificationIcon: 'mipmap/launcher_icon',
-  //   androidShowNotificationBadge: true,
-  //   androidStopForegroundOnPause: !foregroundService.value,
-  // );
-
-  // final session = await AudioSession.instance;
-  // await session.configure(const AudioSessionConfiguration.music());
-  // session.interruptionEventStream.listen((event) {
-  //   if (event.begin) {
-  //     if (audioPlayer.playing) {
-  //       audioPlayer.pause();
-  //       _interrupted = true;
-  //     }
-  //   } else {
-  //     switch (event.type) {
-  //       case AudioInterruptionType.pause:
-  //       case AudioInterruptionType.duck:
-  //         if (!audioPlayer.playing && _interrupted) {
-  //           audioPlayer.play();
-  //         }
-  //         break;
-  //       case AudioInterruptionType.unknown:
-  //         break;
-  //     }
-  //     _interrupted = false;
-  //   }
-  // });
-  // activateListeners();
-  // await enableBooster();
-  //
-  // try {
-  //   await FlutterDownloader.initialize(
-  //     debug: kDebugMode,
-  //     ignoreSsl: true,
-  //   );
-  //
-  //   await FlutterDownloader.registerCallback(downloadCallback);
-  // } catch (e) {
-  //   debugPrint('error while initializing Flutter Downloader plugin $e');
-  // }
+  runApp(MyApp());
 }
 
 Future<void> setOptimalDisplayMode() async {
@@ -114,194 +87,224 @@ Future<void> setOptimalDisplayMode() async {
   // await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
 }
 
-ThemeMode themeMode = ThemeMode.system;
+Future<void> startService() async {
+  await initializeLogging();
+  final AudioPlayerHandler audioHandler = await AudioService.init(
+    builder: () => AudioPlayerHandlerImpl(),
+    config: AudioServiceConfig(
+      androidNotificationChannelId: 'com.shadow.mystic.channel.audio',
+      androidNotificationChannelName: 'BlackHole',
+      androidNotificationIcon: 'drawable/ic_stat_music_note',
+      androidShowNotificationBadge: true,
+      androidStopForegroundOnPause: false,
+      // Hive.box('settings').get('stopServiceOnPause', defaultValue: true) as bool,
+      notificationColor: Colors.grey[900],
+    ),
+  );
+  GetIt.I.registerSingleton<AudioPlayerHandler>(audioHandler);
+  GetIt.I.registerSingleton<MyTheme>(MyTheme());
+}
 
-final appLanguages = <String, String>{
-  'English': 'en',
-  'Vietnamese': 'vi',
-};
-
-final appSupportedLocales = appLanguages.values
-    .map((languageCode) => Locale.fromSubtags(languageCode: languageCode))
-    .toList();
+Future<void> openHiveBox(String boxName, {bool limit = false}) async {
+  final box = await Hive.openBox(boxName).onError((error, stackTrace) async {
+    Logger.root.severe('Failed to open $boxName Box', error, stackTrace);
+    final Directory dir = await getApplicationDocumentsDirectory();
+    final String dirPath = dir.path;
+    File dbFile = File('$dirPath/$boxName.hive');
+    File lockFile = File('$dirPath/$boxName.lock');
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      dbFile = File('$dirPath/BlackHole/$boxName.hive');
+      lockFile = File('$dirPath/BlackHole/$boxName.lock');
+    }
+    await dbFile.delete();
+    await lockFile.delete();
+    await Hive.openBox(boxName);
+    throw 'Failed to open $boxName Box\nError: $error';
+  });
+  // clear box if it grows large
+  if (limit && box.length > 500) {
+    box.clear();
+  }
+}
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  static Future<void> setThemeMode(
-    BuildContext context,
-    ThemeMode newThemeMode,
-  ) async {
-    final state = context.findAncestorStateOfType<_MyAppState>()!;
-    state.changeTheme(newThemeMode);
-  }
-
-  static Future<void> setLocale(
-    BuildContext context,
-    Locale newLocale,
-  ) async {
-    final state = context.findAncestorStateOfType<_MyAppState>()!;
-    state.changeLanguage(newLocale);
-  }
-
-  static Future<void> setAccentColor(
-    BuildContext context,
-    Color newAccentColor,
-    bool systemColorStatus,
-  ) async {
-    final state = context.findAncestorStateOfType<_MyAppState>()!;
-    state.changeAccentColor(newAccentColor, systemColorStatus);
-  }
-
   @override
-  State<MyApp> createState() => _MyAppState();
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   Locale _locale = const Locale('en', '');
+  late StreamSubscription _intentTextStreamSubscription;
+  late StreamSubscription _intentDataStreamSubscription;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  void changeTheme(ThemeMode newThemeMode) {
-    setState(() {
-      themeMode = newThemeMode;
-    });
-  }
-
-  void changeLanguage(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
-  }
-
-  void changeAccentColor(Color newAccentColor, bool systemColorStatus) {
-    setState(() {
-      useSystemColor.value = systemColorStatus;
-      primarySwatch = getPrimarySwatch(newAccentColor);
-
-      colorScheme = ColorScheme.fromSwatch(primarySwatch: primarySwatch);
-    });
+  @override
+  void dispose() {
+    _intentTextStreamSubscription.cancel();
+    _intentDataStreamSubscription.cancel();
+    super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    final settingsBox = Hive.box('settings');
-    final language =
-        settingsBox.get('language', defaultValue: 'English') as String;
-    _locale = Locale(appLanguages[language] ?? 'en');
-    final themeModeSetting =
-        settingsBox.get('themeMode', defaultValue: 'system') as String;
-    themeMode = themeModeSetting == 'system'
-        ? ThemeMode.system
-        : themeModeSetting == 'light'
-            ? ThemeMode.light
-            : ThemeMode.dark;
+    final String systemLangCode = Platform.localeName.substring(0, 2);
+    if (ConstantCodes.languageCodes.values.contains(systemLangCode)) {
+      _locale = Locale(systemLangCode);
+    } else {
+      final String lang =
+          Hive.box('settings').get('lang', defaultValue: 'English') as String;
+      _locale = Locale(ConstantCodes.languageCodes[lang] ?? 'en');
+    }
+
+    AppTheme.currentTheme.addListener(() {
+      setState(() {});
+    });
+
+    // For sharing or opening urls/text coming from outside the app while the app is in the memory
+    _intentTextStreamSubscription = ReceiveSharingIntent.getTextStream().listen(
+      (String value) {
+        Logger.root.info('Received intent on stream: $value');
+        handleSharedText(value, navigatorKey);
+      },
+      onError: (err) {
+        Logger.root.severe('ERROR in getTextStream', err);
+      },
+    );
+
+    // For sharing or opening urls/text coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialText().then(
+      (String? value) {
+        Logger.root.info('Received Intent initially: $value');
+        if (value != null) handleSharedText(value, navigatorKey);
+      },
+      onError: (err) {
+        Logger.root.severe('ERROR in getInitialTextStream', err);
+      },
+    );
+
+    // For sharing files coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription =
+        ReceiveSharingIntent.getMediaStream().listen(
+      (List<SharedMediaFile> value) {
+        if (value.isNotEmpty) {
+          for (final file in value) {
+            if (file.path.endsWith('.json')) {
+              final List playlistNames = Hive.box('settings')
+                      .get('playlistNames')
+                      ?.toList() as List? ??
+                  ['Favorite Songs'];
+              importFilePlaylist(
+                null,
+                playlistNames,
+                path: file.path,
+                pickFile: false,
+              ).then(
+                (value) => navigatorKey.currentState?.pushNamed('/playlists'),
+              );
+            }
+          }
+        }
+      },
+      onError: (err) {
+        Logger.root.severe('ERROR in getDataStream', err);
+      },
+    );
+
+    // For sharing files coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialMedia().then((List<SharedMediaFile> value) {
+      if (value.isNotEmpty) {
+        for (final file in value) {
+          if (file.path.endsWith('.json')) {
+            final List playlistNames =
+                Hive.box('settings').get('playlistNames')?.toList() as List? ??
+                    ['Favorite Songs'];
+            importFilePlaylist(
+              null,
+              playlistNames,
+              path: file.path,
+              pickFile: false,
+            ).then(
+              (value) => navigatorKey.currentState?.pushNamed('/playlists'),
+            );
+          }
+        }
+      }
+    });
   }
 
-  @override
-  void dispose() {
-    Hive.close();
-    super.dispose();
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
+
+  Widget initialFuntion() {
+    return HomePage();
   }
 
   @override
   Widget build(BuildContext context) {
-    final kBorderRadius = BorderRadius.circular(15.0);
-    const kContentPadding =
-        EdgeInsets.only(left: 18, right: 20, top: 14, bottom: 14);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: AppTheme.themeMode == ThemeMode.dark
+            ? Colors.black38
+            : Colors.white,
+        statusBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
+            ? Brightness.light
+            : Brightness.dark,
+        systemNavigationBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
+            ? Brightness.light
+            : Brightness.dark,
+      ),
+    );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
 
-    return DynamicColorBuilder(
-      builder: (lightColorScheme, darkColorScheme) {
-        if (lightColorScheme != null &&
-            darkColorScheme != null &&
-            useSystemColor.value) {
-          colorScheme =
-              themeMode == ThemeMode.light ? lightColorScheme : darkColorScheme;
+    return MaterialApp(
+      title: 'BlackHole',
+      restorationScopeId: 'mystic',
+      debugShowCheckedModeBanner: false,
+      themeMode: AppTheme.themeMode,
+      theme: AppTheme.lightTheme(
+        context: context,
+      ),
+      darkTheme: AppTheme.darkTheme(
+        context: context,
+      ),
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: ConstantCodes.languageCodes.entries
+          .map((languageCode) => Locale(languageCode.value, ''))
+          .toList(),
+      routes: {
+        '/': (context) => initialFuntion(),
+        '/setting': (context) => const SettingPage(),
+        '/playlists': (context) => PlaylistScreen(),
+        '/downloads': (context) => const Downloads(),
+      },
+      navigatorKey: navigatorKey,
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/player') {
+          return PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (_, __, ___) => const PlayScreen(),
+          );
         }
-
-        return MaterialApp(
-          themeMode: themeMode,
-          debugShowCheckedModeBanner: false,
-          darkTheme: darkColorScheme != null && useSystemColor.value
-              ? getAppDarkTheme().copyWith(
-                  scaffoldBackgroundColor: darkColorScheme.surface,
-                  colorScheme: darkColorScheme.harmonized(),
-                  canvasColor: darkColorScheme.surface,
-                  bottomAppBarTheme: BottomAppBarTheme(
-                    color: darkColorScheme.surface,
-                  ),
-                  appBarTheme: AppBarTheme(
-                    backgroundColor: darkColorScheme.surface,
-                    centerTitle: true,
-                    titleTextStyle: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.primary,
-                    ),
-                    elevation: 0,
-                  ),
-                  inputDecorationTheme: InputDecorationTheme(
-                    filled: true,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderRadius: kBorderRadius,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: kBorderRadius,
-                    ),
-                    contentPadding: kContentPadding,
-                  ),
-                )
-              : getAppDarkTheme(),
-          theme: lightColorScheme != null && useSystemColor.value
-              ? getAppLightTheme().copyWith(
-                  scaffoldBackgroundColor: lightColorScheme.surface,
-                  colorScheme: lightColorScheme.harmonized(),
-                  canvasColor: lightColorScheme.surface,
-                  bottomAppBarTheme: BottomAppBarTheme(
-                    color: lightColorScheme.surface,
-                  ),
-                  appBarTheme: AppBarTheme(
-                    backgroundColor: lightColorScheme.surface,
-                    centerTitle: true,
-                    titleTextStyle: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.primary,
-                    ),
-                    elevation: 0,
-                  ),
-                  inputDecorationTheme: InputDecorationTheme(
-                    filled: true,
-                    isDense: true,
-                    border: OutlineInputBorder(
-                      borderRadius: kBorderRadius,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: kBorderRadius,
-                    ),
-                    contentPadding: kContentPadding,
-                  ),
-                )
-              : getAppLightTheme(),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: appSupportedLocales,
-          locale: _locale,
-          routes: {
-            '/about': (context) => const Placeholder(),
-            '/downloads': (context) => const Placeholder(),
-            '/favorites': (context) => const Placeholder(),
-            '/local': (context) => const LocalMusic(),
-            '/settings': (context) => const Placeholder(),
-          },
-          navigatorKey: _navigatorKey,
-          home: const Mystic(),
-        );
+        return HandleRoute.handleRoute(settings.name);
       },
     );
   }
