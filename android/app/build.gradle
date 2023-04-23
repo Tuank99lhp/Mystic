@@ -39,7 +39,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.shadow.mystic"
+        applicationId "com.hynduf.mystic"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()

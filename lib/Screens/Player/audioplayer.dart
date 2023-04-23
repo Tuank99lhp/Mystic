@@ -252,24 +252,24 @@ class _PlayScreenState extends State<PlayScreen> {
                     },
                   ),
                   actions: [
-                    IconButton(
-                      icon: const Icon(Icons.lyrics_rounded),
-                      //     Image.asset(
-                      //   'assets/lyrics.png',
-                      // ),
-                      tooltip: AppLocalizations.of(context)!.lyrics,
-                      onPressed: () => cardKey.currentState!.toggleCard(),
-                    ),
-                    if (!offline)
-                      IconButton(
-                        icon: const Icon(Icons.share_rounded),
-                        tooltip: AppLocalizations.of(context)!.share,
-                        onPressed: () {
-                          Share.share(
-                            mediaItem.extras!['perma_url'].toString(),
-                          );
-                        },
-                      ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.lyrics_rounded),
+                    //   //     Image.asset(
+                    //   //   'assets/lyrics.png',
+                    //   // ),
+                    //   tooltip: AppLocalizations.of(context)!.lyrics,
+                    //   onPressed: () => cardKey.currentState!.toggleCard(),
+                    // ),
+                    // if (!offline)
+                    //   IconButton(
+                    //     icon: const Icon(Icons.share_rounded),
+                    //     tooltip: AppLocalizations.of(context)!.share,
+                    //     onPressed: () {
+                    //       Share.share(
+                    //         mediaItem.extras!['perma_url'].toString(),
+                    //       );
+                    //     },
+                    //   ),
                     PopupMenuButton(
                       icon: const Icon(
                         Icons.more_vert_rounded,
@@ -444,58 +444,58 @@ class _PlayScreenState extends State<PlayScreen> {
                       },
                       itemBuilder: (context) => offline
                           ? [
-                              if (mediaItem.extras?['album_id'] != null)
-                                PopupMenuItem(
-                                  value: 5,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.album_rounded,
-                                        color:
-                                            Theme.of(context).iconTheme.color,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.viewAlbum,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.timer,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      AppLocalizations.of(context)!.sleepTimer,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (Hive.box('settings').get(
-                                'supportEq',
-                                defaultValue: false,
-                              ) as bool)
-                                PopupMenuItem(
-                                  value: 4,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.equalizer_rounded,
-                                        color:
-                                            Theme.of(context).iconTheme.color,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.equalizer,
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              // if (mediaItem.extras?['album_id'] != null)
+                              //   PopupMenuItem(
+                              //     value: 5,
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.album_rounded,
+                              //           color:
+                              //               Theme.of(context).iconTheme.color,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.viewAlbum,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // PopupMenuItem(
+                              //   value: 1,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         CupertinoIcons.timer,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         AppLocalizations.of(context)!.sleepTimer,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // if (Hive.box('settings').get(
+                              //   'supportEq',
+                              //   defaultValue: false,
+                              // ) as bool)
+                              //   PopupMenuItem(
+                              //     value: 4,
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.equalizer_rounded,
+                              //           color:
+                              //               Theme.of(context).iconTheme.color,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.equalizer,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
                               PopupMenuItem(
                                 value: 10,
                                 child: Row(
@@ -513,21 +513,21 @@ class _PlayScreenState extends State<PlayScreen> {
                               ),
                             ]
                           : [
-                              if (mediaItem.extras?['album_id'] != null)
-                                PopupMenuItem(
-                                  value: 5,
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.album_rounded,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.viewAlbum,
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              // if (mediaItem.extras?['album_id'] != null)
+                              //   PopupMenuItem(
+                              //     value: 5,
+                              //     child: Row(
+                              //       children: [
+                              //         const Icon(
+                              //           Icons.album_rounded,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.viewAlbum,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
                               PopupMenuItem(
                                 value: 0,
                                 child: Row(
@@ -544,79 +544,79 @@ class _PlayScreenState extends State<PlayScreen> {
                                   ],
                                 ),
                               ),
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.timer,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      AppLocalizations.of(context)!.sleepTimer,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (Hive.box('settings').get(
-                                'supportEq',
-                                defaultValue: false,
-                              ) as bool)
-                                PopupMenuItem(
-                                  value: 4,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.equalizer_rounded,
-                                        color:
-                                            Theme.of(context).iconTheme.color,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.equalizer,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              PopupMenuItem(
-                                value: 3,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      MdiIcons.youtube,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      mediaItem.genre == 'YouTube'
-                                          ? AppLocalizations.of(
-                                              context,
-                                            )!
-                                              .watchVideo
-                                          : AppLocalizations.of(
-                                              context,
-                                            )!
-                                              .searchVideo,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 10,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.info_rounded,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      AppLocalizations.of(context)!.songInfo,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // PopupMenuItem(
+                              //   value: 1,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         CupertinoIcons.timer,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         AppLocalizations.of(context)!.sleepTimer,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // if (Hive.box('settings').get(
+                              //   'supportEq',
+                              //   defaultValue: false,
+                              // ) as bool)
+                              //   PopupMenuItem(
+                              //     value: 4,
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.equalizer_rounded,
+                              //           color:
+                              //               Theme.of(context).iconTheme.color,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.equalizer,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // PopupMenuItem(
+                              //   value: 3,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         MdiIcons.youtube,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         mediaItem.genre == 'YouTube'
+                              //             ? AppLocalizations.of(
+                              //                 context,
+                              //               )!
+                              //                 .watchVideo
+                              //             : AppLocalizations.of(
+                              //                 context,
+                              //               )!
+                              //                 .searchVideo,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // PopupMenuItem(
+                              //   value: 10,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         Icons.info_rounded,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         AppLocalizations.of(context)!.songInfo,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                     )
                   ],

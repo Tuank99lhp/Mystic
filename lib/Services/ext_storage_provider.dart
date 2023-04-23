@@ -52,7 +52,7 @@ class ExtStorageProvider {
 
           // getting main path
           final String newPath = directory!.path
-              .replaceFirst('Android/data/com.shadow.mystic/files', dirName);
+              .replaceFirst('Android/data/com.hynduf.mystic/files', dirName);
 
           directory = Directory(newPath);
 

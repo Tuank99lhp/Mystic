@@ -96,34 +96,34 @@ class _SeekBarState extends State<SeekBar> {
                 //   )
                 // else
                 const SizedBox(),
-                StreamBuilder<double>(
-                  stream: widget.audioHandler.speed,
-                  builder: (context, snapshot) {
-                    final String speedValue =
-                        '${snapshot.data?.toStringAsFixed(1) ?? 1.0}x';
-                    return GestureDetector(
-                      child: Text(
-                        speedValue,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: speedValue == '1.0x'
-                              ? Theme.of(context).disabledColor
-                              : null,
-                        ),
-                      ),
-                      onTap: () {
-                        showSliderDialog(
-                          context: context,
-                          title: AppLocalizations.of(context)!.adjustSpeed,
-                          divisions: 25,
-                          min: 0.5,
-                          max: 3.0,
-                          audioHandler: widget.audioHandler,
-                        );
-                      },
-                    );
-                  },
-                ),
+                // StreamBuilder<double>(
+                //   stream: widget.audioHandler.speed,
+                //   builder: (context, snapshot) {
+                //     final String speedValue =
+                //         '${snapshot.data?.toStringAsFixed(1) ?? 1.0}x';
+                //     return GestureDetector(
+                //       child: Text(
+                //         speedValue,
+                //         style: TextStyle(
+                //           fontWeight: FontWeight.w500,
+                //           color: speedValue == '1.0x'
+                //               ? Theme.of(context).disabledColor
+                //               : null,
+                //         ),
+                //       ),
+                //       onTap: () {
+                //         showSliderDialog(
+                //           context: context,
+                //           title: AppLocalizations.of(context)!.adjustSpeed,
+                //           divisions: 25,
+                //           min: 0.5,
+                //           max: 3.0,
+                //           audioHandler: widget.audioHandler,
+                //         );
+                //       },
+                //     );
+                //   },
+                // ),
               ],
             ),
           ),

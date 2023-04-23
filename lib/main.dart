@@ -92,7 +92,7 @@ Future<void> startService() async {
   final AudioPlayerHandler audioHandler = await AudioService.init(
     builder: () => AudioPlayerHandlerImpl(),
     config: AudioServiceConfig(
-      androidNotificationChannelId: 'com.shadow.mystic.channel.audio',
+      androidNotificationChannelId: 'com.hynduf.mystic.channel.audio',
       androidNotificationChannelName: 'BlackHole',
       androidNotificationIcon: 'drawable/ic_stat_music_note',
       androidShowNotificationBadge: true,

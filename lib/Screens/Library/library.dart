@@ -129,7 +129,7 @@ class _LibraryPageState extends State<LibraryPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SettingPage(callback: callback),
+                builder: (context) => Placeholder(), // SettingPage(callback: callback),
               ),
             );
           },
