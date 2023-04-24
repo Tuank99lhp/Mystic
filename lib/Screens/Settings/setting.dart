@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -60,7 +60,7 @@ class _SettingPageState extends State<SettingPage>
       .get('downloadPath', defaultValue: '/storage/emulated/0/Music') as String;
   String autoBackPath = Hive.box('settings').get(
     'autoBackPath',
-    defaultValue: '/storage/emulated/0/BlackHole/Backups',
+    defaultValue: '/storage/emulated/0/Mystic/Backups',
   ) as String;
   final ValueNotifier<bool> includeOrExclude = ValueNotifier<bool>(
     Hive.box('settings').get('includeOrExclude', defaultValue: false) as bool,
@@ -3694,10 +3694,10 @@ class _SettingPageState extends State<SettingPage>
                             onPressed: () async {
                               autoBackPath =
                                   await ExtStorageProvider.getExtStorage(
-                                        dirName: 'BlackHole/Backups',
+                                        dirName: 'Mystic/Backups',
                                         writeAccess: true,
                                       ) ??
-                                      '/storage/emulated/0/BlackHole/Backups';
+                                      '/storage/emulated/0/Mystic/Backups';
                               Hive.box('settings')
                                   .put('autoBackPath', autoBackPath);
                               setState(
@@ -3935,7 +3935,7 @@ class _SettingPageState extends State<SettingPage>
                           isThreeLine: true,
                           onTap: () {
                             const String upiUrl =
-                                'upi://pay?pa=ankit.sangwan.5688@oksbi&pn=BlackHole';
+                                'upi://pay?pa=ankit.sangwan.5688@oksbi&pn=Mystic';
                             launchUrl(
                               Uri.parse(upiUrl),
                               mode: LaunchMode.externalApplication,

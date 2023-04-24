@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -50,7 +50,7 @@ Future<void> main() async {
   Paint.enableDithering = true;
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    await Hive.initFlutter('BlackHole');
+    await Hive.initFlutter('Mystic');
   } else {
     await Hive.initFlutter();
   }
@@ -93,7 +93,7 @@ Future<void> startService() async {
     builder: () => AudioPlayerHandlerImpl(),
     config: AudioServiceConfig(
       androidNotificationChannelId: 'com.hynduf.mystic.channel.audio',
-      androidNotificationChannelName: 'BlackHole',
+      androidNotificationChannelName: 'Mystic',
       androidNotificationIcon: 'drawable/ic_stat_music_note',
       androidShowNotificationBadge: true,
       androidStopForegroundOnPause: false,
@@ -113,8 +113,8 @@ Future<void> openHiveBox(String boxName, {bool limit = false}) async {
     File dbFile = File('$dirPath/$boxName.hive');
     File lockFile = File('$dirPath/$boxName.lock');
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      dbFile = File('$dirPath/BlackHole/$boxName.hive');
-      lockFile = File('$dirPath/BlackHole/$boxName.lock');
+      dbFile = File('$dirPath/Mystic/$boxName.hive');
+      lockFile = File('$dirPath/Mystic/$boxName.lock');
     }
     await dbFile.delete();
     await lockFile.delete();
@@ -270,7 +270,7 @@ class _MyAppState extends State<MyApp> {
     ]);
 
     return MaterialApp(
-      title: 'BlackHole',
+      title: 'Mystic',
       restorationScopeId: 'mystic',
       debugShowCheckedModeBanner: false,
       themeMode: AppTheme.themeMode,
