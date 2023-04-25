@@ -111,6 +111,8 @@ class HorizontalAlbumsListSeparated extends StatelessWidget {
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: CachedNetworkImage(
+                        width: 60,
+                        height: 60,
                         fit: BoxFit.cover,
                         errorWidget: (context, _, __) => const Image(
                           fit: BoxFit.cover,

@@ -38,6 +38,7 @@ import 'package:mystic/Helpers/route_handler.dart';
 import 'package:mystic/Screens/Home/home.dart';
 import 'package:mystic/Screens/Library/downloads.dart';
 import 'package:mystic/Screens/Library/playlists.dart';
+import 'package:mystic/Screens/Library/recent.dart';
 import 'package:mystic/Screens/Player/audioplayer.dart';
 import 'package:mystic/Screens/Settings/setting.dart';
 import 'package:mystic/Services/audio_service.dart';
@@ -295,6 +296,7 @@ class _MyAppState extends State<MyApp> {
         '/setting': (context) => const SettingPage(),
         '/playlists': (context) => PlaylistScreen(),
         '/downloads': (context) => const Downloads(),
+        '/recent': (context) => RecentlyPlayed(),
       },
       navigatorKey: navigatorKey,
       onGenerateRoute: (RouteSettings settings) {

@@ -165,10 +165,10 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
       }
 
       if (item.artUri.toString().startsWith('http')) {
-        if (item.genre != 'YouTube') {
+        // if (item.genre != 'YouTube') {
           addRecentlyPlayed(item);
           _recentSubject.add([item]);
-        }
+        // }
 
         if (recommend && item.extras!['autoplay'] as bool) {
           final List<MediaItem> mediaQueue = queue.value;

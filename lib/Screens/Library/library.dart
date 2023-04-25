@@ -76,13 +76,13 @@ class _LibraryPageState extends State<LibraryPage> {
         //     Navigator.pushNamed(context, '/nowplaying');
         //   },
         // ),
-        // LibraryTile(
-        //   title: AppLocalizations.of(context)!.lastSession,
-        //   icon: Icons.history_rounded,
-        //   onTap: () {
-        //     Navigator.pushNamed(context, '/recent');
-        //   },
-        // ),
+        LibraryTile(
+          title: AppLocalizations.of(context)!.lastSession,
+          icon: Icons.history_rounded,
+          onTap: () {
+            Navigator.pushNamed(context, '/recent');
+          },
+        ),
         LibraryTile(
           title: AppLocalizations.of(context)!.favorites,
           icon: Icons.favorite_rounded,

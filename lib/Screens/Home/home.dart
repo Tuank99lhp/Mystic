@@ -31,6 +31,7 @@ import 'package:mystic/CustomWidgets/textinput_dialog.dart';
 import 'package:mystic/Helpers/backup_restore.dart';
 import 'package:mystic/Helpers/downloads_checker.dart';
 import 'package:mystic/Helpers/supabase.dart';
+import 'package:mystic/Screens/Home/saavn.dart';
 import 'package:mystic/Screens/Library/library.dart';
 import 'package:mystic/Screens/Library/playlists.dart';
 import 'package:mystic/Screens/Settings/setting.dart';
@@ -569,7 +570,7 @@ class _HomePageState extends State<HomePage> {
                                   ) {
                                     return <Widget>[
                                       SliverAppBar(
-                                        expandedHeight: 100,
+                                        expandedHeight: 40,
                                         backgroundColor: Colors.transparent,
                                         elevation: 0,
                                         // pinned: true,
@@ -581,120 +582,29 @@ class _HomePageState extends State<HomePage> {
                                             BuildContext context,
                                             BoxConstraints constraints,
                                           ) {
-                                            return FlexibleSpaceBar(
-                                              // collapseMode: CollapseMode.parallax,
-                                              background: GestureDetector(
-                                                onTap: () async {
-                                                  await showTextInputDialog(
-                                                    context: context,
-                                                    title: 'Name',
-                                                    initialText: name,
-                                                    keyboardType:
-                                                        TextInputType.name,
-                                                    onSubmitted: (value) {
-                                                      Hive.box('settings').put(
-                                                        'name',
-                                                        value.trim(),
-                                                      );
-                                                      name = value.trim();
-                                                      Navigator.pop(context);
-                                                      updateUserDetails(
-                                                        'name',
-                                                        value.trim(),
-                                                      );
-                                                    },
-                                                  );
-                                                  setState(() {});
-                                                },
-                                                // child: Column(
-                                                //   mainAxisSize:
-                                                //       MainAxisSize.min,
-                                                //   children: <Widget>[
-                                                //     const SizedBox(
-                                                //       height: 30,
-                                                //     ),
-                                                //     Row(
-                                                //       children: [
-                                                //         Padding(
-                                                //           padding:
-                                                //               const EdgeInsets
-                                                //                   .only(
-                                                //             left: 25.0,
-                                                //           ),
-                                                //           child: Text(
-                                                //             AppLocalizations.of(
-                                                //               context,
-                                                //             )!
-                                                //                 .homeGreet,
-                                                //             style: TextStyle(
-                                                //               letterSpacing: 2,
-                                                //               color: Theme.of(
-                                                //                 context,
-                                                //               )
-                                                //                   .colorScheme
-                                                //                   .error,
-                                                //               fontSize: 30,
-                                                //               fontWeight:
-                                                //                   FontWeight
-                                                //                       .bold,
-                                                //             ),
-                                                //           ),
-                                                //         ),
-                                                //       ],
-                                                //     ),
-                                                //     Padding(
-                                                //       padding:
-                                                //           const EdgeInsets.only(
-                                                //         left: 25.0,
-                                                //       ),
-                                                //       child: Row(
-                                                //         crossAxisAlignment:
-                                                //             CrossAxisAlignment
-                                                //                 .end,
-                                                //         children: [
-                                                //           ValueListenableBuilder(
-                                                //             valueListenable:
-                                                //                 Hive.box(
-                                                //               'settings',
-                                                //             ).listenable(),
-                                                //             builder: (
-                                                //               BuildContext
-                                                //                   context,
-                                                //               Box box,
-                                                //               Widget? child,
-                                                //             ) {
-                                                //               return Text(
-                                                //                 (box.get('name') ==
-                                                //                             null ||
-                                                //                         box.get('name') ==
-                                                //                             '')
-                                                //                     ? 'Guest'
-                                                //                     : box
-                                                //                         .get(
-                                                //                           'name',
-                                                //                         )
-                                                //                         .split(
-                                                //                           ' ',
-                                                //                         )[0]
-                                                //                         .toString(),
-                                                //                 style:
-                                                //                     const TextStyle(
-                                                //                   letterSpacing:
-                                                //                       2,
-                                                //                   fontSize: 20,
-                                                //                   fontWeight:
-                                                //                       FontWeight
-                                                //                           .w500,
-                                                //                 ),
-                                                //               );
-                                                //             },
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                              ),
+                                            return Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Homepage',
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            25, // set the font size to 20
+                                                        fontWeight: FontWeight
+                                                            .bold, // set the font weight to bold
+                                                        color:
+                                                        Theme.of(context).colorScheme.secondary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             );
                                           },
                                         ),
@@ -789,7 +699,7 @@ class _HomePageState extends State<HomePage> {
                                       // ),
                                     ];
                                   },
-                                  body: const Placeholder(),
+                                  body: SaavnHomePage(),
                                 ),
                               ],
                             ),
