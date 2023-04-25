@@ -29,6 +29,8 @@ import 'package:mystic/CustomWidgets/textinput_dialog.dart';
 import 'package:mystic/Helpers/import_export_playlist.dart';
 import 'package:mystic/Screens/Library/liked.dart';
 
+import 'import.dart';
+
 class PlaylistScreen extends StatefulWidget {
   @override
   _PlaylistScreenState createState() => _PlaylistScreenState();
@@ -101,26 +103,25 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         );
                       },
                     ),
-                    // ListTile(
-                    //   title: Text(AppLocalizations.of(context)!.importPlaylist),
-                    //   leading: SizedBox.square(
-                    //     dimension: 50,
-                    //     child: Center(
-                    //       child: Icon(
-                    //         MdiIcons.import,
-                    //         color: Theme.of(context).iconTheme.color,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   onTap: () async {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => ImportPlaylist(),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
+                    ListTile(
+                      title: Text(AppLocalizations.of(context)!.importPlaylist),
+                      leading: SizedBox.square(
+                        dimension: 50,
+                        child: Center(
+                          child: Icon(
+                            MdiIcons.import,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                        ),
+                      ),
+                      onTap: () async {
+                        importYt(
+                          context,
+                          playlistNames,
+                          settingsBox,
+                        );
+                      },
+                    ),
                     // ListTile(
                     //   title: Text(AppLocalizations.of(context)!.mergePlaylists),
                     //   leading: SizedBox.square(
