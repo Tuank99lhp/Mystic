@@ -1299,8 +1299,8 @@ class _ArtWorkWidgetState extends State<ArtWorkWidget> {
             }
           },
           back: GestureDetector(
-            onTap: () => widget.cardKey.currentState!.toggleCard(),
-            onDoubleTap: () => widget.cardKey.currentState!.toggleCard(),
+            // onTap: () => widget.cardKey.currentState!.toggleCard(),
+            // onDoubleTap: () => widget.cardKey.currentState!.toggleCard(),
             child: Stack(
               children: [
                 ShaderMask(
@@ -1397,63 +1397,63 @@ class _ArtWorkWidgetState extends State<ArtWorkWidget> {
               final bool enabled = Hive.box('settings')
                   .get('enableGesture', defaultValue: true) as bool;
               return GestureDetector(
-                onTap: !enabled
-                    ? null
-                    : () {
-                        tapped.value = true;
-                        Future.delayed(const Duration(seconds: 2), () async {
-                          tapped.value = false;
-                        });
-                      },
-                onDoubleTapDown: (details) {
-                  if (details.globalPosition.dx <= widget.width * 2 / 5) {
-                    widget.audioHandler.customAction('rewind');
-                    doubletapped.value = -1;
-                    Future.delayed(const Duration(milliseconds: 500), () async {
-                      doubletapped.value = 0;
-                    });
-                  }
-                  if (details.globalPosition.dx > widget.width * 2 / 5 &&
-                      details.globalPosition.dx < widget.width * 3 / 5) {
-                    widget.cardKey.currentState!.toggleCard();
-                  }
-                  if (details.globalPosition.dx >= widget.width * 3 / 5) {
-                    widget.audioHandler.customAction('fastForward');
-                    doubletapped.value = 1;
-                    Future.delayed(const Duration(milliseconds: 500), () async {
-                      doubletapped.value = 0;
-                    });
-                  }
-                },
-                onDoubleTap: !enabled
-                    ? null
-                    : () {
-                        Feedback.forLongPress(context);
-                      },
-                onHorizontalDragEnd: !enabled
-                    ? null
-                    : (DragEndDetails details) {
-                        if ((details.primaryVelocity ?? 0) > 100) {
-                          if (queueState.hasPrevious) {
-                            widget.audioHandler.skipToPrevious();
-                          }
-                        }
-
-                        if ((details.primaryVelocity ?? 0) < -100) {
-                          if (queueState.hasNext) {
-                            widget.audioHandler.skipToNext();
-                          }
-                        }
-                      },
-                onLongPress: !enabled
-                    ? null
-                    : () {
-                        if (!widget.offline) {
-                          Feedback.forLongPress(context);
-                          AddToPlaylist()
-                              .addToPlaylist(context, widget.mediaItem);
-                        }
-                      },
+                // onTap: !enabled
+                //     ? null
+                //     : () {
+                //         tapped.value = true;
+                //         Future.delayed(const Duration(seconds: 2), () async {
+                //           tapped.value = false;
+                //         });
+                //       },
+                // onDoubleTapDown: (details) {
+                //   if (details.globalPosition.dx <= widget.width * 2 / 5) {
+                //     widget.audioHandler.customAction('rewind');
+                //     doubletapped.value = -1;
+                //     Future.delayed(const Duration(milliseconds: 500), () async {
+                //       doubletapped.value = 0;
+                //     });
+                //   }
+                //   if (details.globalPosition.dx > widget.width * 2 / 5 &&
+                //       details.globalPosition.dx < widget.width * 3 / 5) {
+                //     widget.cardKey.currentState!.toggleCard();
+                //   }
+                //   if (details.globalPosition.dx >= widget.width * 3 / 5) {
+                //     widget.audioHandler.customAction('fastForward');
+                //     doubletapped.value = 1;
+                //     Future.delayed(const Duration(milliseconds: 500), () async {
+                //       doubletapped.value = 0;
+                //     });
+                //   }
+                // },
+                // onDoubleTap: !enabled
+                //     ? null
+                //     : () {
+                //         Feedback.forLongPress(context);
+                //       },
+                // onHorizontalDragEnd: !enabled
+                //     ? null
+                //     : (DragEndDetails details) {
+                //         if ((details.primaryVelocity ?? 0) > 100) {
+                //           if (queueState.hasPrevious) {
+                //             widget.audioHandler.skipToPrevious();
+                //           }
+                //         }
+                //
+                //         if ((details.primaryVelocity ?? 0) < -100) {
+                //           if (queueState.hasNext) {
+                //             widget.audioHandler.skipToNext();
+                //           }
+                //         }
+                //       },
+                // onLongPress: !enabled
+                //     ? null
+                //     : () {
+                //         if (!widget.offline) {
+                //           Feedback.forLongPress(context);
+                //           AddToPlaylist()
+                //               .addToPlaylist(context, widget.mediaItem);
+                //         }
+                //       },
                 onVerticalDragStart: !enabled
                     ? null
                     : (_) {

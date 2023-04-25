@@ -31,7 +31,8 @@ class YouTubeServices {
     'search': '/results',
     'channel': '/channel',
     'music': '/music',
-    'playlist': '/playlist'
+    'playlist': '/playlist',
+    'trending': '/feed/trending',
   };
   static const Map<String, String> headers = {
     'User-Agent':
@@ -101,6 +102,30 @@ class YouTubeServices {
   Future<Playlist> getPlaylistDetails(String id) async {
     final Playlist metadata = await yt.playlists.get(id);
     return metadata;
+  }
+
+  Future<List> getTrendingSongs() async {
+    final Uri link = Uri.https(
+      searchAuthority,
+      paths['trending'].toString(),
+      {'bp': '4gINGgt5dG1hX2NoYXJ0cw%3D%3D'},
+    );
+    try {
+      final Response response = await get(link);
+      if (response.statusCode != 200) {
+        return [];
+      }
+      final String searchResults =
+          RegExp('"expandedShelfContentsRenderer":{(.*?}]}}}]}}])}},', dotAll: true)
+              .firstMatch(response.body)![1]!;
+      final Map data = json.decode('{$searchResults}') as Map;
+      final List result = data['items'] as List;
+      final List finalResult = formatTrendingItems(result);
+      return finalResult;
+    } catch (e) {
+      Logger.root.severe('Error in getTrendingSongs(): $e');
+      return [];
+    }
   }
 
   Future<Map<String, List>> getMusicHome() async {
@@ -288,6 +313,23 @@ class YouTubeServices {
       return result;
     } catch (e) {
       Logger.root.severe('Error in formatItems: $e');
+      return List.empty();
+    }
+  }
+
+  List formatTrendingItems(List itemsList) {
+    try {
+      final List result = itemsList.map((e) {
+        return {
+          'title': e['videoRenderer']['title']['runs'][0]['text'],
+          'subtitle': e['videoRenderer']['longBylineText']['runs'][0]['text'],
+          'videoId': e['videoRenderer']['videoId'],
+          'image': e['videoRenderer']['thumbnail']['thumbnails'].last['url'],
+        };
+      }).toList();
+      return result;
+    } catch (e) {
+      Logger.root.severe('Error in formatTrendingItems: $e');
       return List.empty();
     }
   }

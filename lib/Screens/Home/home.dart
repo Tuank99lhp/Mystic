@@ -705,7 +705,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const YouTubeSearchPage(
                               query: '',
-                              autofocus: true,
                             ),
                             PlaylistScreen(),
                             const LibraryPage(),

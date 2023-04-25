@@ -137,7 +137,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                     children: [
                       const Padding(
                         padding: EdgeInsets.only(
-                          top: 60,
+                          top: 70,
                           left: 20,
                         ),
                       ),

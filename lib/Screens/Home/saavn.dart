@@ -37,6 +37,7 @@ import 'package:mystic/Screens/Common/song_list.dart';
 import 'package:mystic/Screens/Library/liked.dart';
 import 'package:mystic/Screens/Search/artists.dart';
 import 'package:mystic/Services/player_service.dart';
+import 'package:mystic/Services/youtube_services.dart';
 
 bool fetched = false;
 List preferredLanguage = Hive.box('settings')
@@ -44,7 +45,7 @@ List preferredLanguage = Hive.box('settings')
 List likedRadio =
     Hive.box('settings').get('likedRadio', defaultValue: []) as List;
 Map data = Hive.box('cache').get('homepage', defaultValue: {}) as Map;
-List lists = ['recent', 'playlist', ...?data['collections']];
+List lists = ['recent', 'playlist', 'trending'];
 
 class SaavnHomePage extends StatefulWidget {
   @override
@@ -53,6 +54,8 @@ class SaavnHomePage extends StatefulWidget {
 
 class _SaavnHomePageState extends State<SaavnHomePage>
     with AutomaticKeepAliveClientMixin<SaavnHomePage> {
+  List trendingList =
+      Hive.box('cache').get('ytHomeTrending', defaultValue: []) as List;
   List recentList =
       Hive.box('cache').get('recentSongs', defaultValue: []) as List;
   Map likedArtists =
@@ -67,22 +70,26 @@ class _SaavnHomePageState extends State<SaavnHomePage>
   int recentIndex = 0;
   int playlistIndex = 1;
 
+  @override
+  void initState() {
+    super.initState();
+    YouTubeServices().getTrendingSongs().then((value) {
+      if (value.isNotEmpty) {
+        setState(() {
+          trendingList = value;
+          Hive.box('cache').put('ytHomeTrending', value);
+        });
+      }
+    });
+  }
   Future<void> getHomePageData() async {
-    Map recievedData = await SaavnAPI().fetchHomePageData();
-    if (recievedData.isNotEmpty) {
-      Hive.box('cache').put('homepage', recievedData);
-      data = recievedData;
-      lists = ['recent', 'playlist', ...?data['collections']];
-      lists.insert((lists.length / 2).round(), 'likedArtists');
-    }
-    setState(() {});
-    recievedData = await FormatResponse.formatPromoLists(data);
-    if (recievedData.isNotEmpty) {
-      Hive.box('cache').put('homepage', recievedData);
-      data = recievedData;
-      lists = ['recent', 'playlist', ...?data['collections']];
-      lists.insert((lists.length / 2).round(), 'likedArtists');
-    }
+    // Map recievedData = await SaavnAPI().fetchHomePageData();
+    // if (recievedData.isNotEmpty) {
+    //   Hive.box('cache').put('homepage', recievedData);
+    //   data = recievedData;
+    //   lists = ['recent', 'playlist', ...?data['collections']];
+    //   lists.insert((lists.length / 2).round(), 'likedArtists');
+    // }
     setState(() {});
   }
 
@@ -377,6 +384,133 @@ class _SaavnHomePageState extends State<SaavnHomePage>
                           )
                         ],
                       );
+              }
+              if (lists[idx] == 'trending' && trendingList.isNotEmpty) {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(15, 10, 0, 5),
+                          child: Text(
+                            AppLocalizations.of(context)!.trending,
+                            style: TextStyle(
+                              color:
+                              Theme.of(context).colorScheme.secondary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      height: 500,
+                      child: ListView.builder(
+                        physics:
+                        const NeverScrollableScrollPhysics(),
+
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 10),
+                        itemCount: trendingList.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: 200,
+                            child: ListTile(
+                              leading: Card(
+                                margin: EdgeInsets.zero,
+                                elevation: 8,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    5.0,
+                                  ),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: SizedBox.square(
+                                  dimension: 50,
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, _, __) =>
+                                    const Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        'assets/cover.jpg',
+                                      ),
+                                    ),
+                                    imageUrl: trendingList[index]['image'].toString(),
+                                    placeholder: (context, url) =>
+                                    const Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        'assets/cover.jpg',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              title: SizedBox(
+                                width: 60,
+                                child: Text(
+                                  trendingList[index]['title'].toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              subtitle: trendingList[index]['subtitle'] == ''
+                                  ? null
+                                  : Text(
+                                trendingList[index]['subtitle'].toString(),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              onTap: () async {
+                                final Map? response =
+                                await YouTubeServices().formatVideoFromId(
+                                  id: trendingList[index]['videoId'].toString(),
+                                );
+                                PlayerInvoke.init(
+                                  songsList: [response],
+                                  index: 0,
+                                  isOffline: false,
+                                );
+                                Navigator.pushNamed(context, '/player');
+                                // for (var i = 0;
+                                //     i < searchedList.length;
+                                //     i++) {
+                                //   YouTubeServices()
+                                //       .formatVideo(
+                                //     video: searchedList[i],
+                                //     quality: Hive.box('settings')
+                                //         .get(
+                                //           'ytQuality',
+                                //           defaultValue: 'Low',
+                                //         )
+                                //         .toString(),
+                                //   )
+                                //       .then((songMap) {
+                                //     final MediaItem mediaItem =
+                                //         MediaItemConverter.mapToMediaItem(
+                                //       songMap!,
+                                //     );
+                                //     addToNowPlaying(
+                                //       context: context,
+                                //       mediaItem: mediaItem,
+                                //       showNotification: false,
+                                //     );
+                                //   });
+                                // }
+                              },
+                              // trailing: YtSongTileTrailingMenu(data: entry),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                );
               }
               if (lists[idx] == 'likedArtists') {
                 final List likedArtistsList = likedArtists.values.toList();

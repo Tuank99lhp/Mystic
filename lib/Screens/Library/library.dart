@@ -59,7 +59,7 @@ class _LibraryPageState extends State<LibraryPage> {
       children: [
         AppBar(
           title: Text(
-            AppLocalizations.of(context)!.library,
+            AppLocalizations.of(context)!.more,
             style: TextStyle(
               color: Theme.of(context).iconTheme.color,
             ),
