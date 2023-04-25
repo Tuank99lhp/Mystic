@@ -125,6 +125,8 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: CachedNetworkImage(
+                          height: 60,
+                          width: 60,
                           fit: BoxFit.cover,
                           errorWidget: (context, _, __) =>
                           const Image(
