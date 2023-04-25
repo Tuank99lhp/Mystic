@@ -2045,6 +2045,33 @@ class NameNControls extends StatelessWidget {
 
               /// Seekbar starts from here
               SizedBox(
+                height: 40,
+                width: width * 0.95,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Center(
+                    child: SizedBox(
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (!offline)
+                            LikeButton(mediaItem: mediaItem, size: 30.0),
+                          if (!offline)
+                            DownloadButton(
+                              size: 30.0,
+                              data: MediaItemConverter.mediaItemToMap(
+                                mediaItem,
+                              ),
+                            )
+                        ],
+                      )
+                      ,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
                 height: seekBoxHeight,
                 width: width * 0.95,
                 child: StreamBuilder<PositionData>(
@@ -2121,8 +2148,6 @@ class NameNControls extends StatelessWidget {
                                   );
                                 },
                               ),
-                              if (!offline)
-                                LikeButton(mediaItem: mediaItem, size: 25.0)
                             ],
                           ),
                           ControlButtons(
@@ -2177,13 +2202,6 @@ class NameNControls extends StatelessWidget {
                                   );
                                 },
                               ),
-                              if (!offline)
-                                DownloadButton(
-                                  size: 25.0,
-                                  data: MediaItemConverter.mediaItemToMap(
-                                    mediaItem,
-                                  ),
-                                )
                             ],
                           ),
                         ],
@@ -2297,7 +2315,7 @@ class NameNControls extends StatelessWidget {
                     ),
                     Center(
                       child: Container(
-                        width: 30,
+                        width: 40,
                         height: 5,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
@@ -2305,19 +2323,19 @@ class NameNControls extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.upNext,
+                          '♪ \\(^ω^\\ )      ( /^ω^)/♪',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 5,
                     ),
                   ],
