@@ -105,7 +105,7 @@ class _SearchBarState extends State<SearchBar> {
               child: SizedBox(
                 height: 52.0,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 15),
                   child: Center(
                     child: TextField(
                       controller: widget.controller,

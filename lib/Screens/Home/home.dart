@@ -755,7 +755,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           SalomonBottomBarItem(
                             icon: const Icon(Icons.my_library_music_rounded),
-                            title: Text(AppLocalizations.of(context)!.library),
+                            title: Text(AppLocalizations.of(context)!.playlists),
                             selectedColor:
                                 Theme.of(context).colorScheme.secondary,
                           ),
