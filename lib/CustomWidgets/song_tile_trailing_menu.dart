@@ -121,53 +121,53 @@ class _SongTileTrailingMenuState extends State<SongTileTrailingMenu> {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: 4,
-          child: Row(
-            children: [
-              Icon(
-                Icons.album_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.viewAlbum),
-            ],
-          ),
-        ),
-        if (mediaItem.artist != null)
-          ...mediaItem.artist.toString().split(', ').map(
-                (artist) => PopupMenuItem(
-                  value: artist,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.person_rounded,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        const SizedBox(width: 10.0),
-                        Text(
-                          '${AppLocalizations.of(context)!.viewArtist} ($artist)',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-        PopupMenuItem(
-          value: 3,
-          child: Row(
-            children: [
-              Icon(
-                Icons.share_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.share),
-            ],
-          ),
-        ),
+        // PopupMenuItem(
+        //   value: 4,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.album_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.viewAlbum),
+        //     ],
+        //   ),
+        // ),
+        // if (mediaItem.artist != null)
+        //   ...mediaItem.artist.toString().split(', ').map(
+        //         (artist) => PopupMenuItem(
+        //           value: artist,
+        //           child: SingleChildScrollView(
+        //             scrollDirection: Axis.horizontal,
+        //             child: Row(
+        //               children: [
+        //                 Icon(
+        //                   Icons.person_rounded,
+        //                   color: Theme.of(context).iconTheme.color,
+        //                 ),
+        //                 const SizedBox(width: 10.0),
+        //                 Text(
+        //                   '${AppLocalizations.of(context)!.viewArtist} ($artist)',
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        // PopupMenuItem(
+        //   value: 3,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.share_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.share),
+        //     ],
+        //   ),
+        // ),
       ],
       onSelected: (value) {
         switch (value) {
@@ -243,26 +243,26 @@ class _YtSongTileTrailingMenuState extends State<YtSongTileTrailingMenu> {
         ),
       ),
       itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 0,
-          child: Row(
-            children: [
-              Icon(
-                CupertinoIcons.search,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                AppLocalizations.of(
-                  context,
-                )!
-                    .searchHome,
-              ),
-            ],
-          ),
-        ),
+        // PopupMenuItem(
+        //   value: 0,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         CupertinoIcons.search,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(
+        //         width: 10.0,
+        //       ),
+        //       Text(
+        //         AppLocalizations.of(
+        //           context,
+        //         )!
+        //             .searchHome,
+        //       ),
+        //     ],
+        //   ),
+        // ),
         PopupMenuItem(
           value: 1,
           child: Row(
@@ -303,32 +303,32 @@ class _YtSongTileTrailingMenuState extends State<YtSongTileTrailingMenu> {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: 4,
-          child: Row(
-            children: [
-              Icon(
-                Icons.video_library_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.watchVideo),
-            ],
-          ),
-        ),
-        PopupMenuItem(
-          value: 5,
-          child: Row(
-            children: [
-              Icon(
-                Icons.share_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.share),
-            ],
-          ),
-        ),
+        // PopupMenuItem(
+        //   value: 4,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.video_library_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.watchVideo),
+        //     ],
+        //   ),
+        // ),
+        // PopupMenuItem(
+        //   value: 5,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.share_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.share),
+        //     ],
+        //   ),
+        // ),
       ],
       onSelected: (int? value) {
         if (value == 0) {

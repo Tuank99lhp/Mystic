@@ -348,7 +348,7 @@ class _DownloadsState extends State<Downloads>
                     ),
                     if (_songs.isNotEmpty)
                       PopupMenuButton(
-                        icon: const Icon(Icons.sort_rounded),
+                        icon: const Icon(Icons.more_vert_outlined),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         ),
@@ -948,25 +948,25 @@ class _DownSongsTabState extends State<DownSongsTab>
                               ),
                             ),
                             itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 0,
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.edit_rounded,
-                                    ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!
-                                          .edit,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // PopupMenuItem(
+                              //   value: 0,
+                              //   child: Row(
+                              //     children: [
+                              //       const Icon(
+                              //         Icons.edit_rounded,
+                              //       ),
+                              //       const SizedBox(
+                              //         width: 10.0,
+                              //       ),
+                              //       Text(
+                              //         AppLocalizations.of(
+                              //           context,
+                              //         )!
+                              //             .edit,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               PopupMenuItem(
                                 value: 1,
                                 child: Row(
