@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -121,53 +121,53 @@ class _SongTileTrailingMenuState extends State<SongTileTrailingMenu> {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: 4,
-          child: Row(
-            children: [
-              Icon(
-                Icons.album_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.viewAlbum),
-            ],
-          ),
-        ),
-        if (mediaItem.artist != null)
-          ...mediaItem.artist.toString().split(', ').map(
-                (artist) => PopupMenuItem(
-                  value: artist,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.person_rounded,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        const SizedBox(width: 10.0),
-                        Text(
-                          '${AppLocalizations.of(context)!.viewArtist} ($artist)',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-        PopupMenuItem(
-          value: 3,
-          child: Row(
-            children: [
-              Icon(
-                Icons.share_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.share),
-            ],
-          ),
-        ),
+        // PopupMenuItem(
+        //   value: 4,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.album_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.viewAlbum),
+        //     ],
+        //   ),
+        // ),
+        // if (mediaItem.artist != null)
+        //   ...mediaItem.artist.toString().split(', ').map(
+        //         (artist) => PopupMenuItem(
+        //           value: artist,
+        //           child: SingleChildScrollView(
+        //             scrollDirection: Axis.horizontal,
+        //             child: Row(
+        //               children: [
+        //                 Icon(
+        //                   Icons.person_rounded,
+        //                   color: Theme.of(context).iconTheme.color,
+        //                 ),
+        //                 const SizedBox(width: 10.0),
+        //                 Text(
+        //                   '${AppLocalizations.of(context)!.viewArtist} ($artist)',
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        // PopupMenuItem(
+        //   value: 3,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.share_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.share),
+        //     ],
+        //   ),
+        // ),
       ],
       onSelected: (value) {
         switch (value) {
@@ -243,26 +243,26 @@ class _YtSongTileTrailingMenuState extends State<YtSongTileTrailingMenu> {
         ),
       ),
       itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 0,
-          child: Row(
-            children: [
-              Icon(
-                CupertinoIcons.search,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                AppLocalizations.of(
-                  context,
-                )!
-                    .searchHome,
-              ),
-            ],
-          ),
-        ),
+        // PopupMenuItem(
+        //   value: 0,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         CupertinoIcons.search,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(
+        //         width: 10.0,
+        //       ),
+        //       Text(
+        //         AppLocalizations.of(
+        //           context,
+        //         )!
+        //             .searchHome,
+        //       ),
+        //     ],
+        //   ),
+        // ),
         PopupMenuItem(
           value: 1,
           child: Row(
@@ -303,32 +303,32 @@ class _YtSongTileTrailingMenuState extends State<YtSongTileTrailingMenu> {
             ],
           ),
         ),
-        PopupMenuItem(
-          value: 4,
-          child: Row(
-            children: [
-              Icon(
-                Icons.video_library_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.watchVideo),
-            ],
-          ),
-        ),
-        PopupMenuItem(
-          value: 5,
-          child: Row(
-            children: [
-              Icon(
-                Icons.share_rounded,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              const SizedBox(width: 10.0),
-              Text(AppLocalizations.of(context)!.share),
-            ],
-          ),
-        ),
+        // PopupMenuItem(
+        //   value: 4,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.video_library_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.watchVideo),
+        //     ],
+        //   ),
+        // ),
+        // PopupMenuItem(
+        //   value: 5,
+        //   child: Row(
+        //     children: [
+        //       Icon(
+        //         Icons.share_rounded,
+        //         color: Theme.of(context).iconTheme.color,
+        //       ),
+        //       const SizedBox(width: 10.0),
+        //       Text(AppLocalizations.of(context)!.share),
+        //     ],
+        //   ),
+        // ),
       ],
       onSelected: (int? value) {
         if (value == 0) {

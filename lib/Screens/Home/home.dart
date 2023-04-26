@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -31,6 +31,7 @@ import 'package:mystic/CustomWidgets/textinput_dialog.dart';
 import 'package:mystic/Helpers/backup_restore.dart';
 import 'package:mystic/Helpers/downloads_checker.dart';
 import 'package:mystic/Helpers/supabase.dart';
+import 'package:mystic/Screens/Home/saavn.dart';
 import 'package:mystic/Screens/Library/library.dart';
 import 'package:mystic/Screens/Library/playlists.dart';
 import 'package:mystic/Screens/Settings/setting.dart';
@@ -238,7 +239,7 @@ class _HomePageState extends State<HomePage> {
           ) as String;
           if (autoBackPath == '') {
             ExtStorageProvider.getExtStorage(
-              dirName: 'BlackHole/Backups',
+              dirName: 'Mystic/Backups',
               writeAccess: true,
             ).then((value) {
               Hive.box('settings').put('autoBackPath', value);
@@ -247,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                 checked,
                 boxNames,
                 path: value,
-                fileName: 'BlackHole_AutoBackup',
+                fileName: 'Mystic_AutoBackup',
                 showDialog: false,
               );
             });
@@ -257,7 +258,7 @@ class _HomePageState extends State<HomePage> {
               checked,
               boxNames,
               path: autoBackPath,
-              fileName: 'BlackHole_AutoBackup',
+              fileName: 'Mystic_AutoBackup',
               showDialog: false,
             );
           }
@@ -569,7 +570,7 @@ class _HomePageState extends State<HomePage> {
                                   ) {
                                     return <Widget>[
                                       SliverAppBar(
-                                        expandedHeight: 100,
+                                        expandedHeight: 40,
                                         backgroundColor: Colors.transparent,
                                         elevation: 0,
                                         // pinned: true,
@@ -581,120 +582,29 @@ class _HomePageState extends State<HomePage> {
                                             BuildContext context,
                                             BoxConstraints constraints,
                                           ) {
-                                            return FlexibleSpaceBar(
-                                              // collapseMode: CollapseMode.parallax,
-                                              background: GestureDetector(
-                                                onTap: () async {
-                                                  await showTextInputDialog(
-                                                    context: context,
-                                                    title: 'Name',
-                                                    initialText: name,
-                                                    keyboardType:
-                                                        TextInputType.name,
-                                                    onSubmitted: (value) {
-                                                      Hive.box('settings').put(
-                                                        'name',
-                                                        value.trim(),
-                                                      );
-                                                      name = value.trim();
-                                                      Navigator.pop(context);
-                                                      updateUserDetails(
-                                                        'name',
-                                                        value.trim(),
-                                                      );
-                                                    },
-                                                  );
-                                                  setState(() {});
-                                                },
-                                                // child: Column(
-                                                //   mainAxisSize:
-                                                //       MainAxisSize.min,
-                                                //   children: <Widget>[
-                                                //     const SizedBox(
-                                                //       height: 30,
-                                                //     ),
-                                                //     Row(
-                                                //       children: [
-                                                //         Padding(
-                                                //           padding:
-                                                //               const EdgeInsets
-                                                //                   .only(
-                                                //             left: 25.0,
-                                                //           ),
-                                                //           child: Text(
-                                                //             AppLocalizations.of(
-                                                //               context,
-                                                //             )!
-                                                //                 .homeGreet,
-                                                //             style: TextStyle(
-                                                //               letterSpacing: 2,
-                                                //               color: Theme.of(
-                                                //                 context,
-                                                //               )
-                                                //                   .colorScheme
-                                                //                   .error,
-                                                //               fontSize: 30,
-                                                //               fontWeight:
-                                                //                   FontWeight
-                                                //                       .bold,
-                                                //             ),
-                                                //           ),
-                                                //         ),
-                                                //       ],
-                                                //     ),
-                                                //     Padding(
-                                                //       padding:
-                                                //           const EdgeInsets.only(
-                                                //         left: 25.0,
-                                                //       ),
-                                                //       child: Row(
-                                                //         crossAxisAlignment:
-                                                //             CrossAxisAlignment
-                                                //                 .end,
-                                                //         children: [
-                                                //           ValueListenableBuilder(
-                                                //             valueListenable:
-                                                //                 Hive.box(
-                                                //               'settings',
-                                                //             ).listenable(),
-                                                //             builder: (
-                                                //               BuildContext
-                                                //                   context,
-                                                //               Box box,
-                                                //               Widget? child,
-                                                //             ) {
-                                                //               return Text(
-                                                //                 (box.get('name') ==
-                                                //                             null ||
-                                                //                         box.get('name') ==
-                                                //                             '')
-                                                //                     ? 'Guest'
-                                                //                     : box
-                                                //                         .get(
-                                                //                           'name',
-                                                //                         )
-                                                //                         .split(
-                                                //                           ' ',
-                                                //                         )[0]
-                                                //                         .toString(),
-                                                //                 style:
-                                                //                     const TextStyle(
-                                                //                   letterSpacing:
-                                                //                       2,
-                                                //                   fontSize: 20,
-                                                //                   fontWeight:
-                                                //                       FontWeight
-                                                //                           .w500,
-                                                //                 ),
-                                                //               );
-                                                //             },
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                              ),
+                                            return Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Homepage',
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            25, // set the font size to 20
+                                                        fontWeight: FontWeight
+                                                            .bold, // set the font weight to bold
+                                                        color:
+                                                        Theme.of(context).colorScheme.secondary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             );
                                           },
                                         ),
@@ -789,13 +699,12 @@ class _HomePageState extends State<HomePage> {
                                       // ),
                                     ];
                                   },
-                                  body: const Placeholder(),
+                                  body: SaavnHomePage(),
                                 ),
                               ],
                             ),
                             const YouTubeSearchPage(
                               query: '',
-                              autofocus: true,
                             ),
                             PlaylistScreen(),
                             const LibraryPage(),
@@ -845,7 +754,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           SalomonBottomBarItem(
                             icon: const Icon(Icons.my_library_music_rounded),
-                            title: Text(AppLocalizations.of(context)!.library),
+                            title: Text(AppLocalizations.of(context)!.playlists),
                             selectedColor:
                                 Theme.of(context).colorScheme.secondary,
                           ),

@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -28,7 +28,7 @@ class MyTheme with ChangeNotifier {
       Hive.box('settings').get('useSystemTheme', defaultValue: false) as bool;
 
   String accentColor =
-      Hive.box('settings').get('themeColor', defaultValue: 'Teal') as String;
+      Hive.box('settings').get('themeColor', defaultValue: 'Orange') as String;
   String canvasColor =
       Hive.box('settings').get('canvasColor', defaultValue: 'Grey') as String;
   String cardColor =
@@ -57,7 +57,7 @@ class MyTheme with ChangeNotifier {
       Colors.black,
     ],
     [
-      Colors.grey[900]!,
+      Colors.black,
       Colors.black,
     ],
     [
@@ -119,7 +119,7 @@ class MyTheme with ChangeNotifier {
       Colors.black.withOpacity(1),
     ],
     [
-      Colors.grey[900]!.withOpacity(0.9),
+      Colors.black.withOpacity(1),
       Colors.black.withOpacity(1),
     ],
     [
@@ -140,7 +140,7 @@ class MyTheme with ChangeNotifier {
     _useSystemTheme =
         settingsBox.get('useSystemTheme', defaultValue: false) as bool;
 
-    accentColor = settingsBox.get('themeColor', defaultValue: 'Teal') as String;
+    accentColor = settingsBox.get('themeColor', defaultValue: 'Orange') as String;
     canvasColor =
         settingsBox.get('canvasColor', defaultValue: 'Grey') as String;
     cardColor = settingsBox.get('cardColor', defaultValue: 'Grey900') as String;

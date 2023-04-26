@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shadow.mystic">
+    package="com.hynduf.mystic">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,11 +13,11 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="BlackHole"
+        android:label="Mystic"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
         <receiver
-            android:name=".BlackHoleMusicWidget"
+            android:name=".MysticMusicWidget"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
