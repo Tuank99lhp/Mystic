@@ -145,9 +145,8 @@ class _SaavnHomePageState extends State<SaavnHomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (!fetched) {
+    if (trendingList.isEmpty) {
       getHomePageData();
-      fetched = true;
     }
     double boxSize =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width
