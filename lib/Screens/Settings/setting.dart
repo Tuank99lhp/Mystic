@@ -25,20 +25,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mystic/CustomWidgets/copy_clipboard.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/popup.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/CustomWidgets/textinput_dialog.dart';
-import 'package:mystic/Helpers/backup_restore.dart';
-import 'package:mystic/Helpers/config.dart';
-import 'package:mystic/Helpers/countrycodes.dart';
-import 'package:mystic/Helpers/picker.dart';
-import 'package:mystic/Helpers/supabase.dart';
-import 'package:mystic/Screens/Home/saavn.dart' as home_screen;
-import 'package:mystic/Screens/Settings/player_gradient.dart';
-import 'package:mystic/Services/ext_storage_provider.dart';
-import 'package:mystic/main.dart';
+import 'package:blackhole/CustomWidgets/copy_clipboard.dart';
+import 'package:blackhole/CustomWidgets/gradient_containers.dart';
+import 'package:blackhole/CustomWidgets/popup.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/CustomWidgets/textinput_dialog.dart';
+import 'package:blackhole/Helpers/backup_restore.dart';
+import 'package:blackhole/Helpers/config.dart';
+import 'package:blackhole/Helpers/countrycodes.dart';
+import 'package:blackhole/Helpers/picker.dart';
+import 'package:blackhole/Helpers/supabase.dart';
+import 'package:blackhole/Screens/Home/saavn.dart' as home_screen;
+import 'package:blackhole/Screens/Settings/player_gradient.dart';
+import 'package:blackhole/Services/ext_storage_provider.dart';
+import 'package:blackhole/main.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -4020,7 +4020,7 @@ class _SettingPageState extends State<SettingPage>
                                                 Navigator.pop(context);
                                                 launchUrl(
                                                   Uri.parse(
-                                                    'https://mail.google.com/mail/?extsrc=mailto&url=mailto%3A%3Fto%3Dmysticyoucantescape%40gmail.com%26subject%3DRegarding%2520Mobile%2520App',
+                                                    'https://mail.google.com/mail/?extsrc=mailto&url=mailto%3A%3Fto%3Dblackholeyoucantescape%40gmail.com%26subject%3DRegarding%2520Mobile%2520App',
                                                   ),
                                                   mode: LaunchMode
                                                       .externalApplication,
@@ -4176,7 +4176,7 @@ class _SettingPageState extends State<SettingPage>
                                                 Navigator.pop(context);
                                                 launchUrl(
                                                   Uri.parse(
-                                                    'https://t.me/mystic_official',
+                                                    'https://t.me/blackhole_official',
                                                   ),
                                                   mode: LaunchMode
                                                       .externalApplication,

@@ -19,7 +19,7 @@
 
 import 'dart:math';
 
-import 'package:mystic/Screens/Player/audioplayer.dart';
+import 'package:blackhole/Screens/Player/audioplayer.dart';
 // ignore: directives_ordering
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

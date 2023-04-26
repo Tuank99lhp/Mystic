@@ -23,10 +23,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mystic/CustomWidgets/download_button.dart';
-import 'package:mystic/CustomWidgets/song_tile_trailing_menu.dart';
-import 'package:mystic/Helpers/audio_query.dart';
-import 'package:mystic/Services/player_service.dart';
+import 'package:blackhole/CustomWidgets/download_button.dart';
+import 'package:blackhole/CustomWidgets/song_tile_trailing_menu.dart';
+import 'package:blackhole/Helpers/audio_query.dart';
+import 'package:blackhole/Services/player_service.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class DataSearch extends SearchDelegate {

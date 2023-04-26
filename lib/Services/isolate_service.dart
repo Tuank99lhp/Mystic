@@ -2,8 +2,8 @@
 
 import 'dart:isolate';
 
-import 'package:mystic/Screens/Player/audioplayer.dart';
-import 'package:mystic/Services/youtube_services.dart';
+import 'package:blackhole/Screens/Player/audioplayer.dart';
+import 'package:blackhole/Services/youtube_services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';

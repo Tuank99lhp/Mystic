@@ -1,4 +1,4 @@
-package com.hynduf.mystic
+package com.shadow.blackhole
 
 import MainActivity
 import android.app.PendingIntent
@@ -12,7 +12,7 @@ import android.widget.RemoteViews
 /**
  * Implementation of App Widget functionality.
  */
-class MysticMusicWidget : AppWidgetProvider() {
+class BlackHoleMusicWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
@@ -27,7 +27,7 @@ internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManage
     val views = RemoteViews(context.packageName, R.layout.black_hole_music_widget)
 
     // val intent = Intent(context, MainActivity::class.java);
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("app://mystic/play"))
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("app://blackhole/play"))
 
     // val intent = Intent(Intent.ACTION_VIEW)
     // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

@@ -29,20 +29,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
-import 'package:mystic/Helpers/config.dart';
-import 'package:mystic/Helpers/countrycodes.dart';
-import 'package:mystic/Helpers/handle_native.dart';
-import 'package:mystic/Helpers/import_export_playlist.dart';
-import 'package:mystic/Helpers/logging.dart';
-import 'package:mystic/Helpers/route_handler.dart';
-import 'package:mystic/Screens/Home/home.dart';
-import 'package:mystic/Screens/Library/downloads.dart';
-import 'package:mystic/Screens/Library/playlists.dart';
-import 'package:mystic/Screens/Library/recent.dart';
-import 'package:mystic/Screens/Player/audioplayer.dart';
-import 'package:mystic/Screens/Settings/setting.dart';
-import 'package:mystic/Services/audio_service.dart';
-import 'package:mystic/theme/app_theme.dart';
+import 'package:blackhole/Helpers/config.dart';
+import 'package:blackhole/Helpers/countrycodes.dart';
+import 'package:blackhole/Helpers/handle_native.dart';
+import 'package:blackhole/Helpers/import_export_playlist.dart';
+import 'package:blackhole/Helpers/logging.dart';
+import 'package:blackhole/Helpers/route_handler.dart';
+import 'package:blackhole/Screens/Home/home.dart';
+import 'package:blackhole/Screens/Library/downloads.dart';
+import 'package:blackhole/Screens/Library/playlists.dart';
+import 'package:blackhole/Screens/Library/recent.dart';
+import 'package:blackhole/Screens/Player/audioplayer.dart';
+import 'package:blackhole/Screens/Settings/setting.dart';
+import 'package:blackhole/Services/audio_service.dart';
+import 'package:blackhole/theme/app_theme.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
@@ -93,7 +93,7 @@ Future<void> startService() async {
   final AudioPlayerHandler audioHandler = await AudioService.init(
     builder: () => AudioPlayerHandlerImpl(),
     config: AudioServiceConfig(
-      androidNotificationChannelId: 'com.hynduf.mystic.channel.audio',
+      androidNotificationChannelId: 'com.shadow.blackhole.channel.audio',
       androidNotificationChannelName: 'Mystic',
       androidNotificationIcon: 'drawable/ic_stat_music_note',
       androidShowNotificationBadge: true,
@@ -272,7 +272,7 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       title: 'Mystic',
-      restorationScopeId: 'mystic',
+      restorationScopeId: 'blackhole',
       debugShowCheckedModeBanner: false,
       themeMode: AppTheme.themeMode,
       theme: AppTheme.lightTheme(

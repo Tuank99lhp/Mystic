@@ -21,7 +21,7 @@
 
 import 'dart:math';
 
-import 'package:mystic/Screens/YouTube/youtube_search.dart';
+import 'package:blackhole/Screens/YouTube/youtube_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

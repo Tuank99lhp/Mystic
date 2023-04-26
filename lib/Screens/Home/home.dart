@@ -23,23 +23,24 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mystic/CustomWidgets/custom_physics.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/miniplayer.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/CustomWidgets/textinput_dialog.dart';
-import 'package:mystic/Helpers/backup_restore.dart';
-import 'package:mystic/Helpers/downloads_checker.dart';
-import 'package:mystic/Helpers/supabase.dart';
-import 'package:mystic/Screens/Home/saavn.dart';
-import 'package:mystic/Screens/Library/library.dart';
-import 'package:mystic/Screens/Library/playlists.dart';
-import 'package:mystic/Screens/Settings/setting.dart';
-import 'package:mystic/Screens/YouTube/youtube_search.dart';
-import 'package:mystic/Services/ext_storage_provider.dart';
+import 'package:blackhole/CustomWidgets/custom_physics.dart';
+import 'package:blackhole/CustomWidgets/gradient_containers.dart';
+import 'package:blackhole/CustomWidgets/miniplayer.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/CustomWidgets/textinput_dialog.dart';
+import 'package:blackhole/Helpers/backup_restore.dart';
+import 'package:blackhole/Helpers/downloads_checker.dart';
+import 'package:blackhole/Helpers/supabase.dart';
+import 'package:blackhole/Screens/Home/saavn.dart';
+import 'package:blackhole/Screens/Library/library.dart';
+import 'package:blackhole/Screens/Library/playlists.dart';
+import 'package:blackhole/Screens/Settings/setting.dart';
+import 'package:blackhole/Screens/YouTube/youtube_search.dart';
+import 'package:blackhole/Services/ext_storage_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:blackhole/Screens/YouTube/youtube_home.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -590,7 +591,8 @@ class _HomePageState extends State<HomePage> {
                                                 Center(
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Text(
                                                       'Homepage',
                                                       style: TextStyle(
@@ -598,8 +600,9 @@ class _HomePageState extends State<HomePage> {
                                                             25, // set the font size to 20
                                                         fontWeight: FontWeight
                                                             .bold, // set the font weight to bold
-                                                        color:
-                                                        Theme.of(context).colorScheme.secondary,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
                                                       ),
                                                     ),
                                                   ),
@@ -703,6 +706,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
+                            // const YouTube(),
                             const YouTubeSearchPage(
                               query: '',
                             ),
@@ -754,7 +758,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                           SalomonBottomBarItem(
                             icon: const Icon(Icons.my_library_music_rounded),
-                            title: Text(AppLocalizations.of(context)!.playlists),
+                            title:
+                                Text(AppLocalizations.of(context)!.playlists),
                             selectedColor:
                                 Theme.of(context).colorScheme.secondary,
                           ),

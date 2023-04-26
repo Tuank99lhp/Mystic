@@ -24,7 +24,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
 class YouTubeServices {
   static const String searchAuthority = 'www.youtube.com';
   static const Map paths = {
@@ -113,6 +112,7 @@ class YouTubeServices {
     return metadata;
   }
 
+  // @pragma('vm:prefer-inline')
   Future<List> getTrendingSongs() async {
     final Uri link = Uri.https(
       searchAuthority,

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "mystic")
-set(APPLICATION_ID "com.hynduf.mystic")
+set(BINARY_NAME "blackhole")
+set(APPLICATION_ID "com.shadow.blackhole")
 
 cmake_policy(SET CMP0063 NEW)
 

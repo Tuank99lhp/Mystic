@@ -19,7 +19,7 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
-import 'package:mystic/Helpers/route_handler.dart';
+import 'package:blackhole/Helpers/route_handler.dart';
 import 'package:flutter/material.dart';
 
 void handleSharedText(
