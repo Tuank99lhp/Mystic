@@ -28,15 +28,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
-import 'package:mystic/CustomWidgets/custom_physics.dart';
-import 'package:mystic/CustomWidgets/data_search.dart';
-import 'package:mystic/CustomWidgets/empty_screen.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/miniplayer.dart';
-import 'package:mystic/CustomWidgets/playlist_head.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/Helpers/picker.dart';
-import 'package:mystic/Services/player_service.dart';
+import 'package:blackhole/CustomWidgets/custom_physics.dart';
+import 'package:blackhole/CustomWidgets/data_search.dart';
+import 'package:blackhole/CustomWidgets/empty_screen.dart';
+import 'package:blackhole/CustomWidgets/gradient_containers.dart';
+import 'package:blackhole/CustomWidgets/miniplayer.dart';
+import 'package:blackhole/CustomWidgets/playlist_head.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/Helpers/picker.dart';
+import 'package:blackhole/Services/player_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Downloads extends StatefulWidget {

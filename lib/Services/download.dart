@@ -28,9 +28,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/Helpers/lyrics.dart';
-import 'package:mystic/Services/ext_storage_provider.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/Helpers/lyrics.dart';
+import 'package:blackhole/Services/ext_storage_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 

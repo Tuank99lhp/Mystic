@@ -22,9 +22,9 @@
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:mystic/Helpers/mediaitem_converter.dart';
-import 'package:mystic/Screens/Player/audioplayer.dart';
-import 'package:mystic/Services/youtube_services.dart';
+import 'package:blackhole/Helpers/mediaitem_converter.dart';
+import 'package:blackhole/Screens/Player/audioplayer.dart';
+import 'package:blackhole/Services/youtube_services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';

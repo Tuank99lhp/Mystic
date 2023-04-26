@@ -20,9 +20,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
-import 'package:mystic/APIs/api.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/Services/download.dart';
+import 'package:blackhole/APIs/api.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/Services/download.dart';
 
 class DownloadButton extends StatefulWidget {
   final Map data;

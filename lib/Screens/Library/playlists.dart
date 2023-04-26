@@ -22,12 +22,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mystic/CustomWidgets/collage.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/CustomWidgets/textinput_dialog.dart';
-import 'package:mystic/Helpers/import_export_playlist.dart';
-import 'package:mystic/Screens/Library/liked.dart';
+import 'package:blackhole/CustomWidgets/collage.dart';
+import 'package:blackhole/CustomWidgets/gradient_containers.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/CustomWidgets/textinput_dialog.dart';
+import 'package:blackhole/Helpers/import_export_playlist.dart';
+import 'package:blackhole/Screens/Library/liked.dart';
 
 import 'import.dart';
 

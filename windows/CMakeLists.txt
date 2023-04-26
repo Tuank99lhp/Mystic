@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(mystic LANGUAGES CXX)
+project(blackhole LANGUAGES CXX)
 
-set(BINARY_NAME "mystic")
+set(BINARY_NAME "blackhole")
 
 cmake_policy(SET CMP0063 NEW)
 

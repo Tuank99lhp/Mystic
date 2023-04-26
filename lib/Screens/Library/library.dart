@@ -23,11 +23,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mystic/Screens/Library/liked.dart';
-import 'package:mystic/Screens/LocalMusic/downed_songs.dart';
-import 'package:mystic/Screens/LocalMusic/downed_songs_desktop.dart';
+import 'package:blackhole/Screens/Library/liked.dart';
+import 'package:blackhole/Screens/LocalMusic/downed_songs.dart';
+import 'package:blackhole/Screens/LocalMusic/downed_songs_desktop.dart';
 
-import 'package:mystic/Screens/Settings/setting.dart';
+import 'package:blackhole/Screens/Settings/setting.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});

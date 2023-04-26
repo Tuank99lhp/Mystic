@@ -19,16 +19,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:mystic/APIs/api.dart';
-import 'package:mystic/APIs/spotify_api.dart';
-import 'package:mystic/Helpers/audio_query.dart';
-import 'package:mystic/Helpers/spotify_helper.dart';
-import 'package:mystic/Screens/Common/song_list.dart';
-import 'package:mystic/Screens/Player/audioplayer.dart';
-import 'package:mystic/Screens/Search/search.dart';
-import 'package:mystic/Screens/YouTube/youtube_playlist.dart';
-import 'package:mystic/Services/player_service.dart';
-import 'package:mystic/Services/youtube_services.dart';
+import 'package:blackhole/APIs/api.dart';
+import 'package:blackhole/APIs/spotify_api.dart';
+import 'package:blackhole/Helpers/audio_query.dart';
+import 'package:blackhole/Helpers/spotify_helper.dart';
+import 'package:blackhole/Screens/Common/song_list.dart';
+import 'package:blackhole/Screens/Player/audioplayer.dart';
+import 'package:blackhole/Screens/Search/search.dart';
+import 'package:blackhole/Screens/YouTube/youtube_playlist.dart';
+import 'package:blackhole/Services/player_service.dart';
+import 'package:blackhole/Services/youtube_services.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 // ignore: avoid_classes_with_only_static_members

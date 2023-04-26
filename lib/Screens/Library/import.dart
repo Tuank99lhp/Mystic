@@ -24,15 +24,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mystic/APIs/spotify_api.dart';
-import 'package:mystic/CustomWidgets/gradient_containers.dart';
-import 'package:mystic/CustomWidgets/miniplayer.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/CustomWidgets/textinput_dialog.dart';
-import 'package:mystic/Helpers/import_export_playlist.dart';
-import 'package:mystic/Helpers/playlist.dart';
-import 'package:mystic/Helpers/search_add_playlist.dart';
-import 'package:mystic/Helpers/spotify_helper.dart';
+import 'package:blackhole/APIs/spotify_api.dart';
+import 'package:blackhole/CustomWidgets/gradient_containers.dart';
+import 'package:blackhole/CustomWidgets/miniplayer.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/CustomWidgets/textinput_dialog.dart';
+import 'package:blackhole/Helpers/import_export_playlist.dart';
+import 'package:blackhole/Helpers/playlist.dart';
+import 'package:blackhole/Helpers/search_add_playlist.dart';
+import 'package:blackhole/Helpers/spotify_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ImportPlaylist extends StatelessWidget {

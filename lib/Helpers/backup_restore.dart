@@ -23,8 +23,8 @@ import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
-import 'package:mystic/CustomWidgets/snackbar.dart';
-import 'package:mystic/Helpers/picker.dart';
+import 'package:blackhole/CustomWidgets/snackbar.dart';
+import 'package:blackhole/Helpers/picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 

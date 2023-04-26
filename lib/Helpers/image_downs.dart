@@ -19,7 +19,7 @@
 
 // import 'dart:io';
 
-// import 'package:mystic/APIs/api.dart';
+// import 'package:blackhole/APIs/api.dart';
 // import 'package:http/http.dart';
 
 // Future<void> getArtistImage({
