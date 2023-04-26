@@ -49,8 +49,8 @@ android {
     // remove signingConfigs when running debug version
     signingConfigs {
         release {
-            storeFile file("key.jks")
-            // storeFile file(keystoreProperties['storeFile'])
+//            storeFile file("key.jks")
+             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']

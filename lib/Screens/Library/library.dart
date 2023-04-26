@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -59,7 +59,7 @@ class _LibraryPageState extends State<LibraryPage> {
       children: [
         AppBar(
           title: Text(
-            AppLocalizations.of(context)!.library,
+            AppLocalizations.of(context)!.more,
             style: TextStyle(
               color: Theme.of(context).iconTheme.color,
             ),
@@ -76,13 +76,13 @@ class _LibraryPageState extends State<LibraryPage> {
         //     Navigator.pushNamed(context, '/nowplaying');
         //   },
         // ),
-        // LibraryTile(
-        //   title: AppLocalizations.of(context)!.lastSession,
-        //   icon: Icons.history_rounded,
-        //   onTap: () {
-        //     Navigator.pushNamed(context, '/recent');
-        //   },
-        // ),
+        LibraryTile(
+          title: AppLocalizations.of(context)!.lastSession,
+          icon: Icons.history_rounded,
+          onTap: () {
+            Navigator.pushNamed(context, '/recent');
+          },
+        ),
         LibraryTile(
           title: AppLocalizations.of(context)!.favorites,
           icon: Icons.favorite_rounded,
@@ -129,7 +129,7 @@ class _LibraryPageState extends State<LibraryPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SettingPage(callback: callback),
+                builder: (context) => Placeholder(), // SettingPage(callback: callback),
               ),
             );
           },

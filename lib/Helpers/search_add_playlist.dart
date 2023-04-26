@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -38,8 +38,8 @@ class SearchAddPlaylist {
       if (id != null) {
         final Playlist metadata =
             await YouTubeServices().getPlaylistDetails(id[1]!);
-        final List<Video> tracks =
-            await YouTubeServices().getPlaylistSongs(id[1]!);
+        final List<Map> tracks =
+            await YouTubeServices().getPlaylistSongsMap(id[1]!);
         return {
           'title': metadata.title,
           'image': metadata.thumbnails.standardResUrl,
@@ -141,20 +141,16 @@ class SearchAddPlaylist {
     }
   }
 
-  static Stream<Map> ytSongsAdder(String playName, List tracks) async* {
+  static Stream<Map> ytSongsAdder(String playName, List<Map> tracks) async* {
     int done = 0;
     for (final track in tracks) {
-      String? trackName;
       try {
-        trackName = (track as Video).title;
-        yield {'done': ++done, 'name': trackName};
+        yield {'done': ++done, 'name': track['title']};
       } catch (e) {
         yield {'done': ++done, 'name': ''};
       }
       try {
-        final List result =
-            await SaavnAPI().fetchTopSearchResult(trackName!.split('|')[0]);
-        addMapToPlaylist(playName, result[0] as Map);
+        addMapToPlaylist(playName, track);
       } catch (e) {
         Logger.root.severe('Error in $done: $e');
       }

@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -535,45 +535,45 @@ class _LikedSongsState extends State<LikedSongs>
                           ),
                         ],
                       ),
-                floatingActionButton: ValueListenableBuilder(
-                  valueListenable: _showShuffle,
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).cardColor,
-                    child: Icon(
-                      Icons.shuffle_rounded,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                      size: 24.0,
-                    ),
-                    onPressed: () {
-                      if (_songs.isNotEmpty) {
-                        PlayerInvoke.init(
-                          songsList: _songs,
-                          index: 0,
-                          isOffline: false,
-                          recommend: false,
-                          shuffle: true,
-                        );
-                      }
-                    },
-                  ),
-                  builder: (
-                    BuildContext context,
-                    bool showShuffle,
-                    Widget? child,
-                  ) {
-                    return AnimatedSlide(
-                      duration: const Duration(milliseconds: 300),
-                      offset: showShuffle ? Offset.zero : const Offset(0, 2),
-                      child: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: showShuffle ? 1 : 0,
-                        child: child,
-                      ),
-                    );
-                  },
-                ),
+                // floatingActionButton: ValueListenableBuilder(
+                //   valueListenable: _showShuffle,
+                //   child: FloatingActionButton(
+                //     backgroundColor: Theme.of(context).cardColor,
+                //     child: Icon(
+                //       Icons.shuffle_rounded,
+                //       color: Theme.of(context).brightness == Brightness.dark
+                //           ? Colors.white
+                //           : Colors.black,
+                //       size: 24.0,
+                //     ),
+                //     onPressed: () {
+                //       if (_songs.isNotEmpty) {
+                //         PlayerInvoke.init(
+                //           songsList: _songs,
+                //           index: 0,
+                //           isOffline: false,
+                //           recommend: false,
+                //           shuffle: true,
+                //         );
+                //       }
+                //     },
+                //   ),
+                //   builder: (
+                //     BuildContext context,
+                //     bool showShuffle,
+                //     Widget? child,
+                //   ) {
+                //     return AnimatedSlide(
+                //       duration: const Duration(milliseconds: 300),
+                //       offset: showShuffle ? Offset.zero : const Offset(0, 2),
+                //       child: AnimatedOpacity(
+                //         duration: const Duration(milliseconds: 300),
+                //         opacity: showShuffle ? 1 : 0,
+                //         child: child,
+                //       ),
+                //     );
+                //   },
+                // ),
               ),
             ),
           ),

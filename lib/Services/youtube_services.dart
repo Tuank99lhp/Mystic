@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -31,7 +31,8 @@ class YouTubeServices {
     'search': '/results',
     'channel': '/channel',
     'music': '/music',
-    'playlist': '/playlist'
+    'playlist': '/playlist',
+    'trending': '/feed/trending',
   };
   static const Map<String, String> headers = {
     'User-Agent':
@@ -39,6 +40,15 @@ class YouTubeServices {
   };
   final YoutubeExplode yt = YoutubeExplode();
 
+  Future<List<Map>> getPlaylistSongsMap(String id) async {
+    final List<Video> results = await yt.playlists.getVideos(id).toList();
+    final List<Map> videoResult = [];
+    for (final Video vid in results) {
+      final res = await formatVideo(video: vid, quality: 'High', getUrl: false);
+      if (res != null) videoResult.add(res);
+    }
+    return videoResult;
+  }
   Future<List<Video>> getPlaylistSongs(String id) async {
     final List<Video> results = await yt.playlists.getVideos(id).toList();
     return results;
@@ -101,6 +111,30 @@ class YouTubeServices {
   Future<Playlist> getPlaylistDetails(String id) async {
     final Playlist metadata = await yt.playlists.get(id);
     return metadata;
+  }
+
+  Future<List> getTrendingSongs() async {
+    final Uri link = Uri.https(
+      searchAuthority,
+      paths['trending'].toString(),
+      {'bp': '4gINGgt5dG1hX2NoYXJ0cw%3D%3D'},
+    );
+    try {
+      final Response response = await get(link);
+      if (response.statusCode != 200) {
+        return [];
+      }
+      final String searchResults =
+          RegExp('"expandedShelfContentsRenderer":{(.*?}]}}}]}}])}},', dotAll: true)
+              .firstMatch(response.body)![1]!;
+      final Map data = json.decode('{$searchResults}') as Map;
+      final List result = data['items'] as List;
+      final List finalResult = formatTrendingItems(result);
+      return finalResult;
+    } catch (e) {
+      Logger.root.severe('Error in getTrendingSongs(): $e');
+      return [];
+    }
   }
 
   Future<Map<String, List>> getMusicHome() async {
@@ -288,6 +322,23 @@ class YouTubeServices {
       return result;
     } catch (e) {
       Logger.root.severe('Error in formatItems: $e');
+      return List.empty();
+    }
+  }
+
+  List formatTrendingItems(List itemsList) {
+    try {
+      final List result = itemsList.map((e) {
+        return {
+          'title': e['videoRenderer']['title']['runs'][0]['text'],
+          'subtitle': e['videoRenderer']['longBylineText']['runs'][0]['text'],
+          'videoId': e['videoRenderer']['videoId'],
+          'image': e['videoRenderer']['thumbnail']['thumbnails'].last['url'],
+        };
+      }).toList();
+      return result;
+    } catch (e) {
+      Logger.root.severe('Error in formatTrendingItems: $e');
       return List.empty();
     }
   }

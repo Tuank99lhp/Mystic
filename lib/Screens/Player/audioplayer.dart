@@ -1,18 +1,18 @@
 /*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
+ *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
  * 
- * BlackHole is free software: you can redistribute it and/or modify
+ * Mystic is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BlackHole is distributed in the hope that it will be useful,
+ * Mystic is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
@@ -252,24 +252,24 @@ class _PlayScreenState extends State<PlayScreen> {
                     },
                   ),
                   actions: [
-                    IconButton(
-                      icon: const Icon(Icons.lyrics_rounded),
-                      //     Image.asset(
-                      //   'assets/lyrics.png',
-                      // ),
-                      tooltip: AppLocalizations.of(context)!.lyrics,
-                      onPressed: () => cardKey.currentState!.toggleCard(),
-                    ),
-                    if (!offline)
-                      IconButton(
-                        icon: const Icon(Icons.share_rounded),
-                        tooltip: AppLocalizations.of(context)!.share,
-                        onPressed: () {
-                          Share.share(
-                            mediaItem.extras!['perma_url'].toString(),
-                          );
-                        },
-                      ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.lyrics_rounded),
+                    //   //     Image.asset(
+                    //   //   'assets/lyrics.png',
+                    //   // ),
+                    //   tooltip: AppLocalizations.of(context)!.lyrics,
+                    //   onPressed: () => cardKey.currentState!.toggleCard(),
+                    // ),
+                    // if (!offline)
+                    //   IconButton(
+                    //     icon: const Icon(Icons.share_rounded),
+                    //     tooltip: AppLocalizations.of(context)!.share,
+                    //     onPressed: () {
+                    //       Share.share(
+                    //         mediaItem.extras!['perma_url'].toString(),
+                    //       );
+                    //     },
+                    //   ),
                     PopupMenuButton(
                       icon: const Icon(
                         Icons.more_vert_rounded,
@@ -444,58 +444,58 @@ class _PlayScreenState extends State<PlayScreen> {
                       },
                       itemBuilder: (context) => offline
                           ? [
-                              if (mediaItem.extras?['album_id'] != null)
-                                PopupMenuItem(
-                                  value: 5,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.album_rounded,
-                                        color:
-                                            Theme.of(context).iconTheme.color,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.viewAlbum,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.timer,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      AppLocalizations.of(context)!.sleepTimer,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (Hive.box('settings').get(
-                                'supportEq',
-                                defaultValue: false,
-                              ) as bool)
-                                PopupMenuItem(
-                                  value: 4,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.equalizer_rounded,
-                                        color:
-                                            Theme.of(context).iconTheme.color,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.equalizer,
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              // if (mediaItem.extras?['album_id'] != null)
+                              //   PopupMenuItem(
+                              //     value: 5,
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.album_rounded,
+                              //           color:
+                              //               Theme.of(context).iconTheme.color,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.viewAlbum,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // PopupMenuItem(
+                              //   value: 1,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         CupertinoIcons.timer,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         AppLocalizations.of(context)!.sleepTimer,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // if (Hive.box('settings').get(
+                              //   'supportEq',
+                              //   defaultValue: false,
+                              // ) as bool)
+                              //   PopupMenuItem(
+                              //     value: 4,
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.equalizer_rounded,
+                              //           color:
+                              //               Theme.of(context).iconTheme.color,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.equalizer,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
                               PopupMenuItem(
                                 value: 10,
                                 child: Row(
@@ -513,21 +513,21 @@ class _PlayScreenState extends State<PlayScreen> {
                               ),
                             ]
                           : [
-                              if (mediaItem.extras?['album_id'] != null)
-                                PopupMenuItem(
-                                  value: 5,
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.album_rounded,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.viewAlbum,
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              // if (mediaItem.extras?['album_id'] != null)
+                              //   PopupMenuItem(
+                              //     value: 5,
+                              //     child: Row(
+                              //       children: [
+                              //         const Icon(
+                              //           Icons.album_rounded,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.viewAlbum,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
                               PopupMenuItem(
                                 value: 0,
                                 child: Row(
@@ -544,79 +544,79 @@ class _PlayScreenState extends State<PlayScreen> {
                                   ],
                                 ),
                               ),
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.timer,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      AppLocalizations.of(context)!.sleepTimer,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (Hive.box('settings').get(
-                                'supportEq',
-                                defaultValue: false,
-                              ) as bool)
-                                PopupMenuItem(
-                                  value: 4,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.equalizer_rounded,
-                                        color:
-                                            Theme.of(context).iconTheme.color,
-                                      ),
-                                      const SizedBox(width: 10.0),
-                                      Text(
-                                        AppLocalizations.of(context)!.equalizer,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              PopupMenuItem(
-                                value: 3,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      MdiIcons.youtube,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      mediaItem.genre == 'YouTube'
-                                          ? AppLocalizations.of(
-                                              context,
-                                            )!
-                                              .watchVideo
-                                          : AppLocalizations.of(
-                                              context,
-                                            )!
-                                              .searchVideo,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 10,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.info_rounded,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                      AppLocalizations.of(context)!.songInfo,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // PopupMenuItem(
+                              //   value: 1,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         CupertinoIcons.timer,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         AppLocalizations.of(context)!.sleepTimer,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // if (Hive.box('settings').get(
+                              //   'supportEq',
+                              //   defaultValue: false,
+                              // ) as bool)
+                              //   PopupMenuItem(
+                              //     value: 4,
+                              //     child: Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.equalizer_rounded,
+                              //           color:
+                              //               Theme.of(context).iconTheme.color,
+                              //         ),
+                              //         const SizedBox(width: 10.0),
+                              //         Text(
+                              //           AppLocalizations.of(context)!.equalizer,
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
+                              // PopupMenuItem(
+                              //   value: 3,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         MdiIcons.youtube,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         mediaItem.genre == 'YouTube'
+                              //             ? AppLocalizations.of(
+                              //                 context,
+                              //               )!
+                              //                 .watchVideo
+                              //             : AppLocalizations.of(
+                              //                 context,
+                              //               )!
+                              //                 .searchVideo,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // PopupMenuItem(
+                              //   value: 10,
+                              //   child: Row(
+                              //     children: [
+                              //       Icon(
+                              //         Icons.info_rounded,
+                              //         color: Theme.of(context).iconTheme.color,
+                              //       ),
+                              //       const SizedBox(width: 10.0),
+                              //       Text(
+                              //         AppLocalizations.of(context)!.songInfo,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                     )
                   ],
@@ -1299,8 +1299,8 @@ class _ArtWorkWidgetState extends State<ArtWorkWidget> {
             }
           },
           back: GestureDetector(
-            onTap: () => widget.cardKey.currentState!.toggleCard(),
-            onDoubleTap: () => widget.cardKey.currentState!.toggleCard(),
+            // onTap: () => widget.cardKey.currentState!.toggleCard(),
+            // onDoubleTap: () => widget.cardKey.currentState!.toggleCard(),
             child: Stack(
               children: [
                 ShaderMask(
@@ -1397,63 +1397,63 @@ class _ArtWorkWidgetState extends State<ArtWorkWidget> {
               final bool enabled = Hive.box('settings')
                   .get('enableGesture', defaultValue: true) as bool;
               return GestureDetector(
-                onTap: !enabled
-                    ? null
-                    : () {
-                        tapped.value = true;
-                        Future.delayed(const Duration(seconds: 2), () async {
-                          tapped.value = false;
-                        });
-                      },
-                onDoubleTapDown: (details) {
-                  if (details.globalPosition.dx <= widget.width * 2 / 5) {
-                    widget.audioHandler.customAction('rewind');
-                    doubletapped.value = -1;
-                    Future.delayed(const Duration(milliseconds: 500), () async {
-                      doubletapped.value = 0;
-                    });
-                  }
-                  if (details.globalPosition.dx > widget.width * 2 / 5 &&
-                      details.globalPosition.dx < widget.width * 3 / 5) {
-                    widget.cardKey.currentState!.toggleCard();
-                  }
-                  if (details.globalPosition.dx >= widget.width * 3 / 5) {
-                    widget.audioHandler.customAction('fastForward');
-                    doubletapped.value = 1;
-                    Future.delayed(const Duration(milliseconds: 500), () async {
-                      doubletapped.value = 0;
-                    });
-                  }
-                },
-                onDoubleTap: !enabled
-                    ? null
-                    : () {
-                        Feedback.forLongPress(context);
-                      },
-                onHorizontalDragEnd: !enabled
-                    ? null
-                    : (DragEndDetails details) {
-                        if ((details.primaryVelocity ?? 0) > 100) {
-                          if (queueState.hasPrevious) {
-                            widget.audioHandler.skipToPrevious();
-                          }
-                        }
-
-                        if ((details.primaryVelocity ?? 0) < -100) {
-                          if (queueState.hasNext) {
-                            widget.audioHandler.skipToNext();
-                          }
-                        }
-                      },
-                onLongPress: !enabled
-                    ? null
-                    : () {
-                        if (!widget.offline) {
-                          Feedback.forLongPress(context);
-                          AddToPlaylist()
-                              .addToPlaylist(context, widget.mediaItem);
-                        }
-                      },
+                // onTap: !enabled
+                //     ? null
+                //     : () {
+                //         tapped.value = true;
+                //         Future.delayed(const Duration(seconds: 2), () async {
+                //           tapped.value = false;
+                //         });
+                //       },
+                // onDoubleTapDown: (details) {
+                //   if (details.globalPosition.dx <= widget.width * 2 / 5) {
+                //     widget.audioHandler.customAction('rewind');
+                //     doubletapped.value = -1;
+                //     Future.delayed(const Duration(milliseconds: 500), () async {
+                //       doubletapped.value = 0;
+                //     });
+                //   }
+                //   if (details.globalPosition.dx > widget.width * 2 / 5 &&
+                //       details.globalPosition.dx < widget.width * 3 / 5) {
+                //     widget.cardKey.currentState!.toggleCard();
+                //   }
+                //   if (details.globalPosition.dx >= widget.width * 3 / 5) {
+                //     widget.audioHandler.customAction('fastForward');
+                //     doubletapped.value = 1;
+                //     Future.delayed(const Duration(milliseconds: 500), () async {
+                //       doubletapped.value = 0;
+                //     });
+                //   }
+                // },
+                // onDoubleTap: !enabled
+                //     ? null
+                //     : () {
+                //         Feedback.forLongPress(context);
+                //       },
+                // onHorizontalDragEnd: !enabled
+                //     ? null
+                //     : (DragEndDetails details) {
+                //         if ((details.primaryVelocity ?? 0) > 100) {
+                //           if (queueState.hasPrevious) {
+                //             widget.audioHandler.skipToPrevious();
+                //           }
+                //         }
+                //
+                //         if ((details.primaryVelocity ?? 0) < -100) {
+                //           if (queueState.hasNext) {
+                //             widget.audioHandler.skipToNext();
+                //           }
+                //         }
+                //       },
+                // onLongPress: !enabled
+                //     ? null
+                //     : () {
+                //         if (!widget.offline) {
+                //           Feedback.forLongPress(context);
+                //           AddToPlaylist()
+                //               .addToPlaylist(context, widget.mediaItem);
+                //         }
+                //       },
                 onVerticalDragStart: !enabled
                     ? null
                     : (_) {
@@ -2045,6 +2045,33 @@ class NameNControls extends StatelessWidget {
 
               /// Seekbar starts from here
               SizedBox(
+                height: 40,
+                width: width * 0.95,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Center(
+                    child: SizedBox(
+                      child:
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (!offline)
+                            LikeButton(mediaItem: mediaItem, size: 30.0),
+                          if (!offline)
+                            DownloadButton(
+                              size: 30.0,
+                              data: MediaItemConverter.mediaItemToMap(
+                                mediaItem,
+                              ),
+                            )
+                        ],
+                      )
+                      ,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
                 height: seekBoxHeight,
                 width: width * 0.95,
                 child: StreamBuilder<PositionData>(
@@ -2121,8 +2148,6 @@ class NameNControls extends StatelessWidget {
                                   );
                                 },
                               ),
-                              if (!offline)
-                                LikeButton(mediaItem: mediaItem, size: 25.0)
                             ],
                           ),
                           ControlButtons(
@@ -2177,13 +2202,6 @@ class NameNControls extends StatelessWidget {
                                   );
                                 },
                               ),
-                              if (!offline)
-                                DownloadButton(
-                                  size: 25.0,
-                                  data: MediaItemConverter.mediaItemToMap(
-                                    mediaItem,
-                                  ),
-                                )
                             ],
                           ),
                         ],
@@ -2297,7 +2315,7 @@ class NameNControls extends StatelessWidget {
                     ),
                     Center(
                       child: Container(
-                        width: 30,
+                        width: 40,
                         height: 5,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
@@ -2305,19 +2323,19 @@ class NameNControls extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.upNext,
+                          '♪ \\(^ω^\\ )      ( /^ω^)/♪',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 5,
                     ),
                   ],
