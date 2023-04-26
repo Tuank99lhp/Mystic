@@ -238,7 +238,7 @@ Future<void> importYt(
             context,
             SearchAddPlaylist.ytSongsAdder(
               data['title'].toString(),
-              data['tracks'] as List,
+              data['tracks'] as List<Map>,
             ),
           );
         }

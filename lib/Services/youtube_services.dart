@@ -40,6 +40,15 @@ class YouTubeServices {
   };
   final YoutubeExplode yt = YoutubeExplode();
 
+  Future<List<Map>> getPlaylistSongsMap(String id) async {
+    final List<Video> results = await yt.playlists.getVideos(id).toList();
+    final List<Map> videoResult = [];
+    for (final Video vid in results) {
+      final res = await formatVideo(video: vid, quality: 'High', getUrl: false);
+      if (res != null) videoResult.add(res);
+    }
+    return videoResult;
+  }
   Future<List<Video>> getPlaylistSongs(String id) async {
     final List<Video> results = await yt.playlists.getVideos(id).toList();
     return results;

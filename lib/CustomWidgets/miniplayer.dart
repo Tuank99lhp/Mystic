@@ -189,7 +189,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                               errorBuilder:
                                                   (BuildContext context,
                                                       Object exception,
-                                                      StackTrace? stackTrace) {
+                                                      StackTrace? stackTrace,) {
                                                 return const Image(
                                                   fit: BoxFit.cover,
                                                   image: AssetImage(

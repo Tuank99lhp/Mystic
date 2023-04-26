@@ -38,8 +38,8 @@ class SearchAddPlaylist {
       if (id != null) {
         final Playlist metadata =
             await YouTubeServices().getPlaylistDetails(id[1]!);
-        final List<Video> tracks =
-            await YouTubeServices().getPlaylistSongs(id[1]!);
+        final List<Map> tracks =
+            await YouTubeServices().getPlaylistSongsMap(id[1]!);
         return {
           'title': metadata.title,
           'image': metadata.thumbnails.standardResUrl,
@@ -141,20 +141,16 @@ class SearchAddPlaylist {
     }
   }
 
-  static Stream<Map> ytSongsAdder(String playName, List tracks) async* {
+  static Stream<Map> ytSongsAdder(String playName, List<Map> tracks) async* {
     int done = 0;
     for (final track in tracks) {
-      String? trackName;
       try {
-        trackName = (track as Video).title;
-        yield {'done': ++done, 'name': trackName};
+        yield {'done': ++done, 'name': track['title']};
       } catch (e) {
         yield {'done': ++done, 'name': ''};
       }
       try {
-        final List result =
-            await SaavnAPI().fetchTopSearchResult(trackName!.split('|')[0]);
-        addMapToPlaylist(playName, result[0] as Map);
+        addMapToPlaylist(playName, track);
       } catch (e) {
         Logger.root.severe('Error in $done: $e');
       }
