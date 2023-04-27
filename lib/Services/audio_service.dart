@@ -545,11 +545,12 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
     Logger.root.info('adding ${mediaitem.id} data to stats');
 
     final Map item = MediaItemConverter.mediaItemToMap(mediaitem);
+    recentList.removeWhere((ele) => ele['title'] == item['title']);
     recentList.insert(0, item);
 
-    final jsonList = recentList.map((item) => jsonEncode(item)).toList();
-    final uniqueJsonList = jsonList.toSet().toList();
-    recentList = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+    // final jsonList = recentList.map((item) => jsonEncode(item)).toList();
+    // final uniqueJsonList = jsonList.toSet().toList();
+    // recentList = uniqueJsonList.map((item) => jsonDecode(item)).toList();
 
     if (recentList.length > 30) {
       recentList = recentList.sublist(0, 30);
