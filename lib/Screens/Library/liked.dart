@@ -352,15 +352,15 @@ class _LikedSongsState extends State<LikedSongs>
                       valueListenable: selectMode,
                       child: Row(
                         children: <Widget>[
-                          if (_songs.isNotEmpty)
-                            MultiDownloadButton(
-                              data: _songs,
-                              playlistName: widget.showName == null
-                                  ? widget.playlistName[0].toUpperCase() +
-                                      widget.playlistName.substring(1)
-                                  : widget.showName![0].toUpperCase() +
-                                      widget.showName!.substring(1),
-                            ),
+                          // if (_songs.isNotEmpty)
+                          //   MultiDownloadButton(
+                          //     data: _songs,
+                          //     playlistName: widget.showName == null
+                          //         ? widget.playlistName[0].toUpperCase() +
+                          //             widget.playlistName.substring(1)
+                          //         : widget.showName![0].toUpperCase() +
+                          //             widget.showName!.substring(1),
+                          //   ),
                           IconButton(
                             icon: const Icon(CupertinoIcons.search),
                             tooltip: AppLocalizations.of(context)!.search,
