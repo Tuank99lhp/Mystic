@@ -47,21 +47,21 @@ class MyTheme with ChangeNotifier {
 
   final List<List<Color>> _backOpt = [
     [
-      Colors.grey[850]!,
-      Colors.grey[900]!,
       Colors.black,
-    ],
-    [
-      Colors.grey[900]!,
-      Colors.grey[900]!,
+      Colors.black,
       Colors.black,
     ],
     [
       Colors.black,
       Colors.black,
+      Colors.black,
     ],
     [
-      Colors.grey[900]!,
+      Colors.black,
+      Colors.black,
+    ],
+    [
+      Colors.black,
       Colors.black,
       Colors.black,
     ],
@@ -73,31 +73,31 @@ class MyTheme with ChangeNotifier {
 
   final List<List<Color>> _cardOpt = [
     [
-      Colors.grey[850]!,
-      Colors.grey[850]!,
-      Colors.grey[900]!,
-    ],
-    [
-      Colors.grey[850]!,
-      Colors.grey[900]!,
-      Colors.grey[900]!,
-    ],
-    [
-      Colors.grey[850]!,
-      Colors.grey[900]!,
+      Colors.black,
+      Colors.black,
       Colors.black,
     ],
     [
-      Colors.grey[900]!,
-      Colors.grey[900]!,
+      Colors.black,
+      Colors.black,
       Colors.black,
     ],
     [
-      Colors.grey[900]!,
+      Colors.black,
+      Colors.black,
       Colors.black,
     ],
     [
-      Colors.grey[900]!,
+      Colors.black,
+      Colors.black,
+      Colors.black,
+    ],
+    [
+      Colors.black,
+      Colors.black,
+    ],
+    [
+      Colors.black,
       Colors.black,
       Colors.black,
     ],
@@ -109,26 +109,26 @@ class MyTheme with ChangeNotifier {
 
   final List<List<Color>> _transOpt = [
     [
-      Colors.grey[850]!.withOpacity(0.8),
-      Colors.grey[900]!.withOpacity(0.9),
       Colors.black.withOpacity(1),
-    ],
-    [
-      Colors.grey[900]!.withOpacity(0.8),
-      Colors.grey[900]!.withOpacity(0.9),
+      Colors.black.withOpacity(1),
       Colors.black.withOpacity(1),
     ],
     [
       Colors.black.withOpacity(1),
       Colors.black.withOpacity(1),
-    ],
-    [
-      Colors.grey[900]!.withOpacity(0.9),
-      Colors.black.withOpacity(0.9),
       Colors.black.withOpacity(1),
     ],
     [
-      Colors.black.withOpacity(0.9),
+      Colors.black.withOpacity(1),
+      Colors.black.withOpacity(1),
+    ],
+    [
+      Colors.black.withOpacity(1),
+      Colors.black.withOpacity(1),
+      Colors.black.withOpacity(1),
+    ],
+    [
+      Colors.black.withOpacity(1),
       Colors.black.withOpacity(1),
     ]
   ];
@@ -228,9 +228,8 @@ class MyTheme with ChangeNotifier {
   }
 
   Color getCanvasColor() {
-    if (canvasColor == 'Black') return Colors.black;
-    if (canvasColor == 'Grey') return Colors.grey[900]!;
-    return Colors.grey[900]!;
+    return Colors.black;
+
   }
 
   void switchCanvasColor(String color, {bool notify = true}) {
@@ -240,11 +239,7 @@ class MyTheme with ChangeNotifier {
   }
 
   Color getCardColor() {
-    if (cardColor == 'Grey800') return Colors.grey[800]!;
-    if (cardColor == 'Grey850') return Colors.grey[850]!;
-    if (cardColor == 'Grey900') return Colors.grey[900]!;
-    if (cardColor == 'Black') return Colors.black;
-    return Colors.grey[850]!;
+    return Colors.black;
   }
 
   void switchCardColor(String color, {bool notify = true}) {

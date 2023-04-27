@@ -38,18 +38,17 @@ class _GradientContainerState extends State<GradientContainer> {
     // ignore: use_decorated_box
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: Theme.of(context).brightness == Brightness.dark
-              ? ((widget.opacity == true)
-                  ? currentTheme.getTransBackGradient()
-                  : currentTheme.getBackGradient())
-              : [
-                  const Color(0xfff5f9ff),
-                  Colors.white,
-                ],
-        ),
+        color: Theme.of(context).canvasColor,
+        // gradient: LinearGradient(
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        //   colors: Theme.of(context).brightness == Brightness.dark
+        //       ? currentTheme.getBackGradient()
+        //       : [
+        //         Colors.white,
+        //           Colors.white,
+        //         ],
+        // ),
       ),
       child: widget.child,
     );

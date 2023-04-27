@@ -245,6 +245,7 @@ class _PlayScreenState extends State<PlayScreen> {
                   backgroundColor: Colors.transparent,
                   centerTitle: true,
                   leading: IconButton(
+                    color: Theme.of(context).iconTheme.color,
                     icon: const Icon(Icons.expand_more_rounded),
                     tooltip: AppLocalizations.of(context)!.back,
                     onPressed: () {
@@ -271,8 +272,9 @@ class _PlayScreenState extends State<PlayScreen> {
                     //     },
                     //   ),
                     PopupMenuButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.more_vert_rounded,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
@@ -703,23 +705,16 @@ class _PlayScreenState extends State<PlayScreen> {
                         ? Theme.of(context).brightness == Brightness.dark
                             ? currentTheme.getBackGradient()
                             : [
-                                const Color(0xfff5f9ff),
+                                Colors.white,
                                 Colors.white,
                               ]
                         : Theme.of(context).brightness == Brightness.dark
                             ? [
-                                if (gradientType == 'halfDark' ||
-                                    gradientType == 'fullDark')
-                                  value?[1] ?? Colors.grey[900]!
-                                else
-                                  value?[0] ?? Colors.grey[900]!,
-                                if (gradientType == 'fullMix')
-                                  value?[1] ?? Colors.black
-                                else
-                                  Colors.black
+                                Colors.black,
+                                Colors.black,
                               ]
                             : [
-                                value?[0] ?? const Color(0xfff5f9ff),
+                                Colors.white,
                                 Colors.white,
                               ],
                   ),
@@ -2051,8 +2046,7 @@ class NameNControls extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Center(
                     child: SizedBox(
-                      child:
-                      Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           if (!offline)
@@ -2065,8 +2059,7 @@ class NameNControls extends StatelessWidget {
                               ),
                             )
                         ],
-                      )
-                      ,
+                      ),
                     ),
                   ),
                 ),
@@ -2326,7 +2319,7 @@ class NameNControls extends StatelessWidget {
                     const Expanded(
                       child: Center(
                         child: Text(
-                          '♪ \\(^ω^\\ )      ( /^ω^)/♪',
+                          '♪ \\(^ω^\\ )    Next     ( /^ω^)/♪',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -2335,7 +2328,7 @@ class NameNControls extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                   ],
