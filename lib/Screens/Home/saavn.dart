@@ -388,7 +388,7 @@ class _SaavnHomePageState extends State<SaavnHomePage>
                   ],
                 ),
                 SizedBox(
-                  height: 500,
+                  height: 730,
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
