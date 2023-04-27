@@ -43,7 +43,7 @@ class YouTubeServices {
     final List<Video> results = await yt.playlists.getVideos(id).toList();
     final List<Map> videoResult = [];
     for (final Video vid in results) {
-      final res = await formatVideo(video: vid, quality: 'High', getUrl: false);
+      final res = await formatVideo(video: vid, quality: 'Low');
       if (res != null) videoResult.add(res);
     }
     return videoResult;
@@ -74,12 +74,7 @@ class YouTubeServices {
     }
     final Map? response = await formatVideo(
       video: vid,
-      quality: Hive.box('settings')
-          .get(
-            'ytQuality',
-            defaultValue: 'Low',
-          )
-          .toString(),
+      quality: 'Low',
       data: data,
       getUrl: getUrl ?? true,
       // preferM4a: Hive.box(
@@ -520,7 +515,7 @@ class YouTubeServices {
     final List<Video> searchResults = await yt.search.search(query);
     final List<Map> videoResult = [];
     for (final Video vid in searchResults) {
-      final res = await formatVideo(video: vid, quality: 'High', getUrl: false);
+      final res = await formatVideo(video: vid, quality: 'Low', getUrl: false);
       if (res != null) videoResult.add(res);
     }
     return [

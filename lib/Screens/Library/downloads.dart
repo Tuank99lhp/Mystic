@@ -473,46 +473,46 @@ class _DownloadsState extends State<Downloads>
                           ),
                         ],
                       ),
-                floatingActionButton: ValueListenableBuilder(
-                  valueListenable: _showShuffle,
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).cardColor,
-                    child: Icon(
-                      Icons.shuffle_rounded,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                      size: 24.0,
-                    ),
-                    onPressed: () {
-                      if (_songs.isNotEmpty) {
-                        PlayerInvoke.init(
-                          songsList: _songs,
-                          index: 0,
-                          isOffline: true,
-                          fromDownloads: true,
-                          recommend: false,
-                          shuffle: true,
-                        );
-                      }
-                    },
-                  ),
-                  builder: (
-                    BuildContext context,
-                    bool showShuffle,
-                    Widget? child,
-                  ) {
-                    return AnimatedSlide(
-                      duration: const Duration(milliseconds: 300),
-                      offset: showShuffle ? Offset.zero : const Offset(0, 2),
-                      child: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: showShuffle ? 1 : 0,
-                        child: child,
-                      ),
-                    );
-                  },
-                ),
+                // floatingActionButton: ValueListenableBuilder(
+                //   valueListenable: _showShuffle,
+                //   child: FloatingActionButton(
+                //     backgroundColor: Theme.of(context).cardColor,
+                //     child: Icon(
+                //       Icons.shuffle_rounded,
+                //       color: Theme.of(context).brightness == Brightness.dark
+                //           ? Colors.white
+                //           : Colors.black,
+                //       size: 24.0,
+                //     ),
+                //     onPressed: () {
+                //       if (_songs.isNotEmpty) {
+                //         PlayerInvoke.init(
+                //           songsList: _songs,
+                //           index: 0,
+                //           isOffline: true,
+                //           fromDownloads: true,
+                //           recommend: false,
+                //           shuffle: true,
+                //         );
+                //       }
+                //     },
+                //   ),
+                //   builder: (
+                //     BuildContext context,
+                //     bool showShuffle,
+                //     Widget? child,
+                //   ) {
+                //     return AnimatedSlide(
+                //       duration: const Duration(milliseconds: 300),
+                //       offset: showShuffle ? Offset.zero : const Offset(0, 2),
+                //       child: AnimatedOpacity(
+                //         duration: const Duration(milliseconds: 300),
+                //         opacity: showShuffle ? 1 : 0,
+                //         child: child,
+                //       ),
+                //     );
+                //   },
+                // ),
               ),
             ),
           ),
