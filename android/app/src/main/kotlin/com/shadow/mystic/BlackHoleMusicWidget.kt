@@ -1,4 +1,4 @@
-package com.shadow.blackhole
+package com.shadow.mystic
 
 import MainActivity
 import android.app.PendingIntent
