@@ -24,7 +24,6 @@ import 'dart:math';
 import 'package:blackhole/Screens/Player/audioplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SeekBar extends StatefulWidget {
   final AudioPlayerHandler audioHandler;
@@ -84,7 +83,7 @@ class _SeekBarState extends State<SeekBar> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 // if (widget.offline)
                 //   Text(
                 //     'Offline',
@@ -95,7 +94,7 @@ class _SeekBarState extends State<SeekBar> {
                 //     ),
                 //   )
                 // else
-                const SizedBox(),
+                SizedBox(),
                 // StreamBuilder<double>(
                 //   stream: widget.audioHandler.speed,
                 //   builder: (context, snapshot) {

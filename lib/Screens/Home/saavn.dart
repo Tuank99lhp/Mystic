@@ -17,25 +17,15 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
-import 'package:blackhole/APIs/api.dart';
 import 'package:blackhole/CustomWidgets/collage.dart';
-import 'package:blackhole/CustomWidgets/horizontal_albumlist.dart';
 import 'package:blackhole/CustomWidgets/horizontal_albumlist_separated.dart';
-import 'package:blackhole/CustomWidgets/like_button.dart';
 import 'package:blackhole/CustomWidgets/on_hover.dart';
-import 'package:blackhole/CustomWidgets/snackbar.dart';
-import 'package:blackhole/CustomWidgets/song_tile_trailing_menu.dart';
 import 'package:blackhole/Helpers/extensions.dart';
-import 'package:blackhole/Helpers/format.dart';
-import 'package:blackhole/Helpers/image_resolution_modifier.dart';
-import 'package:blackhole/Screens/Common/song_list.dart';
 import 'package:blackhole/Screens/Library/liked.dart';
-import 'package:blackhole/Screens/Search/artists.dart';
 import 'package:blackhole/Services/player_service.dart';
 import 'package:blackhole/Services/youtube_services.dart';
 
@@ -46,7 +36,7 @@ List likedRadio =
     Hive.box('settings').get('likedRadio', defaultValue: []) as List;
 Map data = Hive.box('cache').get('homepage', defaultValue: {}) as Map;
 List lists = ['recent', 'playlist', 'trending'];
-
+ValueNotifier<bool> homepageChanged = ValueNotifier<bool>(false);
 class SaavnHomePage extends StatefulWidget {
   @override
   _SaavnHomePageState createState() => _SaavnHomePageState();
@@ -58,10 +48,6 @@ class _SaavnHomePageState extends State<SaavnHomePage>
       Hive.box('cache').get('ytHomeTrending', defaultValue: []) as List;
   List recentList =
       Hive.box('cache').get('recentSongs', defaultValue: []) as List;
-  Map likedArtists =
-      Hive.box('settings').get('likedArtists', defaultValue: {}) as Map;
-  List blacklistedHomeSections = Hive.box('settings')
-      .get('blacklistedHomeSections', defaultValue: []) as List;
   List playlistNames =
       Hive.box('settings').get('playlistNames')?.toList() as List? ??
           ['Favorite Songs'];
@@ -145,6 +131,14 @@ class _SaavnHomePageState extends State<SaavnHomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    trendingList = Hive.box('cache').get('ytHomeTrending', defaultValue: []) as List;
+    recentList =
+    Hive.box('cache').get('recentSongs', defaultValue: []) as List;
+    playlistNames =
+        Hive.box('settings').get('playlistNames')?.toList() as List? ??
+            ['Favorite Songs'];
+    playlistDetails =
+    Hive.box('settings').get('playlistDetails', defaultValue: {}) as Map;
     if (trendingList.isEmpty) {
       getHomePageData();
     }
@@ -489,44 +483,6 @@ class _SaavnHomePageState extends State<SaavnHomePage>
               ],
             );
           }
-        }
-        if (lists[idx] == 'likedArtists') {
-          final List likedArtistsList = likedArtists.values.toList();
-          return likedArtists.isEmpty
-              ? const SizedBox()
-              : Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
-                          child: Text(
-                            'Liked Artists',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    HorizontalAlbumsList(
-                      songsList: likedArtistsList,
-                      onTap: (int idx) {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (_, __, ___) => ArtistSearchPage(
-                              data: likedArtistsList[idx] as Map,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                );
         }
         return const SizedBox();
       },

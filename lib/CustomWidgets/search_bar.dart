@@ -102,111 +102,114 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
               elevation: 8.0,
-              child: SizedBox(
-                height: 52.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Center(
-                    child: TextField(
-                      controller: widget.controller,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.5,
-                            color: Colors.transparent,
+              child: ColoredBox(
+                color: Colors.grey[900]!,
+                child: SizedBox(
+                  height: 52.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Center(
+                      child: TextField(
+                        controller: widget.controller,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.transparent,
+                            ),
                           ),
+                          fillColor: Theme.of(context).colorScheme.secondary,
+                          prefixIcon: widget.leading,
+                          suffixIcon: widget.showClose
+                              ? ValueListenableBuilder(
+                                  valueListenable: hide,
+                                  builder: (
+                                    BuildContext context,
+                                    bool hidden,
+                                    Widget? child,
+                                  ) {
+                                    return Visibility(
+                                      visible: !hidden,
+                                      child: IconButton(
+                                        icon: const Icon(Icons.close_rounded),
+                                        onPressed: () {
+                                          widget.controller.text = '';
+                                          suggestionsList.value = [];
+                                          if (widget.onQueryCleared != null) {
+                                            widget.onQueryCleared!.call();
+                                          }
+                                        },
+                                      ),
+                                    );
+                                  },
+                                )
+                              : null,
+                          border: InputBorder.none,
+                          hintText: widget.hintText,
                         ),
-                        fillColor: Theme.of(context).colorScheme.secondary,
-                        prefixIcon: widget.leading,
-                        suffixIcon: widget.showClose
-                            ? ValueListenableBuilder(
-                                valueListenable: hide,
-                                builder: (
-                                  BuildContext context,
-                                  bool hidden,
-                                  Widget? child,
-                                ) {
-                                  return Visibility(
-                                    visible: !hidden,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.close_rounded),
-                                      onPressed: () {
-                                        widget.controller.text = '';
-                                        suggestionsList.value = [];
-                                        if (widget.onQueryCleared != null) {
-                                          widget.onQueryCleared!.call();
-                                        }
-                                      },
-                                    ),
-                                  );
-                                },
-                              )
-                            : null,
-                        border: InputBorder.none,
-                        hintText: widget.hintText,
-                      ),
-                      autofocus: widget.autofocus,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.search,
-                      onChanged: (val) {
-                        if (widget.liveSearch) {
-                          tempQuery = val;
-                          hide.value = false;
-                          if (widget.isYt) {
-                            Future.delayed(
-                              const Duration(
-                                milliseconds: 600,
-                              ),
-                              () async {
-                                if (tempQuery == val &&
-                                    tempQuery.trim() != '' &&
-                                    tempQuery != query) {
-                                  query = tempQuery;
-                                  suggestionsList.value =
-                                      await widget.onQueryChanged!(tempQuery)
-                                          as List;
-                                }
-                              },
-                            );
-                          } else {
-                            Future.delayed(
-                              const Duration(
-                                milliseconds: 600,
-                              ),
-                              () async {
-                                if (tempQuery == val &&
-                                    tempQuery.trim() != '' &&
-                                    tempQuery != query) {
-                                  query = tempQuery;
-                                  if (widget.onQueryChanged == null) {
-                                    widget.onSubmitted(tempQuery);
-                                  } else {
-                                    widget.onQueryChanged!(tempQuery);
+                        autofocus: widget.autofocus,
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.search,
+                        onChanged: (val) {
+                          if (widget.liveSearch) {
+                            tempQuery = val;
+                            hide.value = false;
+                            if (widget.isYt) {
+                              Future.delayed(
+                                const Duration(
+                                  milliseconds: 600,
+                                ),
+                                () async {
+                                  if (tempQuery == val &&
+                                      tempQuery.trim() != '' &&
+                                      tempQuery != query) {
+                                    query = tempQuery;
+                                    suggestionsList.value =
+                                        await widget.onQueryChanged!(tempQuery)
+                                            as List;
                                   }
-                                }
-                              },
-                            );
+                                },
+                              );
+                            } else {
+                              Future.delayed(
+                                const Duration(
+                                  milliseconds: 600,
+                                ),
+                                () async {
+                                  if (tempQuery == val &&
+                                      tempQuery.trim() != '' &&
+                                      tempQuery != query) {
+                                    query = tempQuery;
+                                    if (widget.onQueryChanged == null) {
+                                      widget.onSubmitted(tempQuery);
+                                    } else {
+                                      widget.onQueryChanged!(tempQuery);
+                                    }
+                                  }
+                                },
+                              );
+                            }
                           }
-                        }
-                      },
-                      onSubmitted: (submittedQuery) {
-                        if (submittedQuery.trim() != '') {
-                          query = submittedQuery;
-                          widget.onSubmitted(submittedQuery);
-                          if (!hide.value) hide.value = true;
-                          List searchQueries = Hive.box('settings')
-                              .get('search', defaultValue: []) as List;
-                          if (searchQueries.contains(query)) {
-                            searchQueries.remove(query);
+                        },
+                        onSubmitted: (submittedQuery) {
+                          if (submittedQuery.trim() != '') {
+                            query = submittedQuery;
+                            widget.onSubmitted(submittedQuery);
+                            if (!hide.value) hide.value = true;
+                            List searchQueries = Hive.box('settings')
+                                .get('search', defaultValue: []) as List;
+                            if (searchQueries.contains(query)) {
+                              searchQueries.remove(query);
+                            }
+                            searchQueries.insert(0, query);
+                            if (searchQueries.length > 10) {
+                              searchQueries = searchQueries.sublist(0, 10);
+                            }
+                            Hive.box('settings').put('search', searchQueries);
                           }
-                          searchQueries.insert(0, query);
-                          if (searchQueries.length > 10) {
-                            searchQueries = searchQueries.sublist(0, 10);
-                          }
-                          Hive.box('settings').put('search', searchQueries);
-                        }
-                      },
+                        },
+                      ),
                     ),
                   ),
                 ),

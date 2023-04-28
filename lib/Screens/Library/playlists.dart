@@ -17,10 +17,10 @@
  * Copyright (c) 2021-2022, Ankit Sangwan
  */
 
+import 'package:blackhole/Screens/Home/saavn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:logging/logging.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:blackhole/CustomWidgets/collage.dart';
 import 'package:blackhole/CustomWidgets/gradient_containers.dart';
@@ -29,7 +29,7 @@ import 'package:blackhole/CustomWidgets/textinput_dialog.dart';
 import 'package:blackhole/Helpers/import_export_playlist.dart';
 import 'package:blackhole/Screens/Library/liked.dart';
 
-import 'import.dart';
+import 'package:blackhole/Screens/Library/import.dart';
 
 class PlaylistScreen extends StatefulWidget {
   @override
@@ -96,6 +96,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               // ignore: use_string_buffers
                               value = '$value (1)';
                             }
+                            homepageChanged.value = !homepageChanged.value;
                             playlistNames.add(value);
                             settingsBox.put('playlistNames', playlistNames);
                             Navigator.pop(context);

@@ -30,7 +30,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:blackhole/CustomWidgets/add_playlist.dart';
 import 'package:blackhole/CustomWidgets/animated_text.dart';
 import 'package:blackhole/CustomWidgets/copy_clipboard.dart';
@@ -50,7 +49,6 @@ import 'package:blackhole/Helpers/mediaitem_converter.dart';
 import 'package:blackhole/Screens/Common/song_list.dart';
 import 'package:blackhole/Screens/Search/albums.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -1387,8 +1385,6 @@ class _ArtWorkWidgetState extends State<ArtWorkWidget> {
           front: StreamBuilder<QueueState>(
             stream: widget.audioHandler.queueState,
             builder: (context, snapshot) {
-              final queueState = snapshot.data ?? QueueState.empty;
-
               final bool enabled = Hive.box('settings')
                   .get('enableGesture', defaultValue: true) as bool;
               return GestureDetector(

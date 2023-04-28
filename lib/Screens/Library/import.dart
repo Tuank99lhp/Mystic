@@ -18,6 +18,7 @@
  */
 
 import 'package:app_links/app_links.dart';
+import 'package:blackhole/Screens/Home/saavn.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -225,22 +226,28 @@ Future<void> importYt(
             duration: const Duration(seconds: 3),
           );
         } else {
-          playlistNames.add(
-            data['title'] == '' ? 'Yt Playlist' : data['title'],
-          );
+          String name = data['title'] as String;
+          if (name.trim() == '') {
+            name = 'Playlist ${playlistNames.length}';
+          }
+          while (playlistNames.contains(name)) {
+            // ignore: use_string_buffers
+            name += ' (1)';
+          }
+          playlistNames.add(name);
           settingsBox.put(
             'playlistNames',
             playlistNames,
           );
-
           await SearchAddPlaylist.showProgress(
             data['count'] as int,
             context,
             SearchAddPlaylist.ytSongsAdder(
-              data['title'].toString(),
+              name,
               data['tracks'] as List<Map>,
             ),
           );
+          homepageChanged.value = !homepageChanged.value;
         }
       } else {
         Logger.root.severe(

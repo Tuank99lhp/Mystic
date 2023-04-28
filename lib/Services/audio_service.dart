@@ -20,7 +20,6 @@
  */
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
@@ -28,6 +27,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:blackhole/APIs/api.dart';
 import 'package:blackhole/Helpers/mediaitem_converter.dart';
 import 'package:blackhole/Helpers/playlist.dart';
+import 'package:blackhole/Screens/Home/saavn.dart';
 import 'package:blackhole/Screens/Player/audioplayer.dart';
 import 'package:blackhole/Services/isolate_service.dart';
 import 'package:blackhole/Services/yt_music.dart';
@@ -519,6 +519,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
   }
 
   Future<void> addRecentlyPlayed(MediaItem mediaitem) async {
+    homepageChanged.value = !homepageChanged.value;
     Logger.root.info('adding ${mediaitem.id} to recently played');
     List recentList = await Hive.box('cache')
         .get('recentSongs', defaultValue: [])?.toList() as List;

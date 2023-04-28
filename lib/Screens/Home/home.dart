@@ -27,7 +27,6 @@ import 'package:blackhole/CustomWidgets/custom_physics.dart';
 import 'package:blackhole/CustomWidgets/gradient_containers.dart';
 import 'package:blackhole/CustomWidgets/miniplayer.dart';
 import 'package:blackhole/CustomWidgets/snackbar.dart';
-import 'package:blackhole/CustomWidgets/textinput_dialog.dart';
 import 'package:blackhole/Helpers/backup_restore.dart';
 import 'package:blackhole/Helpers/downloads_checker.dart';
 import 'package:blackhole/Helpers/supabase.dart';
@@ -40,7 +39,6 @@ import 'package:blackhole/Services/ext_storage_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:blackhole/Screens/YouTube/youtube_home.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -592,7 +590,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            8.0),
+                                                            8.0,),
                                                     child: Text(
                                                       'Homepage',
                                                       style: TextStyle(
@@ -702,7 +700,12 @@ class _HomePageState extends State<HomePage> {
                                       // ),
                                     ];
                                   },
-                                  body: SaavnHomePage(),
+                                  body: ValueListenableBuilder<bool>(
+                                    valueListenable: homepageChanged,
+                                    builder: (BuildContext context, bool value, Widget? child) {
+                                      return SaavnHomePage();
+                                    },
+                                  ),
                                 ),
                               ],
                             ),

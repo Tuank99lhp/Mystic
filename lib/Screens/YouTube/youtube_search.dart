@@ -352,7 +352,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                               pauseAfterRound:
                                                                   const Duration(
                                                                       seconds:
-                                                                          1),
+                                                                          1,),
                                                               showFadingOnlyWhenScrolling:
                                                                   false,
                                                               fadingEdgeEndFraction:
@@ -362,7 +362,7 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                               startAfter:
                                                                   const Duration(
                                                                       seconds:
-                                                                          1),
+                                                                          1,),
                                                               style:
                                                                   const TextStyle(
                                                                 fontWeight:
