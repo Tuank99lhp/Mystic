@@ -2080,7 +2080,7 @@ class NameNControls extends StatelessWidget {
               SizedBox(
                 height: controlBoxHeight,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  padding: const EdgeInsets.only(bottom: 50.0),
                   child: Center(
                     child: SizedBox(
                       child: Row(
