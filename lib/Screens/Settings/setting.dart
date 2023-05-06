@@ -1,22 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -73,30 +54,14 @@ class _SettingPageState extends State<SettingPage>
       Hive.box('settings').get('userThemes', defaultValue: {}) as Map;
   String region =
       Hive.box('settings').get('region', defaultValue: 'India') as String;
-  bool useProxy =
-      Hive.box('settings').get('useProxy', defaultValue: false) as bool;
   String themeColor =
       Hive.box('settings').get('themeColor', defaultValue: 'Teal') as String;
   int colorHue = Hive.box('settings').get('colorHue', defaultValue: 400) as int;
   int downFilename =
       Hive.box('settings').get('downFilename', defaultValue: 0) as int;
   List<String> languages = [
-    'Hindi',
     'English',
-    'Punjabi',
-    'Tamil',
-    'Telugu',
-    'Marathi',
-    'Gujarati',
-    'Bengali',
-    'Kannada',
-    'Bhojpuri',
-    'Malayalam',
-    'Urdu',
-    'Haryanvi',
-    'Rajasthani',
-    'Odia',
-    'Assamese'
+    'Vietnamese',
   ];
   List miniButtonsOrder = Hive.box('settings').get(
     'miniButtonsOrder',
@@ -134,25 +99,6 @@ class _SettingPageState extends State<SettingPage>
     setState(
       () {},
     );
-  }
-
-  bool compareVersion(String latestVersion, String currentVersion) {
-    bool update = false;
-    final List<String> latestList = latestVersion.split('.');
-    final List<String> currentList = currentVersion.split('.');
-
-    for (int i = 0; i < latestList.length; i++) {
-      try {
-        if (int.parse(latestList[i]) > int.parse(currentList[i])) {
-          update = true;
-          break;
-        }
-      } catch (e) {
-        break;
-      }
-    }
-
-    return update;
   }
 
   @override
@@ -395,7 +341,7 @@ class _SettingPageState extends State<SettingPage>
                                 value: language,
                                 child: Text(
                                   language,
-                                    style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               );
                             }).toList(),
@@ -416,7 +362,6 @@ class _SettingPageState extends State<SettingPage>
                             )!
                                 .createBackSub,
                             style: const TextStyle(fontSize: 14),
-
                           ),
                           dense: true,
                           onTap: () {

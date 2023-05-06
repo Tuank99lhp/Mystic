@@ -1,22 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -32,8 +13,6 @@ import 'package:blackhole/CustomWidgets/search_bar.dart';
 import 'package:blackhole/CustomWidgets/snackbar.dart';
 import 'package:blackhole/CustomWidgets/song_tile_trailing_menu.dart';
 import 'package:blackhole/Screens/Common/song_list.dart';
-import 'package:blackhole/Screens/Search/albums.dart';
-import 'package:blackhole/Screens/Search/artists.dart';
 import 'package:blackhole/Services/player_service.dart';
 
 class SearchPage extends StatefulWidget {
@@ -89,7 +68,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<void> fetchResults() async {
     // this fetches top 5 songs results
-    final Map result = await SaavnAPI().fetchSongSearchResults(
+    final Map result = await MysticAPI().fetchSongSearchResults(
       searchQuery: query == '' ? widget.query : query,
       count: 5,
     );
@@ -97,8 +76,8 @@ class _SearchPageState extends State<SearchPage> {
     if (songResults.isNotEmpty) searchedData['Songs'] = songResults;
     fetched = true;
     // this fetches albums, playlists, artists, etc
-    final List<Map> value =
-        await SaavnAPI().fetchSearchResults(query == '' ? widget.query : query);
+    final List<Map> value = await MysticAPI()
+        .fetchSearchResults(query == '' ? widget.query : query);
 
     searchedData.addEntries(value[0].entries);
     position = value[1];
@@ -110,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> getTrendingSearch() async {
-    topSearch.value = await SaavnAPI().getTopSearches();
+    topSearch.value = await MysticAPI().getTopSearches();
   }
 
   Widget nothingFound(BuildContext context) {
@@ -399,32 +378,6 @@ class _SearchPageState extends State<SearchPage> {
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () {
-                                                              if (key == 'Albums' ||
-                                                                  key ==
-                                                                      'Playlists' ||
-                                                                  key ==
-                                                                      'Artists') {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  PageRouteBuilder(
-                                                                    opaque:
-                                                                        false,
-                                                                    pageBuilder: (
-                                                                      _,
-                                                                      __,
-                                                                      ___,
-                                                                    ) =>
-                                                                        AlbumSearchPage(
-                                                                      query: query ==
-                                                                              ''
-                                                                          ? widget
-                                                                              .query
-                                                                          : query,
-                                                                      type: key,
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              }
                                                               if (key ==
                                                                   'Songs') {
                                                                 Navigator.push(
@@ -671,17 +624,11 @@ class _SearchPageState extends State<SearchPage> {
                                                                 __,
                                                                 ___,
                                                               ) =>
-                                                                  key == 'Artists' ||
-                                                                          (key == 'Top Result' &&
-                                                                              value[0]['type'] == 'artist')
-                                                                      ? ArtistSearchPage(
-                                                                          data: value[index]
-                                                                              as Map,
-                                                                        )
-                                                                      : SongsListPage(
-                                                                          listItem:
-                                                                              value[index] as Map,
-                                                                        ),
+                                                                  SongsListPage(
+                                                                listItem:
+                                                                    value[index]
+                                                                        as Map,
+                                                              ),
                                                             ),
                                                           );
                                                   },

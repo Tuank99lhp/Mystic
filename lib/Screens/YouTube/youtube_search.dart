@@ -1,32 +1,9 @@
-// ignore_for_file: directives_ordering
-
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:blackhole/CustomWidgets/animated_text.dart';
 import 'package:blackhole/CustomWidgets/empty_screen.dart';
 import 'package:blackhole/CustomWidgets/gradient_containers.dart';
 import 'package:blackhole/CustomWidgets/search_bar.dart';
 import 'package:blackhole/CustomWidgets/snackbar.dart';
 import 'package:blackhole/CustomWidgets/song_tile_trailing_menu.dart';
-import 'package:blackhole/Screens/YouTube/youtube_artist.dart';
-import 'package:blackhole/Screens/YouTube/youtube_playlist.dart';
 import 'package:blackhole/Services/player_service.dart';
 import 'package:blackhole/Services/youtube_services.dart';
 import 'package:blackhole/Services/yt_music.dart';
@@ -351,8 +328,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   .toString(),
                                                               pauseAfterRound:
                                                                   const Duration(
-                                                                      seconds:
-                                                                          1,),
+                                                                seconds: 1,
+                                                              ),
                                                               showFadingOnlyWhenScrolling:
                                                                   false,
                                                               fadingEdgeEndFraction:
@@ -361,8 +338,8 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   0.1,
                                                               startAfter:
                                                                   const Duration(
-                                                                      seconds:
-                                                                          1,),
+                                                                seconds: 1,
+                                                              ),
                                                               style:
                                                                   const TextStyle(
                                                                 fontWeight:
@@ -452,44 +429,6 @@ class _YouTubeSearchPageState extends State<YouTubeSearchPage> {
                                                                   )
                                                                 : null,
                                                             onTap: () async {
-                                                              if (itemType ==
-                                                                  'Artist') {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            YouTubeArtist(
-                                                                      artistId: section['items'][idx]
-                                                                              [
-                                                                              'id']
-                                                                          .toString(),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              }
-                                                              if (itemType == 'Playlist' ||
-                                                                  itemType ==
-                                                                      'Album' ||
-                                                                  itemType ==
-                                                                      'Single') {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            YouTubePlaylist(
-                                                                      playlistId:
-                                                                          section['items'][idx]['id']
-                                                                              .toString(),
-                                                                      type: itemType == 'Album' ||
-                                                                              itemType == 'Single'
-                                                                          ? 'album'
-                                                                          : 'playlist',
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              }
                                                               if (itemType ==
                                                                       'Song' ||
                                                                   itemType ==

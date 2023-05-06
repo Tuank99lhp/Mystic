@@ -329,7 +329,7 @@ class _AlbumDownloadButtonState extends State<AlbumDownloadButton> {
                           '${AppLocalizations.of(context)!.downingAlbum} "${widget.albumName}"',
                         );
 
-                        data = (await SaavnAPI()
+                        data = (await MysticAPI()
                             .fetchAlbumSongs(widget.albumId))['songs'] as List;
                         for (final items in data) {
                           down.prepareDownload(

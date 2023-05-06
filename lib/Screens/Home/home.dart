@@ -1,23 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,18 +7,12 @@ import 'package:blackhole/CustomWidgets/custom_physics.dart';
 import 'package:blackhole/CustomWidgets/gradient_containers.dart';
 import 'package:blackhole/CustomWidgets/miniplayer.dart';
 import 'package:blackhole/CustomWidgets/snackbar.dart';
-import 'package:blackhole/Helpers/backup_restore.dart';
-import 'package:blackhole/Helpers/downloads_checker.dart';
-import 'package:blackhole/Helpers/supabase.dart';
-import 'package:blackhole/Screens/Home/saavn.dart';
+import 'package:blackhole/Screens/Home/custom_homepage.dart';
 import 'package:blackhole/Screens/Library/library.dart';
 import 'package:blackhole/Screens/Library/playlists.dart';
 import 'package:blackhole/Screens/Settings/setting.dart';
 import 'package:blackhole/Screens/YouTube/youtube_search.dart';
-import 'package:blackhole/Services/ext_storage_provider.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -96,11 +70,6 @@ class _HomePageState extends State<HomePage> {
     return update;
   }
 
-  void updateUserDetails(String key, dynamic value) {
-    final userId = Hive.box('settings').get('userId') as String?;
-    SupaBase().updateUserDetails(userId, key, value);
-  }
-
   Future<bool> handleWillPop(BuildContext context) async {
     final now = DateTime.now();
     final backButtonHasNotBeenPressedOrSnackBarHasBeenClosed =
@@ -118,162 +87,6 @@ class _HomePageState extends State<HomePage> {
       return false;
     }
     return true;
-  }
-
-  Widget checkVersion() {
-    if (!checked && Theme.of(context).platform == TargetPlatform.android) {
-      checked = true;
-      final SupaBase db = SupaBase();
-      final DateTime now = DateTime.now();
-      final List lastLogin = now
-          .toUtc()
-          .add(const Duration(hours: 5, minutes: 30))
-          .toString()
-          .split('.')
-        ..removeLast()
-        ..join('.');
-      updateUserDetails('lastLogin', '${lastLogin[0]} IST');
-      final String offset =
-          now.timeZoneOffset.toString().replaceAll('.000000', '');
-
-      updateUserDetails(
-        'timeZone',
-        'Zone: ${now.timeZoneName}, Offset: $offset',
-      );
-
-      PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
-        appVersion = packageInfo.version;
-        updateUserDetails('version', packageInfo.version);
-
-        if (checkUpdate) {
-          db.getUpdate().then((Map value) async {
-            if (compareVersion(
-              value['LatestVersion'] as String,
-              appVersion!,
-            )) {
-              List? abis =
-                  await Hive.box('settings').get('supportedAbis') as List?;
-
-              if (abis == null) {
-                final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-                final AndroidDeviceInfo androidDeviceInfo =
-                    await deviceInfo.androidInfo;
-                abis = androidDeviceInfo.supportedAbis;
-                await Hive.box('settings').put('supportedAbis', abis);
-              }
-
-              ShowSnackBar().showSnackBar(
-                context,
-                AppLocalizations.of(context)!.updateAvailable,
-                duration: const Duration(seconds: 15),
-                action: SnackBarAction(
-                  textColor: Theme.of(context).colorScheme.secondary,
-                  label: AppLocalizations.of(context)!.update,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    if (abis!.contains('arm64-v8a')) {
-                      launchUrl(
-                        Uri.parse(value['arm64-v8a'] as String),
-                        mode: LaunchMode.externalApplication,
-                      );
-                    } else {
-                      if (abis.contains('armeabi-v7a')) {
-                        launchUrl(
-                          Uri.parse(value['armeabi-v7a'] as String),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      } else {
-                        launchUrl(
-                          Uri.parse(value['universal'] as String),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      }
-                    }
-                  },
-                ),
-              );
-            }
-          });
-        }
-        if (autoBackup) {
-          final List<String> checked = [
-            AppLocalizations.of(
-              context,
-            )!
-                .settings,
-            AppLocalizations.of(
-              context,
-            )!
-                .downs,
-            AppLocalizations.of(
-              context,
-            )!
-                .playlists,
-          ];
-          final List playlistNames = Hive.box('settings').get(
-            'playlistNames',
-            defaultValue: ['Favorite Songs'],
-          ) as List;
-          final Map<String, List> boxNames = {
-            AppLocalizations.of(
-              context,
-            )!
-                .settings: ['settings'],
-            AppLocalizations.of(
-              context,
-            )!
-                .cache: ['cache'],
-            AppLocalizations.of(
-              context,
-            )!
-                .downs: ['downloads'],
-            AppLocalizations.of(
-              context,
-            )!
-                .playlists: playlistNames,
-          };
-          final String autoBackPath = Hive.box('settings').get(
-            'autoBackPath',
-            defaultValue: '',
-          ) as String;
-          if (autoBackPath == '') {
-            ExtStorageProvider.getExtStorage(
-              dirName: 'Mystic/Backups',
-              writeAccess: true,
-            ).then((value) {
-              Hive.box('settings').put('autoBackPath', value);
-              createBackup(
-                context,
-                checked,
-                boxNames,
-                path: value,
-                fileName: 'Mystic_AutoBackup',
-                showDialog: false,
-              );
-            });
-          } else {
-            createBackup(
-              context,
-              checked,
-              boxNames,
-              path: autoBackPath,
-              fileName: 'Mystic_AutoBackup',
-              showDialog: false,
-            );
-          }
-        }
-      });
-      if (Hive.box('settings').get('proxyIp') == null) {
-        Hive.box('settings').put('proxyIp', '103.47.67.134');
-      }
-      if (Hive.box('settings').get('proxyPort') == null) {
-        Hive.box('settings').put('proxyPort', 8080);
-      }
-      downloadChecker();
-      return const SizedBox();
-    } else {
-      return const SizedBox();
-    }
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -559,7 +372,6 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Stack(
                               children: [
-                                checkVersion(),
                                 NestedScrollView(
                                   physics: const BouncingScrollPhysics(),
                                   controller: _scrollController,
@@ -590,7 +402,8 @@ class _HomePageState extends State<HomePage> {
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            8.0,),
+                                                      8.0,
+                                                    ),
                                                     child: Text(
                                                       'Homepage',
                                                       style: TextStyle(
@@ -702,8 +515,9 @@ class _HomePageState extends State<HomePage> {
                                   },
                                   body: ValueListenableBuilder<bool>(
                                     valueListenable: homepageChanged,
-                                    builder: (BuildContext context, bool value, Widget? child) {
-                                      return SaavnHomePage();
+                                    builder: (BuildContext context, bool value,
+                                        Widget? child) {
+                                      return CustomHomePage();
                                     },
                                   ),
                                 ),

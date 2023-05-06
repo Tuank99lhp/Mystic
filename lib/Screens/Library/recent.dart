@@ -1,22 +1,3 @@
-/*
- *  This file is part of BlackHole (https://github.com/Sangwan5688/BlackHole).
- *
- * BlackHole is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * BlackHole is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with BlackHole.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:blackhole/CustomWidgets/empty_screen.dart';
 import 'package:blackhole/CustomWidgets/gradient_containers.dart';
 import 'package:blackhole/CustomWidgets/like_button.dart';
@@ -76,106 +57,106 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
               ),
               body: _songs.isEmpty
                   ? emptyScreen(
-                context,
-                3,
-                AppLocalizations.of(context)!.nothingTo,
-                15,
-                AppLocalizations.of(context)!.showHere,
-                50.0,
-                AppLocalizations.of(context)!.playSomething,
-                23.0,
-              )
+                      context,
+                      3,
+                      AppLocalizations.of(context)!.nothingTo,
+                      15,
+                      AppLocalizations.of(context)!.showHere,
+                      50.0,
+                      AppLocalizations.of(context)!.playSomething,
+                      23.0,
+                    )
                   : ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                shrinkWrap: true,
-                itemCount: _songs.length,
-                itemExtent: 70.0,
-                itemBuilder: (context, index) {
-                  return _songs.isEmpty
-                      ? const SizedBox()
-                      : Dismissible(
-                    key: Key(_songs[index]['id'].toString()),
-                    direction: DismissDirection.endToStart,
-                    background: ColoredBox(
-                      color: Colors.redAccent,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Icon(Icons.delete_outline_rounded),
-                          ],
-                        ),
-                      ),
-                    ),
-                    onDismissed: (direction) {
-                      _songs.removeAt(index);
-                      setState(() {});
-                      Hive.box('cache').put('recentSongs', _songs);
-                    },
-                    child: ListTile(
-                      leading: Card(
-                        margin: EdgeInsets.zero,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: CachedNetworkImage(
-                          height: 60,
-                          width: 60,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, _, __) =>
-                          const Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/cover.jpg'),
-                          ),
-                          imageUrl: _songs[index]['image']
-                              .toString()
-                              .replaceAll('http:', 'https:'),
-                          placeholder: (context, url) =>
-                          const Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/cover.jpg'),
-                          ),
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // DownloadButton(
-                          //   data: _songs[index] as Map,
-                          //   icon: 'download',
-                          // ),
-                          LikeButton(
-                            mediaItem: null,
-                            data: _songs[index] as Map,
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        '${_songs[index]["title"]}',
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        '${_songs[index]["artist"]}',
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      onTap: () {
-                        PlayerInvoke.init(
-                          songsList: _songs,
-                          index: index,
-                          isOffline: false,
-                        );
-                        Navigator.pushNamed(context, '/player');
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      shrinkWrap: true,
+                      itemCount: _songs.length,
+                      itemExtent: 70.0,
+                      itemBuilder: (context, index) {
+                        return _songs.isEmpty
+                            ? const SizedBox()
+                            : Dismissible(
+                                key: Key(_songs[index]['id'].toString()),
+                                direction: DismissDirection.endToStart,
+                                background: ColoredBox(
+                                  color: Colors.redAccent,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15.0,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: const [
+                                        Icon(Icons.delete_outline_rounded),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onDismissed: (direction) {
+                                  _songs.removeAt(index);
+                                  setState(() {});
+                                  Hive.box('cache').put('recentSongs', _songs);
+                                },
+                                child: ListTile(
+                                  leading: Card(
+                                    margin: EdgeInsets.zero,
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7.0),
+                                    ),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: CachedNetworkImage(
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, _, __) =>
+                                          const Image(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/cover.jpg'),
+                                      ),
+                                      imageUrl: _songs[index]['image']
+                                          .toString()
+                                          .replaceAll('http:', 'https:'),
+                                      placeholder: (context, url) =>
+                                          const Image(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage('assets/cover.jpg'),
+                                      ),
+                                    ),
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // DownloadButton(
+                                      //   data: _songs[index] as Map,
+                                      //   icon: 'download',
+                                      // ),
+                                      LikeButton(
+                                        mediaItem: null,
+                                        data: _songs[index] as Map,
+                                      ),
+                                    ],
+                                  ),
+                                  title: Text(
+                                    '${_songs[index]["title"]}',
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  subtitle: Text(
+                                    '${_songs[index]["artist"]}',
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  onTap: () {
+                                    PlayerInvoke.init(
+                                      songsList: _songs,
+                                      index: index,
+                                      isOffline: false,
+                                    );
+                                    Navigator.pushNamed(context, '/player');
+                                  },
+                                ),
+                              );
                       },
                     ),
-                  );
-                },
-              ),
             ),
           ),
           MiniPlayer(),

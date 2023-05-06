@@ -1,32 +1,9 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:blackhole/APIs/api.dart';
-import 'package:blackhole/APIs/spotify_api.dart';
 import 'package:blackhole/Helpers/audio_query.dart';
-import 'package:blackhole/Helpers/spotify_helper.dart';
 import 'package:blackhole/Screens/Common/song_list.dart';
 import 'package:blackhole/Screens/Player/audioplayer.dart';
-import 'package:blackhole/Screens/Search/search.dart';
-import 'package:blackhole/Screens/YouTube/youtube_playlist.dart';
 import 'package:blackhole/Services/player_service.dart';
 import 'package:blackhole/Services/youtube_services.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -60,20 +37,6 @@ class HandleRoute {
             ),
           );
         }
-      }
-    } else if (url.contains('spotify')) {
-      // TODO: Add support for spotify links
-      Logger.root.info('received spotify link');
-      final RegExpMatch? songResult =
-          RegExp('.*spotify.com.*?/(track)/(.*?)[/?]').firstMatch('$url/');
-      if (songResult != null) {
-        return PageRouteBuilder(
-          opaque: false,
-          pageBuilder: (_, __, ___) => SpotifyUrlHandler(
-            id: songResult[2]!,
-            type: songResult[1]!,
-          ),
-        );
       }
     } else if (url.contains('youtube') || url.contains('youtu.be')) {
       // TODO: Add support for youtube links
@@ -112,7 +75,7 @@ class SaavnUrlHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SaavnAPI().getSongFromToken(token, type).then((value) {
+    MysticAPI().getSongFromToken(token, type).then((value) {
       if (type == 'song') {
         PlayerInvoke.init(
           songsList: value['songs'] as List,
@@ -143,35 +106,6 @@ class SaavnUrlHandler extends StatelessWidget {
   }
 }
 
-class SpotifyUrlHandler extends StatelessWidget {
-  final String id;
-  final String type;
-  const SpotifyUrlHandler({super.key, required this.id, required this.type});
-
-  @override
-  Widget build(BuildContext context) {
-    if (type == 'track') {
-      callSpotifyFunction((String accessToken) {
-        SpotifyApi().getTrackDetails(accessToken, id).then((value) {
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              opaque: false,
-              pageBuilder: (_, __, ___) => SearchPage(
-                query: (value['artists'] != null &&
-                        (value['artists'] as List).isNotEmpty)
-                    ? '${value["name"]} by ${value["artists"][0]["name"]}'
-                    : value['name'].toString(),
-              ),
-            ),
-          );
-        });
-      });
-    }
-    return Container();
-  }
-}
-
 class YtUrlHandler extends StatelessWidget {
   final String id;
   final String type;
@@ -194,21 +128,6 @@ class YtUrlHandler extends StatelessWidget {
           PageRouteBuilder(
             opaque: false,
             pageBuilder: (_, __, ___) => const PlayScreen(),
-          ),
-        );
-      });
-    } else if (type == 'list') {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => YouTubePlaylist(
-              playlistId: id,
-              // playlistImage: '',
-              // playlistName: '',
-              // playlistSubtitle: '',
-              // playlistSecondarySubtitle: '',
-            ),
           ),
         );
       });

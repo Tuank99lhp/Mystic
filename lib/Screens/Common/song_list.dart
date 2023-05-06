@@ -1,22 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -81,7 +62,7 @@ class _SongsListPageState extends State<SongsListPage> {
     try {
       switch (widget.listItem['type'].toString()) {
         case 'songs':
-          SaavnAPI()
+          MysticAPI()
               .fetchSongSearchResults(
             searchQuery: widget.listItem['id'].toString(),
             page: page,
@@ -102,7 +83,7 @@ class _SongsListPageState extends State<SongsListPage> {
           });
           break;
         case 'album':
-          SaavnAPI()
+          MysticAPI()
               .fetchAlbumSongs(widget.listItem['id'].toString())
               .then((value) {
             setState(() {
@@ -120,7 +101,7 @@ class _SongsListPageState extends State<SongsListPage> {
           });
           break;
         case 'playlist':
-          SaavnAPI()
+          MysticAPI()
               .fetchPlaylistSongs(widget.listItem['id'].toString())
               .then((value) {
             setState(() {
@@ -138,7 +119,7 @@ class _SongsListPageState extends State<SongsListPage> {
           });
           break;
         case 'mix':
-          SaavnAPI()
+          MysticAPI()
               .getSongFromToken(
             widget.listItem['perma_url'].toString().split('/').last,
             'mix',
@@ -160,7 +141,7 @@ class _SongsListPageState extends State<SongsListPage> {
           });
           break;
         case 'show':
-          SaavnAPI()
+          MysticAPI()
               .getSongFromToken(
             widget.listItem['perma_url'].toString().split('/').last,
             'show',

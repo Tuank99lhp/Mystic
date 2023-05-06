@@ -1,22 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:blackhole/CustomWidgets/collage.dart';
 import 'package:blackhole/CustomWidgets/horizontal_albumlist_separated.dart';
 import 'package:blackhole/CustomWidgets/on_hover.dart';
-import 'package:blackhole/Helpers/extensions.dart';
 import 'package:blackhole/Screens/Library/liked.dart';
 import 'package:blackhole/Services/player_service.dart';
 import 'package:blackhole/Services/youtube_services.dart';
@@ -37,13 +17,14 @@ List likedRadio =
 Map data = Hive.box('cache').get('homepage', defaultValue: {}) as Map;
 List lists = ['recent', 'playlist', 'trending'];
 ValueNotifier<bool> homepageChanged = ValueNotifier<bool>(false);
-class SaavnHomePage extends StatefulWidget {
+
+class CustomHomePage extends StatefulWidget {
   @override
-  _SaavnHomePageState createState() => _SaavnHomePageState();
+  _CustomHomePageState createState() => _CustomHomePageState();
 }
 
-class _SaavnHomePageState extends State<SaavnHomePage>
-    with AutomaticKeepAliveClientMixin<SaavnHomePage> {
+class _CustomHomePageState extends State<CustomHomePage>
+    with AutomaticKeepAliveClientMixin<CustomHomePage> {
   List trendingList =
       Hive.box('cache').get('ytHomeTrending', defaultValue: []) as List;
   List recentList =
@@ -81,44 +62,11 @@ class _SaavnHomePageState extends State<SaavnHomePage>
       if (value.isNotEmpty) {
         setState(() {
           trendingList = value;
-          Hive.box('cache').put('ytHomeTrending', value);
+          // Hive.box('cache').put('ytHomeTrending', value);
         });
       }
     });
     setState(() {});
-  }
-
-  String getSubTitle(Map item) {
-    final type = item['type'];
-    switch (type) {
-      case 'charts':
-        return '';
-      case 'radio_station':
-        return 'Radio • ${(item['subtitle']?.toString() ?? '').isEmpty ? 'JioSaavn' : item['subtitle']?.toString().unescape()}';
-      case 'playlist':
-        return 'Playlist • ${(item['subtitle']?.toString() ?? '').isEmpty ? 'JioSaavn' : item['subtitle'].toString().unescape()}';
-      case 'song':
-        return 'Single • ${item['artist']?.toString().unescape()}';
-      case 'mix':
-        return 'Mix • ${(item['subtitle']?.toString() ?? '').isEmpty ? 'JioSaavn' : item['subtitle'].toString().unescape()}';
-      case 'show':
-        return 'Podcast • ${(item['subtitle']?.toString() ?? '').isEmpty ? 'JioSaavn' : item['subtitle'].toString().unescape()}';
-      case 'album':
-        final artists = item['more_info']?['artistMap']?['artists']
-            .map((artist) => artist['name'])
-            .toList();
-        if (artists != null) {
-          return 'Album • ${artists?.join(', ')?.toString().unescape()}';
-        } else if (item['subtitle'] != null && item['subtitle'] != '') {
-          return 'Album • ${item['subtitle']?.toString().unescape()}';
-        }
-        return 'Album';
-      default:
-        final artists = item['more_info']?['artistMap']?['artists']
-            .map((artist) => artist['name'])
-            .toList();
-        return artists?.join(', ')?.toString().unescape() ?? '';
-    }
   }
 
   int likedCount() {
@@ -131,14 +79,14 @@ class _SaavnHomePageState extends State<SaavnHomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    trendingList = Hive.box('cache').get('ytHomeTrending', defaultValue: []) as List;
-    recentList =
-    Hive.box('cache').get('recentSongs', defaultValue: []) as List;
+    trendingList =
+        Hive.box('cache').get('ytHomeTrending', defaultValue: []) as List;
+    recentList = Hive.box('cache').get('recentSongs', defaultValue: []) as List;
     playlistNames =
         Hive.box('settings').get('playlistNames')?.toList() as List? ??
             ['Favorite Songs'];
     playlistDetails =
-    Hive.box('settings').get('playlistDetails', defaultValue: {}) as Map;
+        Hive.box('settings').get('playlistDetails', defaultValue: {}) as Map;
     if (trendingList.isEmpty) {
       getHomePageData();
     }

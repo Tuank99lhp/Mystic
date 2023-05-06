@@ -1,22 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,7 +6,6 @@ import 'package:hive/hive.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:blackhole/Screens/Library/liked.dart';
 import 'package:blackhole/Screens/LocalMusic/downed_songs.dart';
-import 'package:blackhole/Screens/LocalMusic/downed_songs_desktop.dart';
 
 import 'package:blackhole/Screens/Settings/setting.dart';
 
@@ -106,11 +86,9 @@ class _LibraryPageState extends State<LibraryPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => (Platform.isWindows || Platform.isLinux)
-                      ? const DownloadedSongsDesktop()
-                      : const DownloadedSongs(
-                          showPlaylists: true,
-                        ),
+                  builder: (context) => const DownloadedSongs(
+                    showPlaylists: true,
+                  ),
                 ),
               );
             },

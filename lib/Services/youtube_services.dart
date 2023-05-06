@@ -1,22 +1,3 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -24,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
 class YouTubeServices {
   static const String searchAuthority = 'www.youtube.com';
   static const Map paths = {
@@ -48,6 +30,7 @@ class YouTubeServices {
     }
     return videoResult;
   }
+
   Future<List<Video>> getPlaylistSongs(String id) async {
     final List<Video> results = await yt.playlists.getVideos(id).toList();
     return results;
@@ -119,9 +102,10 @@ class YouTubeServices {
       if (response.statusCode != 200) {
         return [];
       }
-      final String searchResults =
-          RegExp('"expandedShelfContentsRenderer":{(.*?}]}}}]}}])}},', dotAll: true)
-              .firstMatch(response.body)![1]!;
+      final String searchResults = RegExp(
+              '"expandedShelfContentsRenderer":{(.*?}]}}}]}}])}},',
+              dotAll: true)
+          .firstMatch(response.body)![1]!;
       final Map data = json.decode('{$searchResults}') as Map;
       final List result = data['items'] as List;
       final List finalResult = formatTrendingItems(result);
@@ -129,82 +113,6 @@ class YouTubeServices {
     } catch (e) {
       Logger.root.severe('Error in getTrendingSongs(): $e');
       return [];
-    }
-  }
-
-  Future<Map<String, List>> getMusicHome() async {
-    final Uri link = Uri.https(
-      searchAuthority,
-      paths['music'].toString(),
-    );
-    try {
-      final Response response = await get(link);
-      if (response.statusCode != 200) {
-        return {};
-      }
-      final String searchResults =
-          RegExp(r'(\"contents\":{.*?}),\"metadata\"', dotAll: true)
-              .firstMatch(response.body)![1]!;
-      final Map data = json.decode('{$searchResults}') as Map;
-
-      final List result = data['contents']['twoColumnBrowseResultsRenderer']
-              ['tabs'][0]['tabRenderer']['content']['sectionListRenderer']
-          ['contents'] as List;
-
-      final List headResult = data['header']['carouselHeaderRenderer']
-          ['contents'][0]['carouselItemRenderer']['carouselItems'] as List;
-
-      final List shelfRenderer = result.map((element) {
-        return element['itemSectionRenderer']['contents'][0]['shelfRenderer'];
-      }).toList();
-
-      final List finalResult = shelfRenderer.map((element) {
-        final playlistItems = element['title']['runs'][0]['text'].trim() ==
-                    'Charts' ||
-                element['title']['runs'][0]['text'].trim() == 'Classements'
-            ? formatChartItems(
-                element['content']['horizontalListRenderer']['items'] as List,
-              )
-            : element['title']['runs'][0]['text']
-                        .toString()
-                        .contains('Music Videos') ||
-                    element['title']['runs'][0]['text']
-                        .toString()
-                        .contains('Nouveaux clips') ||
-                    element['title']['runs'][0]['text']
-                        .toString()
-                        .contains('En Musique Avec Moi') ||
-                    element['title']['runs'][0]['text']
-                        .toString()
-                        .contains('Performances Uniques')
-                ? formatVideoItems(
-                    element['content']['horizontalListRenderer']['items']
-                        as List,
-                  )
-                : formatItems(
-                    element['content']['horizontalListRenderer']['items']
-                        as List,
-                  );
-        if (playlistItems.isNotEmpty) {
-          return {
-            'title': element['title']['runs'][0]['text'],
-            'playlists': playlistItems,
-          };
-        } else {
-          Logger.root.severe(
-            "got null in getMusicHome for '${element['title']['runs'][0]['text']}'",
-          );
-          return null;
-        }
-      }).toList();
-
-      final List finalHeadResult = formatHeadItems(headResult);
-      finalResult.removeWhere((element) => element == null);
-
-      return {'body': finalResult, 'head': finalHeadResult};
-    } catch (e) {
-      Logger.root.severe('Error in getMusicHome: $e');
-      return {};
     }
   }
 
@@ -257,38 +165,6 @@ class YouTubeServices {
     }
   }
 
-  List formatChartItems(List itemsList) {
-    try {
-      final List result = itemsList.map((e) {
-        return {
-          'title': e['gridPlaylistRenderer']['title']['runs'][0]['text'],
-          'type': 'chart',
-          'description': e['gridPlaylistRenderer']['shortBylineText']['runs'][0]
-              ['text'],
-          'count': e['gridPlaylistRenderer']['videoCountText']['runs'][0]
-              ['text'],
-          'playlistId': e['gridPlaylistRenderer']['navigationEndpoint']
-              ['watchEndpoint']['playlistId'],
-          'firstItemId': e['gridPlaylistRenderer']['navigationEndpoint']
-              ['watchEndpoint']['videoId'],
-          'image': e['gridPlaylistRenderer']['thumbnail']['thumbnails'][0]
-              ['url'],
-          'imageMedium': e['gridPlaylistRenderer']['thumbnail']['thumbnails'][0]
-              ['url'],
-          'imageStandard': e['gridPlaylistRenderer']['thumbnail']['thumbnails']
-              [0]['url'],
-          'imageMax': e['gridPlaylistRenderer']['thumbnail']['thumbnails'][0]
-              ['url'],
-        };
-      }).toList();
-
-      return result;
-    } catch (e) {
-      Logger.root.severe('Error in formatChartItems: $e');
-      return List.empty();
-    }
-  }
-
   List formatItems(List itemsList) {
     try {
       final List result = itemsList.map((e) {
@@ -334,49 +210,6 @@ class YouTubeServices {
       return result;
     } catch (e) {
       Logger.root.severe('Error in formatTrendingItems: $e');
-      return List.empty();
-    }
-  }
-
-  List formatHeadItems(List itemsList) {
-    try {
-      final List result = itemsList.map((e) {
-        return {
-          'title': e['defaultPromoPanelRenderer']['title']['runs'][0]['text'],
-          'type': 'video',
-          'description':
-              (e['defaultPromoPanelRenderer']['description']['runs'] as List)
-                  .map((e) => e['text'])
-                  .toList()
-                  .join(),
-          'videoId': e['defaultPromoPanelRenderer']['navigationEndpoint']
-              ['watchEndpoint']['videoId'],
-          'firstItemId': e['defaultPromoPanelRenderer']['navigationEndpoint']
-              ['watchEndpoint']['videoId'],
-          'image': e['defaultPromoPanelRenderer']
-                          ['largeFormFactorBackgroundThumbnail']
-                      ['thumbnailLandscapePortraitRenderer']['landscape']
-                  ['thumbnails']
-              .last['url'],
-          'imageMedium': e['defaultPromoPanelRenderer']
-                      ['largeFormFactorBackgroundThumbnail']
-                  ['thumbnailLandscapePortraitRenderer']['landscape']
-              ['thumbnails'][1]['url'],
-          'imageStandard': e['defaultPromoPanelRenderer']
-                      ['largeFormFactorBackgroundThumbnail']
-                  ['thumbnailLandscapePortraitRenderer']['landscape']
-              ['thumbnails'][2]['url'],
-          'imageMax': e['defaultPromoPanelRenderer']
-                          ['largeFormFactorBackgroundThumbnail']
-                      ['thumbnailLandscapePortraitRenderer']['landscape']
-                  ['thumbnails']
-              .last['url'],
-        };
-      }).toList();
-
-      return result;
-    } catch (e) {
-      Logger.root.severe('Error in formatHeadItems: $e');
       return List.empty();
     }
   }

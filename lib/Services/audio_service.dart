@@ -1,24 +1,3 @@
-// ignore_for_file: directives_ordering
-
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'dart:async';
 import 'dart:io';
 
@@ -27,7 +6,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:blackhole/APIs/api.dart';
 import 'package:blackhole/Helpers/mediaitem_converter.dart';
 import 'package:blackhole/Helpers/playlist.dart';
-import 'package:blackhole/Screens/Home/saavn.dart';
+import 'package:blackhole/Screens/Home/custom_homepage.dart';
 import 'package:blackhole/Screens/Player/audioplayer.dart';
 import 'package:blackhole/Services/isolate_service.dart';
 import 'package:blackhole/Services/yt_music.dart';
@@ -166,8 +145,8 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
 
       if (item.artUri.toString().startsWith('http')) {
         // if (item.genre != 'YouTube') {
-          addRecentlyPlayed(item);
-          _recentSubject.add([item]);
+        addRecentlyPlayed(item);
+        _recentSubject.add([item]);
         // }
 
         if (recommend && item.extras!['autoplay'] as bool) {
@@ -179,7 +158,7 @@ class AudioPlayerHandlerImpl extends BaseAudioHandler
             Future.delayed(const Duration(seconds: 1), () async {
               if (item == mediaItem.value) {
                 if (item.genre != 'YouTube') {
-                  final List value = await SaavnAPI().getReco(item.id);
+                  final List value = await MysticAPI().getReco(item.id);
                   value.shuffle();
                   // final List value = await SaavnAPI().getRadioSongs(
                   //     stationId: stationId!, count: queueLength - index - 20);

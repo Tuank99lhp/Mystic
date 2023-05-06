@@ -1,30 +1,9 @@
-/*
- *  This file is part of Mystic (https://github.com/Sangwan5688/Mystic).
- * 
- * Mystic is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mystic is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Mystic.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Copyright (c) 2021-2022, Ankit Sangwan
- */
-
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:blackhole/CustomWidgets/add_playlist.dart';
 import 'package:blackhole/Helpers/add_mediaitem_to_queue.dart';
 import 'package:blackhole/Helpers/mediaitem_converter.dart';
-import 'package:blackhole/Screens/Common/song_list.dart';
-import 'package:blackhole/Screens/Search/albums.dart';
 import 'package:blackhole/Screens/Search/search.dart';
 import 'package:blackhole/Services/youtube_services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -170,26 +149,6 @@ class _SongTileTrailingMenuState extends State<SongTileTrailingMenu> {
       ],
       onSelected: (value) {
         switch (value) {
-          case 3:
-            Share.share(widget.data['perma_url'].toString());
-            break;
-
-          case 4:
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (_, __, ___) => SongsListPage(
-                  listItem: {
-                    'type': 'album',
-                    'id': mediaItem.extras?['album_id'],
-                    'title': mediaItem.album,
-                    'image': mediaItem.artUri,
-                  },
-                ),
-              ),
-            );
-            break;
           case 6:
             widget.deleteLiked!(widget.data);
             break;
@@ -203,16 +162,6 @@ class _SongTileTrailingMenuState extends State<SongTileTrailingMenu> {
             playNext(mediaItem, context);
             break;
           default:
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                opaque: false,
-                pageBuilder: (_, __, ___) => AlbumSearchPage(
-                  query: value.toString(),
-                  type: 'Artists',
-                ),
-              ),
-            );
             break;
         }
       },

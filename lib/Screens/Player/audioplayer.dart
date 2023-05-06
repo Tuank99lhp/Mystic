@@ -47,7 +47,6 @@ import 'package:blackhole/Helpers/dominant_color.dart';
 import 'package:blackhole/Helpers/lyrics.dart';
 import 'package:blackhole/Helpers/mediaitem_converter.dart';
 import 'package:blackhole/Screens/Common/song_list.dart';
-import 'package:blackhole/Screens/Search/albums.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -1924,17 +1923,6 @@ class NameNControls extends StatelessWidget {
                               'title': mediaItem.album,
                               'image': mediaItem.artUri,
                             },
-                          ),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (_, __, ___) => AlbumSearchPage(
-                            query: value,
-                            type: 'Artists',
                           ),
                         ),
                       );
