@@ -62,7 +62,7 @@ class _CustomHomePageState extends State<CustomHomePage>
       if (value.isNotEmpty) {
         setState(() {
           trendingList = value;
-          // Hive.box('cache').put('ytHomeTrending', value);
+          Hive.box('cache').put('ytHomeTrending', value);
         });
       }
     });
@@ -87,8 +87,9 @@ class _CustomHomePageState extends State<CustomHomePage>
             ['Favorite Songs'];
     playlistDetails =
         Hive.box('settings').get('playlistDetails', defaultValue: {}) as Map;
-    if (trendingList.isEmpty) {
+    if (!fetched) {
       getHomePageData();
+      fetched = true;
     }
     double boxSize =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width
