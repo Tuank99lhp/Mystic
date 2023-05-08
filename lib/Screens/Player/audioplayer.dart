@@ -2300,12 +2300,12 @@ class NameNControls extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Expanded(
+                     Expanded(
                       child: Center(
                         child: Text(
-                          '♪ \\(^ω^\\ )    Next     ( /^ω^)/♪',
+                          AppLocalizations.of(context)!.next,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),

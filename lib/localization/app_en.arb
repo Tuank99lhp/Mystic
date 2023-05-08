@@ -675,7 +675,7 @@
   "@yesReplace": {},
   "youTube": "YouTube",
   "@youTube": {},
-  "yourPlaylists": "Your Playlists",
+  "yourPlaylists": "Playlists",
   "@yourPlaylists": {},
   "ytDownQuality": "YouTube Download Quality",
   "@ytDownQuality": {},
@@ -686,5 +686,6 @@
   "ytStreamQuality": "YouTube Streaming Quality",
   "@ytStreamQuality": {},
   "ytStreamQualitySub": "Higher quality uses more data",
-  "@ytStreamQualitySub": {}
+  "@ytStreamQualitySub": {},
+  "next": "♪ \\(^ω^\\ )    Next     ( /^ω^)/♪"
 }
