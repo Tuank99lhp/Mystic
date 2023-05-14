@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hive/hive.dart';
 
-class SearchBar extends StatefulWidget {
+class SearchBarYoutube extends StatefulWidget {
   final bool isYt;
   final Widget body;
   final bool autofocus;
@@ -19,7 +19,7 @@ class SearchBar extends StatefulWidget {
   final Function(String)? onQueryChanged;
   final Function()? onQueryCleared;
   final Function(String) onSubmitted;
-  const SearchBar({
+  const SearchBarYoutube({
     super.key,
     this.leading,
     this.hintText,
@@ -35,10 +35,10 @@ class SearchBar extends StatefulWidget {
   });
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<SearchBarYoutube> createState() => _SearchBarYoutubeState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarYoutubeState extends State<SearchBarYoutube> {
   String tempQuery = '';
   String query = '';
   final ValueNotifier<bool> hide = ValueNotifier<bool>(true);

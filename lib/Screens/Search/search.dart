@@ -128,7 +128,7 @@ class _SearchPageState extends State<SearchPage> {
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.transparent,
-                body: SearchBar(
+                body: SearchBarYoutube(
                   isYt: false,
                   controller: controller,
                   liveSearch: liveSearch,
